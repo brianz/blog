@@ -1,7 +1,6 @@
 baseurl: http://brianz.bz
 languageCode: en-us
 title: Brian Z
-publishdir: production
 
 theme: greyshade
 

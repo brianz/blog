@@ -13,7 +13,7 @@ In addition to software I really like the outdoors, coffee and cycling.
 
 ## Background
 
-You can read more about my professional backround on my LinkedIn profile to the
+You can read more about my professional background on my LinkedIn profile to the
 left. In a nutshell, I grew up in Sunnyvale, CA and originally studied [Materials
 Engineering](http://mate.calpoly.edu) at Cal Poly, San Luis Obispo. I ended up back home in the
 middle of the first dot-com boom in 2000 and fell into software. Eventually I got a second degree
@@ -21,17 +21,19 @@ in computer science from [San Francisco State](http://cs.sfsu.edu).
 
 ## Areas of interest
 
-I tought myself Python around 2001 and have been using continually since then and professionaly
+I taught myself Python around 2001 and have been using continually since then and professionally
 since 2005. In addition to Python my current areas of interest are:
 
 - Docker &larr; *probably better described as my current love interest* &hearts; 
-- Amazon web services
 - Microservice design and architecture
+- Amazon web services
 - Scaling development teams and platforms
 - Postgresql
 
-I'm currenlty the lead architect at [Clearcare](http://clearcareonline.com) building a SAAS
-platform for in-home healtcare agencies.
+Of course, I have **many** more interests but those are the highlights.
+
+I'm currently the lead architect at [Clearcare](http://clearcareonline.com) building a SAAS
+platform for in-home health care agencies.
 
 ## RoastLog
 

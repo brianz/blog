@@ -13,12 +13,13 @@ changed since the early days. As most of you, I consume a *lot* of material and 
 internet. For a while I've wanted to contribute back...I'm constantly learning new things and some
 of them are really useful. So, this is my way to hopefully help others.
 
-With that, my innaguarl post will be on how I set up this blog.
+With that, my inaugural post will be on how I set up this blog. Later, I plan on mostly writing
+about building microservices with Python and overall architecture patterns for microservices.
 
-I knew that I defintely wanted something static, meaning I didn't want to stand up my own virtual
+I knew that I definitely wanted something static, meaning I didn't want to stand up my own virtual
 server nor did I want to sign up with any of the hosted solutions for Wordpress, Blogger, etc.
 Quite a while ago I found [Hugo](https://gohugo.io/) and played around with it. It's quick slick
-andn apparently has been gaining more and more users.
+and apparently has been gaining more and more users.
 
 Here's the TL;DR of what I did to go from zero to blogging *(this is from memory so it may not be
 100% correct)*:
@@ -33,7 +34,7 @@ To find a theme I liked went to the [Hugo themes](http://themes.gohugo.io) site 
 [greyshade](http://themes.gohugo.io/greyshade/). Hugo themes are *really* easy to use:
 
 {{< highlight bash >}}
-$ cd brians/themes
+$ cd brianz/themes
 $ git clone https://github.com/cxfksword/greyshade.git
 {{< /highlight >}}
 
@@ -74,4 +75,6 @@ tags = []
 +++
 ```
 
-With that, I can now create new posts and see it in real-time using `hugo server --buildDrafts`
+With that, I can now create new posts and see it in real-time using `hugo server --buildDrafts`.
+
+Now that things are working, I'll talk about publishing things in my next post.
