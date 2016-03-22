@@ -1,0 +1,38 @@
+baseurl = "http://brianz.bz/"
+languageCode = "en-us"
+title = "Brian Z"
+
+theme = "greyshade"
+
+
+[author]
+name = "Brian Zambrano"
+# email will use for gravatar
+email = "brianz@gmail.com"
+
+[taxonomies]
+category = "categories"
+
+[params]
+# site description, will show under navigation
+description = "Software stuff from a guy who likes software, coffee, bikes"
+
+# social links
+facebook_user = "brian.zambrano"
+twitter_user = "brianzambrano"
+github_user = "brianz"
+stackoverflow_user = "brianz"
+linkedin_user = "brianzambrano"
+instagram_user = "bzambrano"
+
+# share links
+facebook_like = true
+twitter_tweet_button = true
+addthis_profile_id = ""
+
+# Disqus Comments
+disqus_short_name = ""
+disqus_show_comment_count = false
+
+# google analytics
+google_analytics_tracking_id = ""

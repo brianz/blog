@@ -1,0 +1,34 @@
+baseurl: http://brianz.bz
+languageCode: en-us
+title: Brian Z
+publishdir: production
+
+theme: greyshade
+
+pygmentsstyle: lovelace
+
+author:
+    name: Brian Zambrano
+
+taxonomies:
+    category: categories
+
+params:
+    facebook_user: brian.zambrano
+    twitter_user: brianzambrano
+    github_user: brianz
+    stackoverflow_user: brianz
+    linkedin_user: brianzambrano
+    instagram_user: bzambrano
+
+    email_md5: cb383c8d8e93cc662e484c149cb3b96b
+
+    # share links
+    twitter_tweet_button: true
+
+    # Disqus Comments
+    disqus_short_name: 
+    disqus_show_comment_count: false
+
+    # google analytics
+    google_analytics_tracking_id: 
