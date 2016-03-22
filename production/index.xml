@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title> on Brian Z </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
+    <link>http://brianz.bz.s3-website-us-west-2.amazonaws.com/</link>
+    <language>en-us</language>
+    <author>Brian Zambrano</author>
+    
+    <updated>Mon, 21 Mar 2016 15:45:26 MDT</updated>
+    
+    <item>
+      <title>getting started with hugo</title>
+      <link>http://brianz.bz.s3-website-us-west-2.amazonaws.com/post/getting-started-with-hugo/</link>
+      <pubDate>Mon, 21 Mar 2016 15:45:26 MDT</pubDate>
+      <author>Brian Zambrano</author>
+      <guid>http://brianz.bz.s3-website-us-west-2.amazonaws.com/post/getting-started-with-hugo/</guid>
+      <description>&lt;p&gt;It&amp;rsquo;s been a very very long time since I&amp;rsquo;ve posted anything publicly. Blogging has drastically
+changed since the early days. As most of you, I consume a &lt;em&gt;lot&lt;/em&gt; of material and resources on the
+internet. For a while I&amp;rsquo;ve wanted to contribute back&amp;hellip;I&amp;rsquo;m constantly learning new things and some
+of them are really useful. So, this is my way to hopefully help others.&lt;/p&gt;
+
+&lt;p&gt;With that, my innaguarl post will be on how I set up this blog.&lt;/p&gt;
+
+&lt;p&gt;I knew that I defintely wanted something static, meaning I didn&amp;rsquo;t want to stand up my own virtual
+server nor did I want to sign up with any of the hosted solutions for Wordpress, Blogger, etc.
+Quite a while ago I found &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; and played around with it. It&amp;rsquo;s quick slick
+andn apparently has been gaining more and more users.&lt;/p&gt;
+
+&lt;p&gt;Here&amp;rsquo;s the TL;DR of what I did to go from zero to blogging &lt;em&gt;(this is from memory so it may not be
+100% correct)&lt;/em&gt;:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ brew install hugo
+$ mkdir bz-blog &lt;span style=&#34;color: #666666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color: #388038&#34;&gt;cd&lt;/span&gt; bz-blog
+$ hugo new site brianz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To find a theme I liked went to the &lt;a href=&#34;http://themes.gohugo.io&#34;&gt;Hugo themes&lt;/a&gt; site and picked
+&lt;a href=&#34;http://themes.gohugo.io/greyshade/&#34;&gt;greyshade&lt;/a&gt;. Hugo themes are &lt;em&gt;really&lt;/em&gt; easy to use:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span style=&#34;color: #388038&#34;&gt;cd&lt;/span&gt; brians/themes
+$ git clone https://github.com/cxfksword/greyshade.git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I don&amp;rsquo;t especially like the &lt;code&gt;.toml&lt;/code&gt; syntax which is what you get by default for the config file. I
+change &lt;code&gt;config.toml&lt;/code&gt; into &lt;code&gt;config.yaml&lt;/code&gt;. The main thing is that I don&amp;rsquo;t like needed to add quotes
+around everything in the &lt;code&gt;toml&lt;/code&gt; files. With yaml, I can just write stuff like this&amp;gt;&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;baseurl&lt;span style=&#34;color: #888888&#34;&gt;:&lt;/span&gt; http://brianz.bz/
+languageCode&lt;span style=&#34;color: #888888&#34;&gt;:&lt;/span&gt; en-us
+title&lt;span style=&#34;color: #888888&#34;&gt;:&lt;/span&gt; Brian Z
+theme&lt;span style=&#34;color: #888888&#34;&gt;:&lt;/span&gt; greyshade
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I wanted syntax highlighting, so installed &lt;code&gt;pygments&lt;/code&gt; inside a virtual environment. Also, there are
+different &amp;ldquo;themes&amp;rdquo; for syntax highlighting which can be looked up directly from pygments:&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ mkvirtualenv hugo
+$ pip install pygments
+$ python
+&amp;gt;&amp;gt;&amp;gt; from pygments.styles import get_all_styles
+&amp;gt;&amp;gt;&amp;gt; list&lt;span style=&#34;color: #666666&#34;&gt;(&lt;/span&gt;get_all_styles&lt;span style=&#34;color: #666666&#34;&gt;())&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;I ended up using the &lt;code&gt;lovelace&lt;/code&gt; theme by setting &lt;code&gt;pygmentsstyle: lovelace&lt;/code&gt; in &lt;code&gt;config.yaml&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt;, there is a small issue with the greyshade theme in that Hugo will throw an error when
+creating a new post. To fix this simply create a file at &lt;code&gt;archetypes/default.md&lt;/code&gt; with the following
+contents (or customize as you see fit):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+++
+
+draft=true
+tags = []
+
++++
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;With that, I can now create new posts and see it in real-time using &lt;code&gt;hugo server --buildDrafts&lt;/code&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

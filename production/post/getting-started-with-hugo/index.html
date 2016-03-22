@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+
+<html lang="en-us">
+
+<head>
+	<meta charset="utf-8">
+	<title>getting started with hugo - Brian Z</title>
+	<meta name="author" content="map[name:Brian Zambrano]">
+
+	
+	
+	<meta name="description" content="">
+	
+
+	
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    
+	<link rel="canonical" href="http://brianz.bz.s3-website-us-west-2.amazonaws.com/post/getting-started-with-hugo/">
+	<link href="http://brianz.bz.s3-website-us-west-2.amazonaws.com/favicon.png" rel="shortcut icon">
+	<link href="http://brianz.bz.s3-website-us-west-2.amazonaws.com/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="http://brianz.bz.s3-website-us-west-2.amazonaws.com/css/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<img src='http://www.gravatar.com/avatar/cb383c8d8e93cc662e484c149cb3b96b?s=160' alt="Profile Picture" style="width: 160px;" />
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/post/">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+			<a class="facebook" href='http://www.facebook.com/brian.zambrano' title="Facebook">Facebook</a>
+		
+		
+		
+			<a class="twitter" href='http://twitter.com/brianzambrano' title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href='https://github.com/brianz' title="GitHub">GitHub</a>
+		
+		
+		
+		
+			<a class="linkedin" href='http://www.linkedin.com/in/brianzambrano' title="LinkedIn">LinkedIn</a>
+		
+		
+		
+		
+		
+		
+		
+			<a class="instagram" href='https://instagram.com/bzambrano' title="Instagram">Instagram</a>
+		
+    	
+    	
+	</div>
+</nav>
+</header>
+			</div>
+		</div>
+		<div class="mid-col">
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+					<div itemscope itemtype="http://schema.org/Blog">
+					<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="title" itemprop="name">getting started with hugo</h1>
+	<div class="entry-content" itemprop="articleBody"><p>It&rsquo;s been a very very long time since I&rsquo;ve posted anything publicly. Blogging has drastically
+changed since the early days. As most of you, I consume a <em>lot</em> of material and resources on the
+internet. For a while I&rsquo;ve wanted to contribute back&hellip;I&rsquo;m constantly learning new things and some
+of them are really useful. So, this is my way to hopefully help others.</p>
+
+<p>With that, my innaguarl post will be on how I set up this blog.</p>
+
+<p>I knew that I defintely wanted something static, meaning I didn&rsquo;t want to stand up my own virtual
+server nor did I want to sign up with any of the hosted solutions for Wordpress, Blogger, etc.
+Quite a while ago I found <a href="https://gohugo.io/">Hugo</a> and played around with it. It&rsquo;s quick slick
+andn apparently has been gaining more and more users.</p>
+
+<p>Here&rsquo;s the TL;DR of what I did to go from zero to blogging <em>(this is from memory so it may not be
+100% correct)</em>:</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$ brew install hugo
+$ mkdir bz-blog <span style="color: #666666">&amp;&amp;</span> <span style="color: #388038">cd</span> bz-blog
+$ hugo new site brianz
+</pre></div>
+
+
+<p>To find a theme I liked went to the <a href="http://themes.gohugo.io">Hugo themes</a> site and picked
+<a href="http://themes.gohugo.io/greyshade/">greyshade</a>. Hugo themes are <em>really</em> easy to use:</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$ <span style="color: #388038">cd</span> brians/themes
+$ git clone https://github.com/cxfksword/greyshade.git
+</pre></div>
+
+
+<p>I don&rsquo;t especially like the <code>.toml</code> syntax which is what you get by default for the config file. I
+change <code>config.toml</code> into <code>config.yaml</code>. The main thing is that I don&rsquo;t like needed to add quotes
+around everything in the <code>toml</code> files. With yaml, I can just write stuff like this&gt;</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>baseurl<span style="color: #888888">:</span> http://brianz.bz/
+languageCode<span style="color: #888888">:</span> en-us
+title<span style="color: #888888">:</span> Brian Z
+theme<span style="color: #888888">:</span> greyshade
+</pre></div>
+
+
+<p>I wanted syntax highlighting, so installed <code>pygments</code> inside a virtual environment. Also, there are
+different &ldquo;themes&rdquo; for syntax highlighting which can be looked up directly from pygments:</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$ mkvirtualenv hugo
+$ pip install pygments
+$ python
+&gt;&gt;&gt; from pygments.styles import get_all_styles
+&gt;&gt;&gt; list<span style="color: #666666">(</span>get_all_styles<span style="color: #666666">())</span>
+</pre></div>
+</p>
+
+<p>I ended up using the <code>lovelace</code> theme by setting <code>pygmentsstyle: lovelace</code> in <code>config.yaml</code></p>
+
+<p><strong>Note:</strong>, there is a small issue with the greyshade theme in that Hugo will throw an error when
+creating a new post. To fix this simply create a file at <code>archetypes/default.md</code> with the following
+contents (or customize as you see fit):</p>
+
+<pre><code>+++
+
+draft=true
+tags = []
+
++++
+</code></pre>
+
+<p>With that, I can now create new posts and see it in real-time using <code>hugo server --buildDrafts</code></p>
+</div></article>
+					
+						<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	
+	</div>
+	
+  	<script type="text/javascript" src='http://s7.addthis.com/js/250/addthis_widget.js#pubid='></script>
+  	
+</div>
+
+					
+					
+					
+
+
+				    </div>
+				</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2016
+
+    Brian Zambrano
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+<script src="http://brianz.bz.s3-website-us-west-2.amazonaws.com/js/slash.js"></script>
+<script src="http://brianz.bz.s3-website-us-west-2.amazonaws.com/js/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script></footer>
+		</div>
+	</div>
+	
+</body>
+</html>
