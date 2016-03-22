@@ -18,8 +18,11 @@ about building microservices with Python and overall architecture patterns for m
 
 I knew that I definitely wanted something static, meaning I didn't want to stand up my own virtual
 server nor did I want to sign up with any of the hosted solutions for Wordpress, Blogger, etc.
-Quite a while ago I found [Hugo](https://gohugo.io/) and played around with it. It's quick slick
-and apparently has been gaining more and more users.
+I tried out [Jekyll](https://jekyllrb.com) a long time ago which looked neat and had tight
+integration with [Github Pages](https://pages.github.com).  At some point I came across
+[Hugo](https://gohugo.io/) and played around with it. It's quite slick and apparently has been
+gaining more and more users. I went with Hugo since it's pretty darn fast, easy-ish to set up and
+it's written in Go (I usually hate dealing with Ruby gems and dependencies).
 
 Here's the TL;DR of what I did to go from zero to blogging *(this is from memory so it may not be
 100% correct)*:

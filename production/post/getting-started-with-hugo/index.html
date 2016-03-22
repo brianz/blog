@@ -97,47 +97,50 @@ about building microservices with Python and overall architecture patterns for m
 
 <p>I knew that I definitely wanted something static, meaning I didn&rsquo;t want to stand up my own virtual
 server nor did I want to sign up with any of the hosted solutions for Wordpress, Blogger, etc.
-Quite a while ago I found <a href="https://gohugo.io/">Hugo</a> and played around with it. It&rsquo;s quick slick
-and apparently has been gaining more and more users.</p>
+I tried out <a href="https://jekyllrb.com">Jekyll</a> a long time ago which looked neat and had tight
+integration with <a href="https://pages.github.com">Github Pages</a>.  At some point I came across
+<a href="https://gohugo.io/">Hugo</a> and played around with it. It&rsquo;s quite slick and apparently has been
+gaining more and more users. I went with Hugo since it&rsquo;s pretty darn fast, easy-ish to set up and
+it&rsquo;s written in Go (I usually hate dealing with Ruby gems and dependencies).</p>
 
 <p>Here&rsquo;s the TL;DR of what I did to go from zero to blogging <em>(this is from memory so it may not be
 100% correct)</em>:</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$ brew install hugo
-$ mkdir bz-blog <span style="color: #666666">&amp;&amp;</span> <span style="color: #388038">cd</span> bz-blog
+
+$ brew install hugo
+$ mkdir bz-blog && cd bz-blog
 $ hugo new site brianz
-</pre></div>
 
 
 <p>To find a theme I liked went to the <a href="http://themes.gohugo.io">Hugo themes</a> site and picked
 <a href="http://themes.gohugo.io/greyshade/">greyshade</a>. Hugo themes are <em>really</em> easy to use:</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$ <span style="color: #388038">cd</span> brianz/themes
+
+$ cd brianz/themes
 $ git clone https://github.com/cxfksword/greyshade.git
-</pre></div>
 
 
 <p>I don&rsquo;t especially like the <code>.toml</code> syntax which is what you get by default for the config file. I
 change <code>config.toml</code> into <code>config.yaml</code>. The main thing is that I don&rsquo;t like needed to add quotes
 around everything in the <code>toml</code> files. With yaml, I can just write stuff like this&gt;</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>baseurl<span style="color: #888888">:</span> http://brianz.bz/
-languageCode<span style="color: #888888">:</span> en-us
-title<span style="color: #888888">:</span> Brian Z
-theme<span style="color: #888888">:</span> greyshade
-</pre></div>
+
+baseurl: http://brianz.bz/
+languageCode: en-us
+title: Brian Z
+theme: greyshade
 
 
 <p>I wanted syntax highlighting, so installed <code>pygments</code> inside a virtual environment. Also, there are
 different &ldquo;themes&rdquo; for syntax highlighting which can be looked up directly from pygments:</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$ mkvirtualenv hugo
+
+$ mkvirtualenv hugo
 $ pip install pygments
 $ python
-&gt;&gt;&gt; from pygments.styles import get_all_styles
-&gt;&gt;&gt; list<span style="color: #666666">(</span>get_all_styles<span style="color: #666666">())</span>
-</pre></div>
-</p>
+>>> from pygments.styles import get_all_styles
+>>> list(get_all_styles())
+
 
 <p>I ended up using the <code>lovelace</code> theme by setting <code>pygmentsstyle: lovelace</code> in <code>config.yaml</code></p>
 
