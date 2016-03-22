@@ -3,7 +3,7 @@
   <channel>
       <title> on Brian Z </title>
       <generator uri="https://gohugo.io">Hugo</generator>
-    <link>http://brianz.bz.s3-website-us-west-2.amazonaws.com/</link>
+    <link>http://brianz.github.io/</link>
     <language>en-us</language>
     <author>Brian Zambrano</author>
     
@@ -11,21 +11,22 @@
     
     <item>
       <title>getting started with hugo</title>
-      <link>http://brianz.bz.s3-website-us-west-2.amazonaws.com/post/getting-started-with-hugo/</link>
+      <link>http://brianz.github.io/post/getting-started-with-hugo/</link>
       <pubDate>Mon, 21 Mar 2016 15:45:26 MDT</pubDate>
       <author>Brian Zambrano</author>
-      <guid>http://brianz.bz.s3-website-us-west-2.amazonaws.com/post/getting-started-with-hugo/</guid>
+      <guid>http://brianz.github.io/post/getting-started-with-hugo/</guid>
       <description>&lt;p&gt;It&amp;rsquo;s been a very very long time since I&amp;rsquo;ve posted anything publicly. Blogging has drastically
 changed since the early days. As most of you, I consume a &lt;em&gt;lot&lt;/em&gt; of material and resources on the
 internet. For a while I&amp;rsquo;ve wanted to contribute back&amp;hellip;I&amp;rsquo;m constantly learning new things and some
 of them are really useful. So, this is my way to hopefully help others.&lt;/p&gt;
 
-&lt;p&gt;With that, my innaguarl post will be on how I set up this blog.&lt;/p&gt;
+&lt;p&gt;With that, my inaugural post will be on how I set up this blog. Later, I plan on mostly writing
+about building microservices with Python and overall architecture patterns for microservices.&lt;/p&gt;
 
-&lt;p&gt;I knew that I defintely wanted something static, meaning I didn&amp;rsquo;t want to stand up my own virtual
+&lt;p&gt;I knew that I definitely wanted something static, meaning I didn&amp;rsquo;t want to stand up my own virtual
 server nor did I want to sign up with any of the hosted solutions for Wordpress, Blogger, etc.
 Quite a while ago I found &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; and played around with it. It&amp;rsquo;s quick slick
-andn apparently has been gaining more and more users.&lt;/p&gt;
+and apparently has been gaining more and more users.&lt;/p&gt;
 
 &lt;p&gt;Here&amp;rsquo;s the TL;DR of what I did to go from zero to blogging &lt;em&gt;(this is from memory so it may not be
 100% correct)&lt;/em&gt;:&lt;/p&gt;
@@ -39,7 +40,7 @@ $ hugo new site brianz
 &lt;p&gt;To find a theme I liked went to the &lt;a href=&#34;http://themes.gohugo.io&#34;&gt;Hugo themes&lt;/a&gt; site and picked
 &lt;a href=&#34;http://themes.gohugo.io/greyshade/&#34;&gt;greyshade&lt;/a&gt;. Hugo themes are &lt;em&gt;really&lt;/em&gt; easy to use:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span style=&#34;color: #388038&#34;&gt;cd&lt;/span&gt; brians/themes
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span style=&#34;color: #388038&#34;&gt;cd&lt;/span&gt; brianz/themes
 $ git clone https://github.com/cxfksword/greyshade.git
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -80,7 +81,9 @@ tags = []
 +++
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;With that, I can now create new posts and see it in real-time using &lt;code&gt;hugo server --buildDrafts&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;With that, I can now create new posts and see it in real-time using &lt;code&gt;hugo server --buildDrafts&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now that things are working, I&amp;rsquo;ll talk about publishing things in my next post.&lt;/p&gt;
 </description>
     </item>
     

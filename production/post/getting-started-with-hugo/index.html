@@ -17,10 +17,10 @@
 	<meta name="MobileOptimized" content="320">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     
-	<link rel="canonical" href="http://brianz.bz.s3-website-us-west-2.amazonaws.com/post/getting-started-with-hugo/">
-	<link href="http://brianz.bz.s3-website-us-west-2.amazonaws.com/favicon.png" rel="shortcut icon">
-	<link href="http://brianz.bz.s3-website-us-west-2.amazonaws.com/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<link href="http://brianz.bz.s3-website-us-west-2.amazonaws.com/css/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link rel="canonical" href="http://brianz.github.io/post/getting-started-with-hugo/">
+	<link href="http://brianz.github.io/favicon.png" rel="shortcut icon">
+	<link href="http://brianz.github.io/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="http://brianz.github.io/css/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	
 	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -92,12 +92,13 @@ changed since the early days. As most of you, I consume a <em>lot</em> of materi
 internet. For a while I&rsquo;ve wanted to contribute back&hellip;I&rsquo;m constantly learning new things and some
 of them are really useful. So, this is my way to hopefully help others.</p>
 
-<p>With that, my innaguarl post will be on how I set up this blog.</p>
+<p>With that, my inaugural post will be on how I set up this blog. Later, I plan on mostly writing
+about building microservices with Python and overall architecture patterns for microservices.</p>
 
-<p>I knew that I defintely wanted something static, meaning I didn&rsquo;t want to stand up my own virtual
+<p>I knew that I definitely wanted something static, meaning I didn&rsquo;t want to stand up my own virtual
 server nor did I want to sign up with any of the hosted solutions for Wordpress, Blogger, etc.
 Quite a while ago I found <a href="https://gohugo.io/">Hugo</a> and played around with it. It&rsquo;s quick slick
-andn apparently has been gaining more and more users.</p>
+and apparently has been gaining more and more users.</p>
 
 <p>Here&rsquo;s the TL;DR of what I did to go from zero to blogging <em>(this is from memory so it may not be
 100% correct)</em>:</p>
@@ -111,7 +112,7 @@ $ hugo new site brianz
 <p>To find a theme I liked went to the <a href="http://themes.gohugo.io">Hugo themes</a> site and picked
 <a href="http://themes.gohugo.io/greyshade/">greyshade</a>. Hugo themes are <em>really</em> easy to use:</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$ <span style="color: #388038">cd</span> brians/themes
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$ <span style="color: #388038">cd</span> brianz/themes
 $ git clone https://github.com/cxfksword/greyshade.git
 </pre></div>
 
@@ -152,7 +153,9 @@ tags = []
 +++
 </code></pre>
 
-<p>With that, I can now create new posts and see it in real-time using <code>hugo server --buildDrafts</code></p>
+<p>With that, I can now create new posts and see it in real-time using <code>hugo server --buildDrafts</code>.</p>
+
+<p>Now that things are working, I&rsquo;ll talk about publishing things in my next post.</p>
 </div></article>
 					
 						<div class="share">
@@ -182,8 +185,8 @@ tags = []
     Brian Zambrano
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
-<script src="http://brianz.bz.s3-website-us-west-2.amazonaws.com/js/slash.js"></script>
-<script src="http://brianz.bz.s3-website-us-west-2.amazonaws.com/js/jquery.fancybox.pack.js"></script>
+<script src="http://brianz.github.io/js/slash.js"></script>
+<script src="http://brianz.github.io/js/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
 (function($){
 	$('.fancybox').fancybox();

@@ -2,18 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://brianz.bz.s3-website-us-west-2.amazonaws.com/</loc>
+    <loc>http://brianz.github.io/</loc>
     <lastmod>2016-03-21T15:45:26-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://brianz.bz.s3-website-us-west-2.amazonaws.com/post/getting-started-with-hugo/</loc>
+    <loc>http://brianz.github.io/post/getting-started-with-hugo/</loc>
     <lastmod>2016-03-21T15:45:26-06:00</lastmod>
   </url>
   
   <url>
-    <loc>http://brianz.bz.s3-website-us-west-2.amazonaws.com/about/</loc>
+    <loc>http://brianz.github.io/about/</loc>
     <lastmod>2016-03-21T09:07:04-06:00</lastmod>
   </url>
   
