@@ -6,3 +6,6 @@ clean:
 
 prod : 
 	hugo -d production
+
+release :
+	git subtree push --prefix=production production master
