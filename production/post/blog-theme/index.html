@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.15" />
 
-  <title>about &middot; Brian Z</title>
+  <title>blog theme &middot; Brian Z</title>
 
   
   
@@ -171,50 +171,107 @@
 
 
 <div class="header">
-  <h1>about</h1>
+  <h1>blog theme</h1>
   <h2></h2>
 </div>
 <div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>23 Mar 2016, 11:02</time>
+  </div>
+
   
 
-<p><img src="http://blog.brianz.bz/images/bz-horsetooth-peak.jpg" alt="brianz" /></p>
+  
 
-<p>My name is Brian Zambrano and this is my tiny corner of the internet where I (mostly) talk about
-software and related technology. I currently reside in Fort Collins, CO with my wife and twin boys.
-In addition to software I really like the outdoors, coffee and cycling.</p>
+  
+  
+  
+  
 
-<h2 id="background:6083a88ee3411b0d17ce02d738f69d47">Background</h2>
+</div>
 
-<p>You can read more about my professional background on my LinkedIn profile to the
-left. In a nutshell, I grew up in Sunnyvale, CA and originally studied <a href="http://mate.calpoly.edu">Materials
-Engineering</a> at Cal Poly, San Luis Obispo. I ended up back home in the
-middle of the first dot-com boom in 2000 and fell into software. Eventually I got a second degree
-in computer science from <a href="http://cs.sfsu.edu">San Francisco State</a>.</p>
+  
 
-<h2 id="areas-of-interest:6083a88ee3411b0d17ce02d738f69d47">Areas of interest</h2>
+<h2 id="saas-application-architecture:6fd2790aca2c37753fb7cd100f77c2ec">SAAS Application Architecture</h2>
 
-<p>I taught myself Python around 2001 and have been using continually since then and professionally
-since 2005. In addition to Python my current areas of interest are:</p>
+<p>I was finally inspired to get this site up and running after listening to a <a href="http://www.se-radio.net/2015/12/se-radio-episode-245-john-sonmez-on-marketing-yourself-and-managing-your-career/">Software Engineering
+Radio podcast</a>
+with <a href="http://simpleprogrammer.com/">John Sonmez</a>. In that podcast episode John talks about how a
+technical blog can really help your career&hellip;that&rsquo;s never a bad thing and as mentioned in my
+<a href="http://blog.brianz.bz/post/getting-started-with-hugo/">last post</a>, I wanted a place to help others with any
+tips, tricks or general things I learn.</p>
+
+<p>John suggests coming up with a &ldquo;theme&rdquo; for a tech blog&hellip;a theme not in the visual sense but a
+theme regarding the content. With that, I&rsquo;ve landed on &ldquo;SAAS Application Architecture&rdquo;.</p>
+
+<p>My career has taken me to a place where I primary work on software systems which have a publicly
+facing website and are fairly complex behind the scenes. SAAS (software as a service) can probably
+be interpreted many ways but in my mind it&rsquo;s a complex software system composed of multiple
+services which allows users to manage and analyze some type of data. The type of data and tasks
+performed are typically within a certain domain. Taking some examples from things I&rsquo;ve worked on:</p>
 
 <ul>
-<li>Docker &larr; <em>probably better described as my current love interest</em> &hearts;</li>
-<li>Microservice design and architecture</li>
-<li>Amazon web services</li>
-<li>Scaling development teams and platforms</li>
-<li>Postgresql</li>
+<li>Eventbrite: event/ticketing domain</li>
+<li>Clearcare: in-home health care agency domain</li>
+<li>RoastLog: coffee roasting domain</li>
 </ul>
 
-<p>Of course, I have <strong>many</strong> more interests but those are the highlights.</p>
+<p>All of these systems:</p>
 
-<p>I&rsquo;m currently the lead architect at <a href="http://clearcareonline.com">Clearcare</a> building a SAAS
-platform for in-home health care agencies.</p>
+<ul>
+<li>have publicly facing websites</li>
+<li>provide users with access to their data <sup>24</sup>&frasl;<sub>7</sub></li>
+<li>are comprised of multiple backend systems (databases, caching, microservices, etc)</li>
+<li>are non-trivial to implement due to the complexities of the domains</li>
+</ul>
 
-<h2 id="roastlog:6083a88ee3411b0d17ce02d738f69d47">RoastLog</h2>
+<p>With all of that, what I intend to write about here are my experiences building systems like this.</p>
 
-<p>In 2008 I had an idea for a SAAS platform for coffee roasters. That idea grew and turned into
-<a href="http://roastlog.com/">RoastLog</a>. I&rsquo;ve been running RoastLog as a real business since 2009 with my
-long-time friend and business partner, Linsey Fan. RoastLog is used every day of the week all over
-the world to help coffee roasters run their business.</p>
+<p>Also, since the previous post I&rsquo;ve changed themes. The new one is called
+<a href="http://themes.gohugo.io/blackburn/">blackburn</a> and is really slick. It only took a few minutes to
+completely switch. You can <a href="https://github.com/brianz/blog">look through the git history</a> for this
+blog if you&rsquo;re interested in what I did to make the change.</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1 pure-u-md-1-2">
+    
+    <nav class="prev">
+      <a href="http://blog.brianz.bz/post/getting-started-with-hugo/"><i class="fa fa-arrow-circle-left fa-fw fa-lg"></i>getting started with hugo</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1 pure-u-md-1-2">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'brianz';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 
 </div>
 

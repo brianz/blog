@@ -1,63 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Brian Z</title>
-    <link>http://blog.brianz.bz/post/</link>
-    <description>Recent content in Posts on Brian Z</description>
+    <title>Hugo on Brian Z</title>
+    <link>http://blog.brianz.bz/tags/hugo/</link>
+    <description>Recent content in Hugo on Brian Z</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Wed, 23 Mar 2016 11:02:01 -0600</lastBuildDate>
-    <atom:link href="http://blog.brianz.bz/post/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>blog theme</title>
-      <link>http://blog.brianz.bz/post/blog-theme/</link>
-      <pubDate>Wed, 23 Mar 2016 11:02:01 -0600</pubDate>
-      
-      <guid>http://blog.brianz.bz/post/blog-theme/</guid>
-      <description>
-
-&lt;h2 id=&#34;saas-application-architecture:6fd2790aca2c37753fb7cd100f77c2ec&#34;&gt;SAAS Application Architecture&lt;/h2&gt;
-
-&lt;p&gt;I was finally inspired to get this site up and running after listening to a &lt;a href=&#34;http://www.se-radio.net/2015/12/se-radio-episode-245-john-sonmez-on-marketing-yourself-and-managing-your-career/&#34;&gt;Software Engineering
-Radio podcast&lt;/a&gt;
-with &lt;a href=&#34;http://simpleprogrammer.com/&#34;&gt;John Sonmez&lt;/a&gt;. In that podcast episode John talks about how a
-technical blog can really help your career&amp;hellip;that&amp;rsquo;s never a bad thing and as mentioned in my
-&lt;a href=&#34;http://blog.brianz.bz/post/getting-started-with-hugo/&#34;&gt;last post&lt;/a&gt;, I wanted a place to help others with any
-tips, tricks or general things I learn.&lt;/p&gt;
-
-&lt;p&gt;John suggests coming up with a &amp;ldquo;theme&amp;rdquo; for a tech blog&amp;hellip;a theme not in the visual sense but a
-theme regarding the content. With that, I&amp;rsquo;ve landed on &amp;ldquo;SAAS Application Architecture&amp;rdquo;.&lt;/p&gt;
-
-&lt;p&gt;My career has taken me to a place where I primary work on software systems which have a publicly
-facing website and are fairly complex behind the scenes. SAAS (software as a service) can probably
-be interpreted many ways but in my mind it&amp;rsquo;s a complex software system composed of multiple
-services which allows users to manage and analyze some type of data. The type of data and tasks
-performed are typically within a certain domain. Taking some examples from things I&amp;rsquo;ve worked on:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Eventbrite: event/ticketing domain&lt;/li&gt;
-&lt;li&gt;Clearcare: in-home health care agency domain&lt;/li&gt;
-&lt;li&gt;RoastLog: coffee roasting domain&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;All of these systems:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;have publicly facing websites&lt;/li&gt;
-&lt;li&gt;provide users with access to their data &lt;sup&gt;24&lt;/sup&gt;&amp;frasl;&lt;sub&gt;7&lt;/sub&gt;&lt;/li&gt;
-&lt;li&gt;are comprised of multiple backend systems (databases, caching, microservices, etc)&lt;/li&gt;
-&lt;li&gt;are non-trivial to implement due to the complexities of the domains&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;With all of that, what I intend to write about here are my experiences building systems like this.&lt;/p&gt;
-
-&lt;p&gt;Also, since the previous post I&amp;rsquo;ve changed themes. The new one is called
-&lt;a href=&#34;http://themes.gohugo.io/blackburn/&#34;&gt;blackburn&lt;/a&gt; and is really slick. It only took a few minutes to
-completely switch. You can &lt;a href=&#34;https://github.com/brianz/blog&#34;&gt;look through the git history&lt;/a&gt; for this
-blog if you&amp;rsquo;re interested in what I did to make the change.&lt;/p&gt;
-</description>
-    </item>
+    <lastBuildDate>Mon, 21 Mar 2016 15:45:26 -0600</lastBuildDate>
+    <atom:link href="http://blog.brianz.bz/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>getting started with hugo</title>

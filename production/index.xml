@@ -1,19 +1,69 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title> on Brian Z </title>
-      <generator uri="https://gohugo.io">Hugo</generator>
+    <title>Brian Z</title>
     <link>http://blog.brianz.bz/</link>
-    <language>en-us</language>
-    <author>Brian Zambrano</author>
+    <description>Recent content on Brian Z</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Wed, 23 Mar 2016 11:02:01 -0600</lastBuildDate>
+    <atom:link href="http://blog.brianz.bz/index.xml" rel="self" type="application/rss+xml" />
     
-    <updated>Mon, 21 Mar 2016 15:45:26 MDT</updated>
+    <item>
+      <title>blog theme</title>
+      <link>http://blog.brianz.bz/post/blog-theme/</link>
+      <pubDate>Wed, 23 Mar 2016 11:02:01 -0600</pubDate>
+      
+      <guid>http://blog.brianz.bz/post/blog-theme/</guid>
+      <description>
+
+&lt;h2 id=&#34;saas-application-architecture:6fd2790aca2c37753fb7cd100f77c2ec&#34;&gt;SAAS Application Architecture&lt;/h2&gt;
+
+&lt;p&gt;I was finally inspired to get this site up and running after listening to a &lt;a href=&#34;http://www.se-radio.net/2015/12/se-radio-episode-245-john-sonmez-on-marketing-yourself-and-managing-your-career/&#34;&gt;Software Engineering
+Radio podcast&lt;/a&gt;
+with &lt;a href=&#34;http://simpleprogrammer.com/&#34;&gt;John Sonmez&lt;/a&gt;. In that podcast episode John talks about how a
+technical blog can really help your career&amp;hellip;that&amp;rsquo;s never a bad thing and as mentioned in my
+&lt;a href=&#34;http://blog.brianz.bz/post/getting-started-with-hugo/&#34;&gt;last post&lt;/a&gt;, I wanted a place to help others with any
+tips, tricks or general things I learn.&lt;/p&gt;
+
+&lt;p&gt;John suggests coming up with a &amp;ldquo;theme&amp;rdquo; for a tech blog&amp;hellip;a theme not in the visual sense but a
+theme regarding the content. With that, I&amp;rsquo;ve landed on &amp;ldquo;SAAS Application Architecture&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;My career has taken me to a place where I primary work on software systems which have a publicly
+facing website and are fairly complex behind the scenes. SAAS (software as a service) can probably
+be interpreted many ways but in my mind it&amp;rsquo;s a complex software system composed of multiple
+services which allows users to manage and analyze some type of data. The type of data and tasks
+performed are typically within a certain domain. Taking some examples from things I&amp;rsquo;ve worked on:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Eventbrite: event/ticketing domain&lt;/li&gt;
+&lt;li&gt;Clearcare: in-home health care agency domain&lt;/li&gt;
+&lt;li&gt;RoastLog: coffee roasting domain&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;All of these systems:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;have publicly facing websites&lt;/li&gt;
+&lt;li&gt;provide users with access to their data &lt;sup&gt;24&lt;/sup&gt;&amp;frasl;&lt;sub&gt;7&lt;/sub&gt;&lt;/li&gt;
+&lt;li&gt;are comprised of multiple backend systems (databases, caching, microservices, etc)&lt;/li&gt;
+&lt;li&gt;are non-trivial to implement due to the complexities of the domains&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;With all of that, what I intend to write about here are my experiences building systems like this.&lt;/p&gt;
+
+&lt;p&gt;Also, since the previous post I&amp;rsquo;ve changed themes. The new one is called
+&lt;a href=&#34;http://themes.gohugo.io/blackburn/&#34;&gt;blackburn&lt;/a&gt; and is really slick. It only took a few minutes to
+completely switch. You can &lt;a href=&#34;https://github.com/brianz/blog&#34;&gt;look through the git history&lt;/a&gt; for this
+blog if you&amp;rsquo;re interested in what I did to make the change.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>getting started with hugo</title>
       <link>http://blog.brianz.bz/post/getting-started-with-hugo/</link>
-      <pubDate>Mon, 21 Mar 2016 15:45:26 MDT</pubDate>
-      <author>Brian Zambrano</author>
+      <pubDate>Mon, 21 Mar 2016 15:45:26 -0600</pubDate>
+      
       <guid>http://blog.brianz.bz/post/getting-started-with-hugo/</guid>
       <description>&lt;p&gt;It&amp;rsquo;s been a very very long time since I&amp;rsquo;ve posted anything publicly. Blogging has drastically
 changed since the early days. As most of you, I consume a &lt;em&gt;lot&lt;/em&gt; of material and resources on the
@@ -34,41 +84,39 @@ it&amp;rsquo;s written in Go (I usually hate dealing with Ruby gems and dependen
 &lt;p&gt;Here&amp;rsquo;s the TL;DR of what I did to go from zero to blogging &lt;em&gt;(this is from memory so it may not be
 100% correct)&lt;/em&gt;:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ brew install hugo
-$ mkdir bz-blog &lt;span style=&#34;color: #666666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color: #388038&#34;&gt;cd&lt;/span&gt; bz-blog
+&lt;pre&gt;&lt;code&gt;$ brew install hugo
+$ mkdir bz-blog &amp;amp;&amp;amp; cd bz-blog
 $ hugo new site brianz
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;To find a theme I liked went to the &lt;a href=&#34;http://themes.gohugo.io&#34;&gt;Hugo themes&lt;/a&gt; site and picked
 &lt;a href=&#34;http://themes.gohugo.io/greyshade/&#34;&gt;greyshade&lt;/a&gt;. Hugo themes are &lt;em&gt;really&lt;/em&gt; easy to use:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span style=&#34;color: #388038&#34;&gt;cd&lt;/span&gt; brianz/themes
+&lt;pre&gt;&lt;code&gt;$ cd brianz/themes
 $ git clone https://github.com/cxfksword/greyshade.git
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;I don&amp;rsquo;t especially like the &lt;code&gt;.toml&lt;/code&gt; syntax which is what you get by default for the config file. I
 change &lt;code&gt;config.toml&lt;/code&gt; into &lt;code&gt;config.yaml&lt;/code&gt;. The main thing is that I don&amp;rsquo;t like needed to add quotes
 around everything in the &lt;code&gt;toml&lt;/code&gt; files. With yaml, I can just write stuff like this&amp;gt;&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;baseurl&lt;span style=&#34;color: #888888&#34;&gt;:&lt;/span&gt; http://brianz.bz/
-languageCode&lt;span style=&#34;color: #888888&#34;&gt;:&lt;/span&gt; en-us
-title&lt;span style=&#34;color: #888888&#34;&gt;:&lt;/span&gt; Brian Z
-theme&lt;span style=&#34;color: #888888&#34;&gt;:&lt;/span&gt; greyshade
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;pre&gt;&lt;code&gt;baseurl: http://brianz.bz/
+languageCode: en-us
+title: Brian Z
+theme: greyshade
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;I wanted syntax highlighting, so installed &lt;code&gt;pygments&lt;/code&gt; inside a virtual environment. Also, there are
 different &amp;ldquo;themes&amp;rdquo; for syntax highlighting which can be looked up directly from pygments:&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ mkvirtualenv hugo
+&lt;pre&gt;&lt;code&gt;$ mkvirtualenv hugo
 $ pip install pygments
 $ python
-&amp;gt;&amp;gt;&amp;gt; from pygments.styles import get_all_styles
-&amp;gt;&amp;gt;&amp;gt; list&lt;span style=&#34;color: #666666&#34;&gt;(&lt;/span&gt;get_all_styles&lt;span style=&#34;color: #666666&#34;&gt;())&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; from pygments.styles import get_all_styles
+&amp;gt;&amp;gt;&amp;gt; list(get_all_styles())
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;I ended up using the &lt;code&gt;lovelace&lt;/code&gt; theme by setting &lt;code&gt;pygmentsstyle: lovelace&lt;/code&gt; in &lt;code&gt;config.yaml&lt;/code&gt;&lt;/p&gt;
 
@@ -87,6 +135,55 @@ tags = []
 &lt;p&gt;With that, I can now create new posts and see it in real-time using &lt;code&gt;hugo server --buildDrafts&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;Now that things are working, I&amp;rsquo;ll talk about publishing things in my next post.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>about</title>
+      <link>http://blog.brianz.bz/about/</link>
+      <pubDate>Mon, 21 Mar 2016 09:07:04 -0600</pubDate>
+      
+      <guid>http://blog.brianz.bz/about/</guid>
+      <description>
+
+&lt;p&gt;&lt;img src=&#34;http://blog.brianz.bz/images/bz-horsetooth-peak.jpg&#34; alt=&#34;brianz&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;My name is Brian Zambrano and this is my tiny corner of the internet where I (mostly) talk about
+software and related technology. I currently reside in Fort Collins, CO with my wife and twin boys.
+In addition to software I really like the outdoors, coffee and cycling.&lt;/p&gt;
+
+&lt;h2 id=&#34;background:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;Background&lt;/h2&gt;
+
+&lt;p&gt;You can read more about my professional background on my LinkedIn profile to the
+left. In a nutshell, I grew up in Sunnyvale, CA and originally studied &lt;a href=&#34;http://mate.calpoly.edu&#34;&gt;Materials
+Engineering&lt;/a&gt; at Cal Poly, San Luis Obispo. I ended up back home in the
+middle of the first dot-com boom in 2000 and fell into software. Eventually I got a second degree
+in computer science from &lt;a href=&#34;http://cs.sfsu.edu&#34;&gt;San Francisco State&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;areas-of-interest:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;Areas of interest&lt;/h2&gt;
+
+&lt;p&gt;I taught myself Python around 2001 and have been using continually since then and professionally
+since 2005. In addition to Python my current areas of interest are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Docker &amp;larr; &lt;em&gt;probably better described as my current love interest&lt;/em&gt; &amp;hearts;&lt;/li&gt;
+&lt;li&gt;Microservice design and architecture&lt;/li&gt;
+&lt;li&gt;Amazon web services&lt;/li&gt;
+&lt;li&gt;Scaling development teams and platforms&lt;/li&gt;
+&lt;li&gt;Postgresql&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Of course, I have &lt;strong&gt;many&lt;/strong&gt; more interests but those are the highlights.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m currently the lead architect at &lt;a href=&#34;http://clearcareonline.com&#34;&gt;Clearcare&lt;/a&gt; building a SAAS
+platform for in-home health care agencies.&lt;/p&gt;
+
+&lt;h2 id=&#34;roastlog:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;RoastLog&lt;/h2&gt;
+
+&lt;p&gt;In 2008 I had an idea for a SAAS platform for coffee roasters. That idea grew and turned into
+&lt;a href=&#34;http://roastlog.com/&#34;&gt;RoastLog&lt;/a&gt;. I&amp;rsquo;ve been running RoastLog as a real business since 2009 with my
+long-time friend and business partner, Linsey Fan. RoastLog is used every day of the week all over
+the world to help coffee roasters run their business.&lt;/p&gt;
 </description>
     </item>
     
