@@ -24,24 +24,22 @@ params:
 
 # Shown in the side menu.
 menu:
-  - main:
-        name: Home
-        pre: <i class='fa fa-home fa-fw'></i>
-        weight: 0
-        identifier: home
-        url: /
-  - main:
-        name: Posts
-        pre: <i class='fa fa-list fa-fw'></i>
-        weight: 1
-        identifier: post
-        url: /post/
-  - main:
-        name: About
-        pre: <i class='fa fa-user fa-fw'></i>
-        weight: 2
-        identifier: about
-        url: /about/
+  main:
+    - name: Home
+      pre: <i class='fa fa-home fa-fw'></i>
+      weight: 0
+      identifier: home
+      url: /
+    - name: About
+      pre: <i class='fa fa-user fa-fw'></i>
+      weight: 2
+      identifier: about
+      url: /about/
+    - name: Posts
+      pre: <i class='fa fa-list fa-fw'></i>
+      weight: 2
+      identifier: post
+      url: /post/
 
 social:
   # Link your social networking accouns to the side menu
