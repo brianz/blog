@@ -1,33 +1,63 @@
 baseurl: http://blog.brianz.bz
-languageCode: en-us
 title: Brian Z
+author: Brian Zambrano
+theme: blackburn
 
-theme: greyshade
+# Shown in the side menu
+copyright: "&copy; 2016. All rights reserved."
+canonifyurls: true
+paginate: 10
 
-pygmentsstyle: lovelace
-
-author:
-    name: Brian Zambrano
-
-taxonomies:
-    category: categories
+indexes:
+  tag: tags
+  topic: topics
 
 params:
-    facebook_user: brian.zambrano
-    twitter_user: brianzambrano
-    github_user: brianz
-    stackoverflow_user: brianz
-    linkedin_user: brianzambrano
-    instagram_user: bzambrano
+  # Shown in the home page
+  subtitle: A SAAS application architecture blog
+  brand: brianz
+  googleAnalytics: UA-75475240-1
+  disqus: brianz
+  # CSS name for highlight.js
+  highlightjs: androidstudio
+  dateFormat: 02 Jan 2006, 15:04
 
-    email_md5: cb383c8d8e93cc662e484c149cb3b96b
+# Shown in the side menu.
+menu:
+  - main:
+        name: Home
+        pre: <i class='fa fa-home fa-fw'></i>
+        weight: 0
+        identifier: home
+        url: /
+  - main:
+        name: Posts
+        pre: <i class='fa fa-list fa-fw'></i>
+        weight: 1
+        identifier: post
+        url: /post/
+  - main:
+        name: About
+        pre: <i class='fa fa-user fa-fw'></i>
+        weight: 2
+        identifier: about
+        url: /about/
 
-    # share links
-    twitter_tweet_button: true
+social:
+  # Link your social networking accouns to the side menu
+  # by entering your username or ID.
 
-    # Disqus Comments
-    disqus_short_name: 
-    disqus_show_comment_count: false
+  # SNS microblogging
+  twitter: brianzambrano
+  facebook: brian.zambrano
 
-    # google analytics
-    google_analytics_tracking_id: 
+  # SNS photo/video sharing
+  instagram: bzambrano
+
+  linkedin: brianzambrano
+
+  hackernews: brianz
+
+  github: brianz
+  stackoverflow: brianz
+
