@@ -9,4 +9,4 @@ prod :
 
 release :
 	git push 
-	git subtree push --prefix=production production master
+	git subtree push --prefix=production --squash production master

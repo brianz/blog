@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.15" />
+
+  <title>introducing servant &middot; Brian Z</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="Brian Z" href="http://blog.brianz.bzindex.xml" />
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://blog.brianz.bzimg/favicon.ico" type="image/x-icon" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://blog.brianz.bz/">brianz</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="http://blog.brianz.bzindex.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+    </li>
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/brianzambrano" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/brian.zambrano" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://instagram.com/bzambrano" target="_blank"><i class="fa fa-instagram fa-fw"></i>Instagram</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/brianzambrano" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://news.ycombinator.com/user?id=brianz" target="_blank"><i class="fa fa-hacker-news fa-fw"></i>Hacker News</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/brianz" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://stackoverflow.com/users/87858" target="_blank"><i class="fa fa-stack-overflow fa-fw"></i>Stack Overflow</a>
+    </li>
+    
+
+  </ul>
+</div>
+
+
+  <div class="pure-g">
+  <div class="small-print pure-u-1 pure-u-md-1-1">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print pure-u-1 pure-u-md-1-1">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>introducing servant</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>04 Apr 2016, 17:26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  
+
+</div>
+
+  
+
+<p>Late in 2014 we began the process of discussing a payment system at
+<a href="http://www.clearcareonline.com">work</a>. The system was to have a fairly simple reason for
+existing&hellip;to do all the work needed to charge credit cards on behalf of our customers.</p>
+
+<p>Backing up a bit&hellip;our system is mainly a B2B application. Home care agencies all over the country
+run our software which helps them to run their businesses. Our new Payment System was aimed at allowing
+our customers to charge <em>their</em> customers&rsquo; credit cards directly, meaning our customers don&rsquo;t need
+to wait for checks or paper invoicing.</p>
+
+<p>For us it was pretty clear that we wanted to build this as a stand-alone service and stick with
+Python. Yeah&hellip;we wanted a <em>microservice</em> which is all the rage now. The issue was that there
+really wasn&rsquo;t (and still aren&rsquo;t) many existing and proven frameworks for building services in
+Python.</p>
+
+<h2 id="enter-servant:9879b9e4b526681137999e709cb09eff">Enter servant</h2>
+
+<p>Leaning on a custom service framework I had worked with while at
+<a href="http://eventbrite.com">Eventbrite</a> I came up with servant. You can see the project page on Github.
+We currently have multiple services deployed in production at Clearcare based on servant and so
+far, they&rsquo;ve been working great:</p>
+
+<p><a href="https://github.com/clearcare/servant">https://github.com/clearcare/servant</a></p>
+
+<p>What exactly is this library? At a very high level servant is:</p>
+
+<ul>
+<li>a Python library/framework for authoring and communicating with services</li>
+<li>to services what Django is to web applications</li>
+<li>designed primarily for <em>internal</em> non-publicly facing services</li>
+</ul>
+
+<p>Servant is actually pretty simple and doesn&rsquo;t perform much magic.  What it does do
+is give you, the service author, a framework for designing RPC-style services in Python which
+can run on their own, independently, and are easy to connect to and interface with. In addition,
+it&rsquo;s not an opinionated framework so you can choose whatever tooling you&rsquo;d like in order to author
+your service. Our typical recipe at work includes pytest for testing and sqlalchemy for talking to
+the Postgres. However, you use whatever you want depending on your needs&hellip;servant stays out of
+your way and <em>only</em> deals with executing service calls on behalf of the client.</p>
+
+<h2 id="quick-code-examples:9879b9e4b526681137999e709cb09eff">Quick code examples</h2>
+
+<p>When I first started using services I had no idea what looked like both authoring a service or
+talking to a service&hellip;so here are a few small code snippets:</p>
+
+<h3 id="client:9879b9e4b526681137999e709cb09eff">Client</h3>
+
+<p>As a client, the only dependencies is having the servant library installed. You could call this
+from a Django app, one-off script&hellip;wherever:</p>
+
+<pre><code># test_add.py
+import servant.client
+
+client = servant.client.Client('calculator_service', version=1)
+
+# add is the actual endpoint we're calling
+response = client.add(number1=10, number2=15)
+
+if response.is_error():
+    print response.errors, response.field_errors
+else:
+    print response.result
+</code></pre>
+
+<p>That&rsquo;s about it! I actually ran this just to make sure that I&rsquo;m not lying&hellip;indeed, this works and
+spits out <code>25</code>:</p>
+
+<pre><code>(servantdev)brianz@bz-cconline(master=)$ python test_calculator.py 
+25
+</code></pre>
+
+<h3 id="server:9879b9e4b526681137999e709cb09eff">Server</h3>
+
+<p>Authoring a service is a bit more work but still quite easy. This is how you&rsquo;d implement the <code>add</code>
+method we used above:</p>
+
+<p>First, you need to define a single <code>service.py</code> file which defines your service and declares all of
+it&rsquo;s endpoints:</p>
+
+<pre><code># service.py
+from servant.service.base import Service
+
+import actions
+
+class Calculator(Service):
+
+    name = 'calculator_service'
+    version = 1 
+
+    action_map = { 
+            'add': actions.AddAction,
+            'subtract': actions.SubtractAction,
+    }
+</code></pre>
+
+<p>Next, you&rsquo;ll need to create one or more actions. Note above we import <code>actions</code> and point to two
+different action classes&hellip;we&rsquo;ll only show one here for brevity. But, how you map endpoint
+names to actions is entirely up to you. We always have an <code>actions/</code> directory with different
+actions broken up by area of responsibility. Again, for brevity we&rsquo;ll just show a single action for
+our calculator service.</p>
+
+<pre><code># actions.py
+import servant.fields
+from servant.service.actions import Action
+
+class AddAction(Action):
+    number1 = servant.fields.IntField(
+            required=True,
+            in_response=True,
+    )   
+    number2 = servant.fields.IntField(
+            required=True,
+            in_response=True,
+    )   
+    result = servant.fields.IntField(
+            in_response=True,
+    )   
+
+    def run(self, **kwargs):
+        self.result = self.number1 + self.number2
+</code></pre>
+
+<p>And that it! You can imagine what <code>SubtractAction</code> would look like. From there, provided you
+can install your service as a Python package, this code is fully functional. You can see all of
+this and actually give it a try&hellip;clone the repo and look in
+the <a href="https://github.com/clearcare/servant/tree/master/examples/calculator_service">the examples directory</a>.</p>
+
+<h2 id="local-library-mode:9879b9e4b526681137999e709cb09eff">Local library mode</h2>
+
+<p>One killer feature IMO which I have only seen in Eventbrite&rsquo;s SOA library is that of local mode.
+You&rsquo;ll notice in all of the code above, there is no mention or reference to where the service is
+running. How does the client code know where to connect? What port is the server running on?</p>
+
+<p>When you author a service and are able to install it as a Python package, you can talk to it just
+as if it were running on a remote system. The magic here is that the servant client code imports
+your service and executes it as a local library.  When you&rsquo;re ready to deploy your service
+somewhere else and point your clients to the <em>real</em> server, it&rsquo;s a one line change:</p>
+
+<pre><code>import servant.client
+
+client = servant.client.Client('calculator_service', version=1)
+# Now point your client to the remote host
+client.configure('remote-host-name-or-ip')
+</code></pre>
+
+<p>The big advantage to this is that it&rsquo;s trivially easy to start developing and testing your service.
+The code which gets executed is almost exactly the same. Of course, running on a real server rather
+than as a local library cannot be <em>identical</em>, but it&rsquo;s quite close and any differences are
+definitely worth the increase in productivity.</p>
+
+<h2 id="why-servant:9879b9e4b526681137999e709cb09eff">Why servant?</h2>
+
+<blockquote>
+<p>This is dumb, REST rules!</p>
+</blockquote>
+
+<p>Hey, we (mostly) all like REST&hellip;it&rsquo;s great, but has some limitations:</p>
+
+<ul>
+<li>HTTP  by definition</li>
+<li>Requires a running server</li>
+<li>Usually end up using a wrapper library</li>
+<li>Various interpretations</li>
+<li>Can be challenging to get your Resources right</li>
+</ul>
+
+<p>Being a RPC-style library, with servant:</p>
+
+<ul>
+<li>Transport/broker can be anything (library call, HTTP, Redis, ØMQ, RabbitMQ&hellip;)</li>
+<li>Develop quickly with local library mode</li>
+<li>RPC endpoints can be more descriptive&hellip;no need to interpret PUT vs POST</li>
+<li>ONE way of implementing a service vs. author&rsquo;s interpretation of REST</li>
+</ul>
+
+<p>In terms of the transport, we currently have implementations for local mode and HTTP mode. If you
+look at the
+<a href="https://github.com/clearcare/servant/blob/master/examples/calculator_service/README.md">README</a>
+you&rsquo;ll see example of how to run the demo via <code>uwsgi</code>.</p>
+
+<h2 id="trade-offs:9879b9e4b526681137999e709cb09eff">Trade offs</h2>
+
+<p>As with any technology there are trade-offs. Here are a few issues with servant today:</p>
+
+<ul>
+<li>Currently Python only. Other languages would need a Servant library implemented.</li>
+<li>No mechanism for exploration&hellip;need knowledge of service before hitting it</li>
+<li>Can&rsquo;t simply use curl to hit an endpoint</li>
+<li>Need another layer to expose a service publicly (i.e., hitting from JavaScript)</li>
+</ul>
+
+<h2 id="closing-thoughts:9879b9e4b526681137999e709cb09eff">Closing thoughts</h2>
+
+<p>Servant has served us quite well at work and I really would like to keep iterating on it. It&rsquo;s open
+source, so if you&rsquo;re interested clone the repo and give it a try. I haven&rsquo;t looked at the current
+landscape for service libraries in Python but know that others are popping up here and there.</p>
+
+<p>In a future post I&rsquo;ll go into some more detail about servant and some ideas that I&rsquo;ve had but
+haven&rsquo;t been implemented yet.</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://blog.brianz.bz/post/blog-theme/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://blog.brianz.bz/post/blog-theme/">blog theme</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'brianz';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://blog.brianz.bzjs/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75475240-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+
