@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Brian Z</title>
-    <link>http://blog.brianz.bz/post/</link>
-    <description>Recent content in Posts on Brian Z</description>
+    <title>Architecture on Brian Z</title>
+    <link>http://blog.brianz.bz/tags/architecture/</link>
+    <description>Recent content in Architecture on Brian Z</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Mon, 04 Apr 2016 17:26:23 -0600</lastBuildDate>
-    <atom:link href="http://blog.brianz.bz/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://blog.brianz.bz/tags/architecture/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Introducing servant</title>
@@ -262,135 +262,6 @@ reach for a REST or REST-like design when building services.&lt;/p&gt;
 
 &lt;p&gt;In a future post I&amp;rsquo;ll go into some more detail about servant and some ideas that I&amp;rsquo;ve had but
 haven&amp;rsquo;t been implemented yet.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Blog theme</title>
-      <link>http://blog.brianz.bz/post/blog-theme/</link>
-      <pubDate>Wed, 23 Mar 2016 11:02:01 -0600</pubDate>
-      
-      <guid>http://blog.brianz.bz/post/blog-theme/</guid>
-      <description>
-
-&lt;h2 id=&#34;saas-application-architecture:6fd2790aca2c37753fb7cd100f77c2ec&#34;&gt;SAAS Application Architecture&lt;/h2&gt;
-
-&lt;p&gt;I was finally inspired to get this site up and running after listening to a &lt;a href=&#34;http://www.se-radio.net/2015/12/se-radio-episode-245-john-sonmez-on-marketing-yourself-and-managing-your-career/&#34;&gt;Software Engineering
-Radio podcast&lt;/a&gt;
-with &lt;a href=&#34;http://simpleprogrammer.com/&#34;&gt;John Sonmez&lt;/a&gt;. In that podcast episode John talks about how a
-technical blog can really help your career&amp;hellip;that&amp;rsquo;s never a bad thing and as mentioned in my
-&lt;a href=&#34;http://blog.brianz.bz/post/getting-started-with-hugo/&#34;&gt;last post&lt;/a&gt;, I wanted a place to help others with any
-tips, tricks or general things I learn.&lt;/p&gt;
-
-&lt;p&gt;John suggests coming up with a &amp;ldquo;theme&amp;rdquo; for a tech blog&amp;hellip;a theme not in the visual sense but a
-theme regarding the content. With that, I&amp;rsquo;ve landed on &amp;ldquo;SAAS Application Architecture&amp;rdquo;.&lt;/p&gt;
-
-&lt;p&gt;My career has taken me to a place where I primary work on software systems which have a publicly
-facing website and are fairly complex behind the scenes. SAAS (software as a service) can probably
-be interpreted many ways but in my mind it&amp;rsquo;s a complex software system composed of multiple
-services which allows users to manage and analyze some type of data. The type of data and tasks
-performed are typically within a certain domain. Taking some examples from things I&amp;rsquo;ve worked on:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Eventbrite: event/ticketing domain&lt;/li&gt;
-&lt;li&gt;Clearcare: in-home health care agency domain&lt;/li&gt;
-&lt;li&gt;RoastLog: coffee roasting domain&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;All of these systems:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;have publicly facing websites&lt;/li&gt;
-&lt;li&gt;provide users with access to their data &lt;sup&gt;24&lt;/sup&gt;&amp;frasl;&lt;sub&gt;7&lt;/sub&gt;&lt;/li&gt;
-&lt;li&gt;are comprised of multiple backend systems (databases, caching, microservices, etc)&lt;/li&gt;
-&lt;li&gt;are non-trivial to implement due to the complexities of the domains&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;With all of that, what I intend to write about here are my experiences building systems like this.&lt;/p&gt;
-
-&lt;p&gt;Also, since the previous post I&amp;rsquo;ve changed themes. The new one is called
-&lt;a href=&#34;http://themes.gohugo.io/blackburn/&#34;&gt;blackburn&lt;/a&gt; and is really slick. It only took a few minutes to
-completely switch. You can &lt;a href=&#34;https://github.com/brianz/blog&#34;&gt;look through the git history&lt;/a&gt; for this
-blog if you&amp;rsquo;re interested in what I did to make the change.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Getting started with hugo</title>
-      <link>http://blog.brianz.bz/post/getting-started-with-hugo/</link>
-      <pubDate>Mon, 21 Mar 2016 15:45:26 -0600</pubDate>
-      
-      <guid>http://blog.brianz.bz/post/getting-started-with-hugo/</guid>
-      <description>&lt;p&gt;It&amp;rsquo;s been a very very long time since I&amp;rsquo;ve posted anything publicly. Blogging has drastically
-changed since the early days. As most of you, I consume a &lt;em&gt;lot&lt;/em&gt; of material and resources on the
-internet. For a while I&amp;rsquo;ve wanted to contribute back&amp;hellip;I&amp;rsquo;m constantly learning new things and some
-of them are really useful. So, this is my way to hopefully help others.&lt;/p&gt;
-
-&lt;p&gt;With that, my inaugural post will be on how I set up this blog. Later, I plan on mostly writing
-about building microservices with Python and overall architecture patterns for microservices.&lt;/p&gt;
-
-&lt;p&gt;I knew that I definitely wanted something static, meaning I didn&amp;rsquo;t want to stand up my own virtual
-server nor did I want to sign up with any of the hosted solutions for Wordpress, Blogger, etc.
-I tried out &lt;a href=&#34;https://jekyllrb.com&#34;&gt;Jekyll&lt;/a&gt; a long time ago which looked neat and had tight
-integration with &lt;a href=&#34;https://pages.github.com&#34;&gt;Github Pages&lt;/a&gt;.  At some point I came across
-&lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; and played around with it. It&amp;rsquo;s quite slick and apparently has been
-gaining more and more users. I went with Hugo since it&amp;rsquo;s pretty darn fast, easy-ish to set up and
-it&amp;rsquo;s written in Go (I usually hate dealing with Ruby gems and dependencies).&lt;/p&gt;
-
-&lt;p&gt;Here&amp;rsquo;s the TL;DR of what I did to go from zero to blogging &lt;em&gt;(this is from memory so it may not be
-100% correct)&lt;/em&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ brew install hugo
-$ mkdir bz-blog &amp;amp;&amp;amp; cd bz-blog
-$ hugo new site brianz
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;To find a theme I liked went to the &lt;a href=&#34;http://themes.gohugo.io&#34;&gt;Hugo themes&lt;/a&gt; site and picked
-&lt;a href=&#34;http://themes.gohugo.io/greyshade/&#34;&gt;greyshade&lt;/a&gt;. Hugo themes are &lt;em&gt;really&lt;/em&gt; easy to use:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ cd brianz/themes
-$ git clone https://github.com/cxfksword/greyshade.git
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I don&amp;rsquo;t especially like the &lt;code&gt;.toml&lt;/code&gt; syntax which is what you get by default for the config file. I
-change &lt;code&gt;config.toml&lt;/code&gt; into &lt;code&gt;config.yaml&lt;/code&gt;. The main thing is that I don&amp;rsquo;t like needed to add quotes
-around everything in the &lt;code&gt;toml&lt;/code&gt; files. With yaml, I can just write stuff like this&amp;gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;baseurl: http://brianz.bz/
-languageCode: en-us
-title: Brian Z
-theme: greyshade
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I wanted syntax highlighting, so installed &lt;code&gt;pygments&lt;/code&gt; inside a virtual environment. Also, there are
-different &amp;ldquo;themes&amp;rdquo; for syntax highlighting which can be looked up directly from pygments:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ mkvirtualenv hugo
-$ pip install pygments
-$ python
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; from pygments.styles import get_all_styles
-&amp;gt;&amp;gt;&amp;gt; list(get_all_styles())
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I ended up using the &lt;code&gt;lovelace&lt;/code&gt; theme by setting &lt;code&gt;pygmentsstyle: lovelace&lt;/code&gt; in &lt;code&gt;config.yaml&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt;, there is a small issue with the greyshade theme in that Hugo will throw an error when
-creating a new post. To fix this simply create a file at &lt;code&gt;archetypes/default.md&lt;/code&gt; with the following
-contents (or customize as you see fit):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;+++
-
-draft=true
-tags = []
-
-+++
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;With that, I can now create new posts and see it in real-time using &lt;code&gt;hugo server --buildDrafts&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Now that things are working, I&amp;rsquo;ll talk about publishing things in my next post.&lt;/p&gt;
 </description>
     </item>
     

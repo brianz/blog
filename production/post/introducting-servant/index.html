@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.15" />
 
-  <title>introducing servant &middot; Brian Z</title>
+  <title>Introducing servant &middot; Brian Z</title>
 
   
   
@@ -189,7 +189,7 @@
 
 
 <div class="header">
-  <h1>introducing servant</h1>
+  <h1>Introducing servant</h1>
   <h2></h2>
 </div>
 <div class="content">
@@ -208,6 +208,15 @@
   
   
   
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/python">python</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/architecture">architecture</a>
+    
+  </div>
+  
   
 
 </div>
@@ -219,14 +228,24 @@
 existing&hellip;to do all the work needed to charge credit cards on behalf of our customers.</p>
 
 <p>Backing up a bit&hellip;our system is mainly a B2B application. Home care agencies all over the country
-run our software which helps them to run their businesses. Our new Payment System was aimed at allowing
+run our SAAS application which helps them to run their businesses. Our new Payment System was aimed at allowing
 our customers to charge <em>their</em> customers&rsquo; credit cards directly, meaning our customers don&rsquo;t need
-to wait for checks or paper invoicing.</p>
+to wait for checks or paper invoicing. Our SAAS is a pretty typical Python stack with the <strong>major</strong>
+components being:</p>
+
+<ul>
+<li>monolithic Django app</li>
+<li>Postgres</li>
+<li>Elasticsearch</li>
+<li>Redis</li>
+<li>Celery/RabbitMQ</li>
+</ul>
 
 <p>For us it was pretty clear that we wanted to build this as a stand-alone service and stick with
-Python. Yeah&hellip;we wanted a <em>microservice</em> which is all the rage now. The issue was that there
-really wasn&rsquo;t (and still aren&rsquo;t) many existing and proven frameworks for building services in
-Python.</p>
+Python. Yeah&hellip;we wanted a <em>microservice</em> which is all the rage now. We knew that we needed to
+start evolving our architecture and services, while having their own sets of challenges, make a lot
+of sense. In late 2014 the issue was that there really wasn&rsquo;t (and still aren&rsquo;t) many existing and
+proven frameworks for building services in Python.</p>
 
 <h2 id="enter-servant:9879b9e4b526681137999e709cb09eff">Enter servant</h2>
 
@@ -241,7 +260,7 @@ far, they&rsquo;ve been working great:</p>
 
 <ul>
 <li>a Python library/framework for authoring and communicating with services</li>
-<li>to services what Django is to web applications</li>
+<li>to services what Django/Flask/Rails are to web applications</li>
 <li>designed primarily for <em>internal</em> non-publicly facing services</li>
 </ul>
 
@@ -251,17 +270,31 @@ can run on their own, independently, and are easy to connect to and interface wi
 it&rsquo;s not an opinionated framework so you can choose whatever tooling you&rsquo;d like in order to author
 your service. Our typical recipe at work includes pytest for testing and sqlalchemy for talking to
 the Postgres. However, you use whatever you want depending on your needs&hellip;servant stays out of
-your way and <em>only</em> deals with executing service calls on behalf of the client.</p>
+your way and deals with executing service calls on behalf of the client. There is some validation
+here and there to ensure the service call is well-formed but I won&rsquo;t go over that right now.</p>
 
 <h2 id="quick-code-examples:9879b9e4b526681137999e709cb09eff">Quick code examples</h2>
 
 <p>When I first started using services I had no idea what looked like both authoring a service or
-talking to a service&hellip;so here are a few small code snippets:</p>
+talking to a service. If you have never worked with a service framework you may think it&rsquo;s a matter
+of writing or talking to a REST endpoint. Servant is a bit different&hellip;so here are a few small code
+snippets which should make things more clear.</p>
+
+<p>In this example, we&rsquo;ll create a silly little &ldquo;Calculator Service&rdquo;. I&rsquo;ll implement an <code>add</code> endpoint
+which will take two numbers, add them up and return the sum.</p>
 
 <h3 id="client:9879b9e4b526681137999e709cb09eff">Client</h3>
 
 <p>As a client, the only dependencies is having the servant library installed. You could call this
-from a Django app, one-off script&hellip;wherever:</p>
+from a Django app, one-off script&hellip;wherever. Install servant from github. Here I install it into a
+virtualenv using virtualenvwrapper:</p>
+
+<pre><code>brianz@gold$ mkvirtualenv test_servant
+
+(test_servant)brianz@gold$ pip install git+https://github.com/clearcare/servant.git@master
+</code></pre>
+
+<p>Now, I can write some client code:</p>
 
 <pre><code># test_add.py
 import servant.client
@@ -277,20 +310,29 @@ else:
     print response.result
 </code></pre>
 
-<p>That&rsquo;s about it! I actually ran this just to make sure that I&rsquo;m not lying&hellip;indeed, this works and
-spits out <code>25</code>:</p>
+<p>That&rsquo;s about it for client code! Provided you have a service named <code>calculator_service</code> available,
+this code will work and spit out the expected result of <code>25</code>. You can actually install
+<code>calculator_service</code> yourself and run this code.</p>
 
-<pre><code>(servantdev)brianz@bz-cconline(master=)$ python test_calculator.py 
+<pre><code>(test_servant)brianz@gold$ cd servant/examples/calculator_service/
+(test_servant)brianz@gold$ pip install .
+</code></pre>
+
+<pre><code>(test_servant)brianz@bz-cconline$ python test_calculator.py 
 25
 </code></pre>
+
+<p>That&rsquo;s how you actually <em>use</em> a servant service. How do you author one?</p>
 
 <h3 id="server:9879b9e4b526681137999e709cb09eff">Server</h3>
 
 <p>Authoring a service is a bit more work but still quite easy. This is how you&rsquo;d implement the <code>add</code>
-method we used above:</p>
+method we used above. Note you can also <a href="https://github.com/clearcare/servant/tree/master/examples/calculator_service">peruse the
+<code>calculator_service</code></a>
+to see a more thorough implemenation..but the below code will actually work.</p>
 
-<p>First, you need to define a single <code>service.py</code> file which defines your service and declares all of
-it&rsquo;s endpoints:</p>
+<p>First, you need to define a single <code>service.py</code> file which defines your service and declares all
+its endpoints:</p>
 
 <pre><code># service.py
 from servant.service.base import Service
@@ -304,7 +346,8 @@ class Calculator(Service):
 
     action_map = { 
             'add': actions.AddAction,
-            'subtract': actions.SubtractAction,
+            # we won't implement subtract now
+            # 'subtract': actions.SubtractAction,
     }
 </code></pre>
 
@@ -335,7 +378,16 @@ class AddAction(Action):
         self.result = self.number1 + self.number2
 </code></pre>
 
-<p>And that it! You can imagine what <code>SubtractAction</code> would look like. From there, provided you
+<p>If you ignore <code>setup.py</code> and any other packaging code or files, our actual service is only a few
+files:</p>
+
+<pre><code>(test_servant)brianz@gold$ tree
+├── __init__.py
+├── actions.py
+└── service.py
+</code></pre>
+
+<p>You can imagine what <code>SubtractAction</code> would look like. From there, provided you
 can install your service as a Python package, this code is fully functional. You can see all of
 this and actually give it a try&hellip;clone the repo and look in
 the <a href="https://github.com/clearcare/servant/tree/master/examples/calculator_service">the examples directory</a>.</p>
@@ -344,7 +396,8 @@ the <a href="https://github.com/clearcare/servant/tree/master/examples/calculato
 
 <p>One killer feature IMO which I have only seen in Eventbrite&rsquo;s SOA library is that of local mode.
 You&rsquo;ll notice in all of the code above, there is no mention or reference to where the service is
-running. How does the client code know where to connect? What port is the server running on?</p>
+running. You didn&rsquo;t event start a server. Where is the client connecting? How does the client code
+know where to connect? What port is the server running on?</p>
 
 <p>When you author a service and are able to install it as a Python package, you can talk to it just
 as if it were running on a remote system. The magic here is that the servant client code imports
@@ -359,9 +412,9 @@ client.configure('remote-host-name-or-ip')
 </code></pre>
 
 <p>The big advantage to this is that it&rsquo;s trivially easy to start developing and testing your service.
-The code which gets executed is almost exactly the same. Of course, running on a real server rather
-than as a local library cannot be <em>identical</em>, but it&rsquo;s quite close and any differences are
-definitely worth the increase in productivity.</p>
+Unit testing is <em>really</em> easy.  The code which gets executed is almost exactly the same. Of course,
+running on a real server rather than as a local library cannot be <em>identical</em>, but it&rsquo;s quite close
+and any differences are definitely worth the increase in productivity.</p>
 
 <h2 id="why-servant:9879b9e4b526681137999e709cb09eff">Why servant?</h2>
 
@@ -408,7 +461,10 @@ you&rsquo;ll see example of how to run the demo via <code>uwsgi</code>.</p>
 
 <p>Servant has served us quite well at work and I really would like to keep iterating on it. It&rsquo;s open
 source, so if you&rsquo;re interested clone the repo and give it a try. I haven&rsquo;t looked at the current
-landscape for service libraries in Python but know that others are popping up here and there.</p>
+landscape for service libraries in Python in a while but know that others are popping up here and
+there. Still, I do know that there aren&rsquo;t any really big libraries that the community if flocking
+to when starting their journey into a microservice architecture. From what I can tell people mostly
+reach for a REST or REST-like design when building services.</p>
 
 <p>In a future post I&rsquo;ll go into some more detail about servant and some ideas that I&rsquo;ve had but
 haven&rsquo;t been implemented yet.</p>
@@ -424,7 +480,7 @@ haven&rsquo;t been implemented yet.</p>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="http://blog.brianz.bz/post/blog-theme/">blog theme</a>
+      <a href="http://blog.brianz.bz/post/blog-theme/">Blog theme</a>
     </nav>
     
   </div>

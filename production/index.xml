@@ -10,7 +10,7 @@
     <atom:link href="http://blog.brianz.bz/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>introducing servant</title>
+      <title>Introducing servant</title>
       <link>http://blog.brianz.bz/post/introducting-servant/</link>
       <pubDate>Mon, 04 Apr 2016 17:26:23 -0600</pubDate>
       
@@ -22,14 +22,24 @@
 existing&amp;hellip;to do all the work needed to charge credit cards on behalf of our customers.&lt;/p&gt;
 
 &lt;p&gt;Backing up a bit&amp;hellip;our system is mainly a B2B application. Home care agencies all over the country
-run our software which helps them to run their businesses. Our new Payment System was aimed at allowing
+run our SAAS application which helps them to run their businesses. Our new Payment System was aimed at allowing
 our customers to charge &lt;em&gt;their&lt;/em&gt; customers&amp;rsquo; credit cards directly, meaning our customers don&amp;rsquo;t need
-to wait for checks or paper invoicing.&lt;/p&gt;
+to wait for checks or paper invoicing. Our SAAS is a pretty typical Python stack with the &lt;strong&gt;major&lt;/strong&gt;
+components being:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;monolithic Django app&lt;/li&gt;
+&lt;li&gt;Postgres&lt;/li&gt;
+&lt;li&gt;Elasticsearch&lt;/li&gt;
+&lt;li&gt;Redis&lt;/li&gt;
+&lt;li&gt;Celery/RabbitMQ&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;For us it was pretty clear that we wanted to build this as a stand-alone service and stick with
-Python. Yeah&amp;hellip;we wanted a &lt;em&gt;microservice&lt;/em&gt; which is all the rage now. The issue was that there
-really wasn&amp;rsquo;t (and still aren&amp;rsquo;t) many existing and proven frameworks for building services in
-Python.&lt;/p&gt;
+Python. Yeah&amp;hellip;we wanted a &lt;em&gt;microservice&lt;/em&gt; which is all the rage now. We knew that we needed to
+start evolving our architecture and services, while having their own sets of challenges, make a lot
+of sense. In late 2014 the issue was that there really wasn&amp;rsquo;t (and still aren&amp;rsquo;t) many existing and
+proven frameworks for building services in Python.&lt;/p&gt;
 
 &lt;h2 id=&#34;enter-servant:9879b9e4b526681137999e709cb09eff&#34;&gt;Enter servant&lt;/h2&gt;
 
@@ -44,7 +54,7 @@ far, they&amp;rsquo;ve been working great:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;a Python library/framework for authoring and communicating with services&lt;/li&gt;
-&lt;li&gt;to services what Django is to web applications&lt;/li&gt;
+&lt;li&gt;to services what Django/Flask/Rails are to web applications&lt;/li&gt;
 &lt;li&gt;designed primarily for &lt;em&gt;internal&lt;/em&gt; non-publicly facing services&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -54,17 +64,31 @@ can run on their own, independently, and are easy to connect to and interface wi
 it&amp;rsquo;s not an opinionated framework so you can choose whatever tooling you&amp;rsquo;d like in order to author
 your service. Our typical recipe at work includes pytest for testing and sqlalchemy for talking to
 the Postgres. However, you use whatever you want depending on your needs&amp;hellip;servant stays out of
-your way and &lt;em&gt;only&lt;/em&gt; deals with executing service calls on behalf of the client.&lt;/p&gt;
+your way and deals with executing service calls on behalf of the client. There is some validation
+here and there to ensure the service call is well-formed but I won&amp;rsquo;t go over that right now.&lt;/p&gt;
 
 &lt;h2 id=&#34;quick-code-examples:9879b9e4b526681137999e709cb09eff&#34;&gt;Quick code examples&lt;/h2&gt;
 
 &lt;p&gt;When I first started using services I had no idea what looked like both authoring a service or
-talking to a service&amp;hellip;so here are a few small code snippets:&lt;/p&gt;
+talking to a service. If you have never worked with a service framework you may think it&amp;rsquo;s a matter
+of writing or talking to a REST endpoint. Servant is a bit different&amp;hellip;so here are a few small code
+snippets which should make things more clear.&lt;/p&gt;
+
+&lt;p&gt;In this example, we&amp;rsquo;ll create a silly little &amp;ldquo;Calculator Service&amp;rdquo;. I&amp;rsquo;ll implement an &lt;code&gt;add&lt;/code&gt; endpoint
+which will take two numbers, add them up and return the sum.&lt;/p&gt;
 
 &lt;h3 id=&#34;client:9879b9e4b526681137999e709cb09eff&#34;&gt;Client&lt;/h3&gt;
 
 &lt;p&gt;As a client, the only dependencies is having the servant library installed. You could call this
-from a Django app, one-off script&amp;hellip;wherever:&lt;/p&gt;
+from a Django app, one-off script&amp;hellip;wherever. Install servant from github. Here I install it into a
+virtualenv using virtualenvwrapper:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;brianz@gold$ mkvirtualenv test_servant
+
+(test_servant)brianz@gold$ pip install git+https://github.com/clearcare/servant.git@master
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, I can write some client code:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;# test_add.py
 import servant.client
@@ -80,20 +104,29 @@ else:
     print response.result
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;That&amp;rsquo;s about it! I actually ran this just to make sure that I&amp;rsquo;m not lying&amp;hellip;indeed, this works and
-spits out &lt;code&gt;25&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s about it for client code! Provided you have a service named &lt;code&gt;calculator_service&lt;/code&gt; available,
+this code will work and spit out the expected result of &lt;code&gt;25&lt;/code&gt;. You can actually install
+&lt;code&gt;calculator_service&lt;/code&gt; yourself and run this code.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;(servantdev)brianz@bz-cconline(master=)$ python test_calculator.py 
+&lt;pre&gt;&lt;code&gt;(test_servant)brianz@gold$ cd servant/examples/calculator_service/
+(test_servant)brianz@gold$ pip install .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;(test_servant)brianz@bz-cconline$ python test_calculator.py 
 25
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That&amp;rsquo;s how you actually &lt;em&gt;use&lt;/em&gt; a servant service. How do you author one?&lt;/p&gt;
 
 &lt;h3 id=&#34;server:9879b9e4b526681137999e709cb09eff&#34;&gt;Server&lt;/h3&gt;
 
 &lt;p&gt;Authoring a service is a bit more work but still quite easy. This is how you&amp;rsquo;d implement the &lt;code&gt;add&lt;/code&gt;
-method we used above:&lt;/p&gt;
+method we used above. Note you can also &lt;a href=&#34;https://github.com/clearcare/servant/tree/master/examples/calculator_service&#34;&gt;peruse the
+&lt;code&gt;calculator_service&lt;/code&gt;&lt;/a&gt;
+to see a more thorough implemenation..but the below code will actually work.&lt;/p&gt;
 
-&lt;p&gt;First, you need to define a single &lt;code&gt;service.py&lt;/code&gt; file which defines your service and declares all of
-it&amp;rsquo;s endpoints:&lt;/p&gt;
+&lt;p&gt;First, you need to define a single &lt;code&gt;service.py&lt;/code&gt; file which defines your service and declares all
+its endpoints:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;# service.py
 from servant.service.base import Service
@@ -107,7 +140,8 @@ class Calculator(Service):
 
     action_map = { 
             &#39;add&#39;: actions.AddAction,
-            &#39;subtract&#39;: actions.SubtractAction,
+            # we won&#39;t implement subtract now
+            # &#39;subtract&#39;: actions.SubtractAction,
     }
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -138,7 +172,16 @@ class AddAction(Action):
         self.result = self.number1 + self.number2
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;And that it! You can imagine what &lt;code&gt;SubtractAction&lt;/code&gt; would look like. From there, provided you
+&lt;p&gt;If you ignore &lt;code&gt;setup.py&lt;/code&gt; and any other packaging code or files, our actual service is only a few
+files:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(test_servant)brianz@gold$ tree
+├── __init__.py
+├── actions.py
+└── service.py
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can imagine what &lt;code&gt;SubtractAction&lt;/code&gt; would look like. From there, provided you
 can install your service as a Python package, this code is fully functional. You can see all of
 this and actually give it a try&amp;hellip;clone the repo and look in
 the &lt;a href=&#34;https://github.com/clearcare/servant/tree/master/examples/calculator_service&#34;&gt;the examples directory&lt;/a&gt;.&lt;/p&gt;
@@ -147,7 +190,8 @@ the &lt;a href=&#34;https://github.com/clearcare/servant/tree/master/examples/ca
 
 &lt;p&gt;One killer feature IMO which I have only seen in Eventbrite&amp;rsquo;s SOA library is that of local mode.
 You&amp;rsquo;ll notice in all of the code above, there is no mention or reference to where the service is
-running. How does the client code know where to connect? What port is the server running on?&lt;/p&gt;
+running. You didn&amp;rsquo;t event start a server. Where is the client connecting? How does the client code
+know where to connect? What port is the server running on?&lt;/p&gt;
 
 &lt;p&gt;When you author a service and are able to install it as a Python package, you can talk to it just
 as if it were running on a remote system. The magic here is that the servant client code imports
@@ -162,9 +206,9 @@ client.configure(&#39;remote-host-name-or-ip&#39;)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The big advantage to this is that it&amp;rsquo;s trivially easy to start developing and testing your service.
-The code which gets executed is almost exactly the same. Of course, running on a real server rather
-than as a local library cannot be &lt;em&gt;identical&lt;/em&gt;, but it&amp;rsquo;s quite close and any differences are
-definitely worth the increase in productivity.&lt;/p&gt;
+Unit testing is &lt;em&gt;really&lt;/em&gt; easy.  The code which gets executed is almost exactly the same. Of course,
+running on a real server rather than as a local library cannot be &lt;em&gt;identical&lt;/em&gt;, but it&amp;rsquo;s quite close
+and any differences are definitely worth the increase in productivity.&lt;/p&gt;
 
 &lt;h2 id=&#34;why-servant:9879b9e4b526681137999e709cb09eff&#34;&gt;Why servant?&lt;/h2&gt;
 
@@ -211,7 +255,10 @@ you&amp;rsquo;ll see example of how to run the demo via &lt;code&gt;uwsgi&lt;/co
 
 &lt;p&gt;Servant has served us quite well at work and I really would like to keep iterating on it. It&amp;rsquo;s open
 source, so if you&amp;rsquo;re interested clone the repo and give it a try. I haven&amp;rsquo;t looked at the current
-landscape for service libraries in Python but know that others are popping up here and there.&lt;/p&gt;
+landscape for service libraries in Python in a while but know that others are popping up here and
+there. Still, I do know that there aren&amp;rsquo;t any really big libraries that the community if flocking
+to when starting their journey into a microservice architecture. From what I can tell people mostly
+reach for a REST or REST-like design when building services.&lt;/p&gt;
 
 &lt;p&gt;In a future post I&amp;rsquo;ll go into some more detail about servant and some ideas that I&amp;rsquo;ve had but
 haven&amp;rsquo;t been implemented yet.&lt;/p&gt;
@@ -219,7 +266,7 @@ haven&amp;rsquo;t been implemented yet.&lt;/p&gt;
     </item>
     
     <item>
-      <title>blog theme</title>
+      <title>Blog theme</title>
       <link>http://blog.brianz.bz/post/blog-theme/</link>
       <pubDate>Wed, 23 Mar 2016 11:02:01 -0600</pubDate>
       
@@ -269,7 +316,7 @@ blog if you&amp;rsquo;re interested in what I did to make the change.&lt;/p&gt;
     </item>
     
     <item>
-      <title>getting started with hugo</title>
+      <title>Getting started with hugo</title>
       <link>http://blog.brianz.bz/post/getting-started-with-hugo/</link>
       <pubDate>Mon, 21 Mar 2016 15:45:26 -0600</pubDate>
       
