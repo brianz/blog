@@ -4,7 +4,7 @@ draft = false
 tags = [
     "hugo"
 ]
-title = "getting started with hugo"
+title = "Getting started with hugo"
 
 +++
 

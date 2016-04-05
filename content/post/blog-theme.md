@@ -2,7 +2,7 @@
 date = "2016-03-23T11:02:01-06:00"
 draft = false
 tags = []
-title = "blog theme"
+title = "Blog theme"
 
 +++
 
