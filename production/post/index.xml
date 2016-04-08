@@ -6,8 +6,55 @@
     <description>Recent content in Posts on Brian Z</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Mon, 04 Apr 2016 17:26:23 -0600</lastBuildDate>
+    <lastBuildDate>Thu, 07 Apr 2016 18:41:18 -0600</lastBuildDate>
     <atom:link href="http://blog.brianz.bz/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>On technical blogging</title>
+      <link>http://blog.brianz.bz/post/on-technical-blogging/</link>
+      <pubDate>Thu, 07 Apr 2016 18:41:18 -0600</pubDate>
+      
+      <guid>http://blog.brianz.bz/post/on-technical-blogging/</guid>
+      <description>&lt;p&gt;As I mentioned in my &lt;a href=&#34;http://blog.brianz.bz/post/getting-started-with-hugo/&#34;&gt;inaugural post&lt;/a&gt;, I had been wanting to start a technical blog for some time.
+Mainly a a way of capturing things I learn or discover so that it can benefit others. As an
+engineer I consume a &lt;em&gt;lot&lt;/em&gt; of content on the web. Let&amp;rsquo;s face it, when we hit some technical hurdle
+or are trying to figure something out that we haven&amp;rsquo;t seen before, our job become that of an
+internet sleuth, combing the web for answers on StackOverflow, blogs, etc.&lt;/p&gt;
+
+&lt;p&gt;By nature I&amp;rsquo;m not much of a self promoter and in some ways, I&amp;rsquo;ve tended to view blogs and &amp;ldquo;personal
+brands&amp;rdquo; as shameless self-promotion (nothing personal &lt;a href=&#34;http://simpleprogrammer.com&#34;&gt;John Sonmez&lt;/a&gt; or
+other bloggers).
+One day I listened to &lt;a href=&#34;http://simpleprogrammer.com&#34;&gt;John&lt;/a&gt; on the &lt;a href=&#34;http://www.se-radio.net/2015/12/se-radio-episode-245-john-sonmez-on-marketing-yourself-and-managing-your-career/&#34;&gt;Software Engineering
+Radio Podcast&lt;/a&gt;
+where his topic was that of soft skills. I&amp;rsquo;m old enough to realize that the smartest engineers
+are not necessarily the most successful. Being a good engineer is &lt;strong&gt;really&lt;/strong&gt; important&amp;hellip;but it&amp;rsquo;s
+good to have some personal skills rather than being the Doritos-eating-mt-dew-drinking person who
+lives in a hovel and cranks out code. The soft skills are the ones which can really propel your
+career and work forward taking it from great or good to amazing. Soft skills were the topic of
+discussion in this podcast interview with John and it really resonated with me&amp;hellip;with that I got
+over my unfair view of being a self-promoter and whipped this up.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve jumped in head first and signed up for John&amp;rsquo;s 7-part course on boosting your career. Now, I
+can&amp;rsquo;t say one way or another how or &lt;em&gt;if&lt;/em&gt; this will help your career trajectory, but it&amp;rsquo;s really
+helped to motivate me to get this blog up and running and to attempt to be a bit more visible in
+the &amp;ldquo;public&amp;rdquo; eye. I highly recommend it:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://devcareerboost.com/blog-course/&#34;&gt;http://devcareerboost.com/blog-course/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;As a real example, I authored and open sourced the &lt;a href=&#34;https://github.com/clearcare/servant&#34;&gt;servant
+library&lt;/a&gt; over a year ago. We&amp;rsquo;ve been running in production at
+work for &lt;em&gt;over a year&lt;/em&gt;&amp;hellip;but it hasn&amp;rsquo;t been publicized outside of my small team. Just blogging
+about it and creating some links could help somewhere out there who&amp;rsquo;s interested in authoring a
+microservice with Python. And, even if that doesn&amp;rsquo;t happen, it&amp;rsquo;s been fun to talk about what I work
+on and show something that I&amp;rsquo;m proud of, even if the audience is small.&lt;/p&gt;
+
+&lt;p&gt;John&amp;rsquo;s email campaign is pretty light and gives you some practical assignments to get your blog up and
+running. I can definitely say that I wouldn&amp;rsquo;t be writing this now had I not enrolled&amp;hellip;so with
+that, I tip my hat to &lt;a href=&#34;http://simpleprogrammer.com&#34;&gt;John&lt;/a&gt; and say thank you!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://media.giphy.com/media/l2JJHgjz1uaEncXew/giphy.gif&#34; title=&#34;Thank you sir&#34; &gt;&lt;/img&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Introducing servant</title>
