@@ -1,6 +1,6 @@
 +++
-date = "2016-04-07T18:10:36-06:00"
-draft = true
+date = "2016-04-07T18:41:18-06:00"
+draft = false
 tags = [
     "career development",
     "sonmez"
