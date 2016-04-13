@@ -1,13 +1,12 @@
 +++
-date = "2016-04-12T20:33:29-06:00"
-draft = true
+date = "2016-04-13T07:24:44-06:00"
+draft = false
 tags = [
     "docker"
 ]
 title = "If you're not using Docker you should be"
 
 +++
-
 
 If you're a developer and don't live under a rock you've undoubtedly heard of
 [Docker](https://www.docker.com).  There are *many many* sites out there which will tell you about
@@ -22,12 +21,12 @@ Docker can help you which you may not realize or have thought about.
 
 ## Throw away work
 
-As a heavy user of Python I was very accostomed to using `virtualenv` and `virtualenvwrapper` to
+As a heavy user of Python I was very accustomed to using `virtualenv` and `virtualenvwrapper` to
 test things out.  Want to test out Kafka or Sphinx or whatever?  No problem, create a new
-`virtualenv`, install all of your requirements and voila...when your'e done simply `rmvirtualenv
+`virtualenv`, install all of your requirements and voila...when you're done simply `rmvirtualenv
 mytest` and you're done.
 
-With Docker, the need for `virtualenv` pretty much goes aways (although, I'm not getting rid of it
+With Docker, the need for `virtualenv` pretty much goes always (although, I'm not getting rid of it
 anytime soon).  Since containers are so cheap it's trivial to build you're own Docker image and
 install all of the packages you need.  Here's a two-line `Dockerfile` which will work and can be
 used to build documentation using the popular (Sphinx)[http://sphinx.pocoo.org] library...I'll
@@ -59,7 +58,7 @@ root@675a26dba565:/code# sphinx-quickstart
 
 After stepping through the `sphinx-quickstart` I'm done and can now edit my files on my host system
 and build the docs using Sphinx on the Docker container. Even when the Docker container is nuked,
-provided I use the volume (using `-v $(pwd):/code`) the files on your host are visibile from within
+provided I use the volume (using `-v $(pwd):/code`) the files on your host are visible from within
 your container.
 
 This makes is really really easy to use Docker as a sort of **package manager** for *any* system,
@@ -76,7 +75,7 @@ kind as to give you a demo `docker-compose.yml`:
 https://hub.docker.com/_/wordpress/
 
 If you use the example `docker-compose.yml` all you really need to do is hit the IP address of your
-host running the Docker deamon and voilá...Wordpress. Just like above, I classify this as
+host running the Docker daemon and voilà...Wordpress. Just like above, I classify this as
 throw-away work because I was just playing around and figuring out how to manipulate Wordpress.
 But, the ease and speed at which Docker allows you to spin up a system comprised of multiple
 components (a PHP/Apache server and MySQL db in this case) is incredible. Wordpress isn't even that
