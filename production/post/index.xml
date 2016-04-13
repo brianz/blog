@@ -23,6 +23,10 @@ how to use Docker and how to start using it&amp;hellip;this will not be one of t
 to write about some practical advantages about Docker which I&amp;rsquo;ve learned that weren&amp;rsquo;t super obvious
 when getting started.&lt;/p&gt;
 
+&lt;p&gt;How does this intersect with building SAAS systems? Very broadly, Docker is an amazing tool which
+makes building SAAS systems much easier. The following isn&amp;rsquo;t focused on SAAS applications directly
+but I will talk about using docker in the SAAS context in future posts.&lt;/p&gt;
+
 &lt;p&gt;I&amp;rsquo;ll start off by reiterating, &lt;strong&gt;if you&amp;rsquo;re not using Docker you should be&lt;/strong&gt;.  It really is quite an
 amazing tool.  No software tool is perfect and Docker is no different.  Still, new the problems you
 find from going the Docker route are shadowed by the problems it solves. Here are a few ways that

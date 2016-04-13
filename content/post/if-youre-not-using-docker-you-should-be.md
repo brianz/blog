@@ -8,11 +8,16 @@ title = "If you're not using Docker you should be"
 
 +++
 
+
 If you're a developer and don't live under a rock you've undoubtedly heard of
 [Docker](https://www.docker.com).  There are *many many* sites out there which will tell you about
 how to use Docker and how to start using it...this will not be one of those posts. Rather, I'd like
 to write about some practical advantages about Docker which I've learned that weren't super obvious
 when getting started.
+
+How does this intersect with building SAAS systems? Very broadly, Docker is an amazing tool which
+makes building SAAS systems much easier. The following isn't focused on SAAS applications directly
+but I will talk about using docker in the SAAS context in future posts.
 
 I'll start off by reiterating, **if you're not using Docker you should be**.  It really is quite an
 amazing tool.  No software tool is perfect and Docker is no different.  Still, new the problems you
