@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.15" />
+
+  <title>If you&#39;re not using Docker you should be &middot; Brian Z</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="Brian Z" href="http://blog.brianz.bzindex.xml" />
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://blog.brianz.bzimg/favicon.ico" type="image/x-icon" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://blog.brianz.bz/">brianz</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="http://blog.brianz.bzindex.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+    </li>
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/brianzambrano" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/brian.zambrano" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://instagram.com/bzambrano" target="_blank"><i class="fa fa-instagram fa-fw"></i>Instagram</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/brianzambrano" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://news.ycombinator.com/user?id=brianz" target="_blank"><i class="fa fa-hacker-news fa-fw"></i>Hacker News</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/brianz" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://stackoverflow.com/users/87858" target="_blank"><i class="fa fa-stack-overflow fa-fw"></i>Stack Overflow</a>
+    </li>
+    
+
+  </ul>
+</div>
+
+
+  <div class="pure-g">
+  <div class="small-print pure-u-1 pure-u-md-1-1">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print pure-u-1 pure-u-md-1-1">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>If you&#39;re not using Docker you should be</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>13 Apr 2016, 07:24</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/docker">docker</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>If you&rsquo;re a developer and don&rsquo;t live under a rock you&rsquo;ve undoubtedly heard of
+<a href="https://www.docker.com">Docker</a>.  There are <em>many many</em> sites out there which will tell you about
+how to use Docker and how to start using it&hellip;this will not be one of those posts. Rather, I&rsquo;d like
+to write about some practical advantages about Docker which I&rsquo;ve learned that weren&rsquo;t super obvious
+when getting started.</p>
+
+<p>I&rsquo;ll start off by reiterating, <strong>if you&rsquo;re not using Docker you should be</strong>.  It really is quite an
+amazing tool.  No software tool is perfect and Docker is no different.  Still, new the problems you
+find from going the Docker route are shadowed by the problems it solves. Here are a few ways that
+Docker can help you which you may not realize or have thought about.</p>
+
+<h2 id="throw-away-work:0d4479024504bf6891234dff2c30a8b8">Throw away work</h2>
+
+<p>As a heavy user of Python I was very accustomed to using <code>virtualenv</code> and <code>virtualenvwrapper</code> to
+test things out.  Want to test out Kafka or Sphinx or whatever?  No problem, create a new
+<code>virtualenv</code>, install all of your requirements and voila&hellip;when you&rsquo;re done simply <code>rmvirtualenv
+mytest</code> and you&rsquo;re done.</p>
+
+<p>With Docker, the need for <code>virtualenv</code> pretty much goes always (although, I&rsquo;m not getting rid of it
+anytime soon).  Since containers are so cheap it&rsquo;s trivial to build you&rsquo;re own Docker image and
+install all of the packages you need.  Here&rsquo;s a two-line <code>Dockerfile</code> which will work and can be
+used to build documentation using the popular (Sphinx)[<a href="http://sphinx.pocoo.org">http://sphinx.pocoo.org</a>] library&hellip;I&rsquo;ll
+install some extension just for fun:</p>
+
+<pre><code># Dockerfile
+FROM python:2.7
+
+RUN pip install sphinx sphinxcontrib-argdoc
+</code></pre>
+
+<p>Now, let&rsquo;s build it:</p>
+
+<pre><code>docker build -t bz/sphinx .
+</code></pre>
+
+<p>And now you have a little Docker image named <code>bz/sphinx</code> which you can use to build Sphinx documentation. Doing that
+may not be as obvious as you&rsquo;d think. If you create a container and write/build your docs,
+everything will disappear once the container is killed. The trick is to mount a local folder on
+your host system as a volume in the Docker container.</p>
+
+<pre><code>brianz@bz-cconline$ docker run --rm -it -v `pwd`:/code  bz/sphinx  bash
+root@675a26dba565:/# cd /code/
+root@675a26dba565:/code# sphinx-quickstart
+</code></pre>
+
+<p>After stepping through the <code>sphinx-quickstart</code> I&rsquo;m done and can now edit my files on my host system
+and build the docs using Sphinx on the Docker container. Even when the Docker container is nuked,
+provided I use the volume (using <code>-v $(pwd):/code</code>) the files on your host are visible from within
+your container.</p>
+
+<p>This makes is really really easy to use Docker as a sort of <strong>package manager</strong> for <em>any</em> system,
+language or ecosystem. I&rsquo;ve used it for Node, Java and Python to name a few&hellip;it&rsquo;s awesome.</p>
+
+<h2 id="testing-a-somewhat-complex-system:0d4479024504bf6891234dff2c30a8b8">Testing a somewhat complex system</h2>
+
+<p>A while ago I wanted to play around with Wordpress a bit. I have no idea how to set up Wordpress or
+what the requirements are other than something with PHP&hellip;definitely not my world. Of course, I
+reached for Docker and docker-compose.  Sure enough, there is an official image which is even so
+kind as to give you a demo <code>docker-compose.yml</code>:</p>
+
+<p><a href="https://hub.docker.com/_/wordpress/">https://hub.docker.com/_/wordpress/</a></p>
+
+<p>If you use the example <code>docker-compose.yml</code> all you really need to do is hit the IP address of your
+host running the Docker daemon and voilà&hellip;Wordpress. Just like above, I classify this as
+throw-away work because I was just playing around and figuring out how to manipulate Wordpress.
+But, the ease and speed at which Docker allows you to spin up a system comprised of multiple
+components (a PHP/Apache server and MySQL db in this case) is incredible. Wordpress isn&rsquo;t even that
+complicated, but there are many <code>docker-compose.yml</code> references out there for much more complex
+systems allow you to either do zero work or make some light tweaks to get things to suit your
+needs.</p>
+
+<h2 id="helper-scripts:0d4479024504bf6891234dff2c30a8b8">Helper scripts</h2>
+
+<p>There is a small theme here&hellip;since containers are well, self-contained, you can use them as
+package managers in some sense.  This is sort of a contrived example but imagine you want to use
+the <code>opencv</code> library to run some image analysis. In the past you&rsquo;d probably spend 8 hours trying to
+figure out how to install it on your Mac or even on a Linux machine. Google around a bit and
+chances are someone has already created an image&hellip;yup..here we go!
+<a href="https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/">https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/</a></p>
+
+<p>Now I can use this image as a <em>utility</em> rather than as a running system. Since containers spin up
+and down so quickly there is no reason why we can&rsquo;t consider them executables for <em>any</em> command.
+Just to make sure I wasn&rsquo;t lying I went ahead and did this&hellip;it took a <em>little</em> tweaking but not
+much.  I was able to successfully:</p>
+
+<ul>
+<li>Build a Docker image based on the image above</li>
+<li>Install some extra requirements</li>
+<li>Create a color histogram from a <a href="http://blog.brianz.bz/images/house.jpg">random image</a></li>
+</ul>
+
+<p>Here&rsquo;s the <code>Dockerfile</code></p>
+
+<pre><code># Dockerfile
+FROM kavolorn/opencv
+
+RUN apt-get update
+RUN apt-get install -y curl
+RUN curl -O https://bootstrap.pypa.io/get-pip.py
+RUN python3 get-pip.py
+RUN apt-get install -y libfreetype6-dev
+RUN python3 -m pip install matplotlib
+</code></pre>
+
+<p>And the Python3 file to create the histogram&hellip;mostly <a href="http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_begins/py_histogram_begins.html">copied from
+here</a></p>
+
+<pre><code># histo.py
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('house.jpg', 0)
+
+# create a mask
+mask = np.zeros(img.shape[:2], np.uint8)
+mask[100:300, 100:400] = 255
+masked_img = cv2.bitwise_and(img,img,mask = mask)
+
+# Calculate histogram with mask and without mask
+# Check third argument for mask
+hist_full = cv2.calcHist([img],[0],None,[256],[0,256])
+hist_mask = cv2.calcHist([img],[0],mask,[256],[0,256])
+
+plt.subplot(221)
+plt.imshow(img, 'gray')
+
+plt.subplot(222)
+plt.imshow(mask,'gray')
+
+plt.subplot(223)
+plt.imshow(masked_img, 'gray')
+
+plt.subplot(224)
+plt.plot(hist_full)
+plt.plot(hist_mask)
+
+plt.xlim([0,256])
+
+plt.savefig('histogram.png')
+</code></pre>
+
+<p>And here is how I ran it:</p>
+
+<pre><code># build the image
+&gt; docker build -t bz/opencv .
+# run the image
+&gt; docker run --rm -it -v $(pwd):/code bz/opencv bash
+root@f278f7a7124e:/# 
+root@f278f7a7124e:/# cd /code
+root@f278f7a7124e:/code# python histo.py
+</code></pre>
+
+<p>And with that, I get an image on my <em>local</em> system which I can open:</p>
+
+<p><img src="http://blog.brianz.bz/images/histogram.png" alt="color-histogram" /></p>
+
+<p>From here it&rsquo;d be pretty easy to add an <code>ENTRYPOINT</code> and <code>CMD</code> so that we could tell a container to
+run this script on startup and point it to any random image.</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://blog.brianz.bz/post/on-technical-blogging/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://blog.brianz.bz/post/on-technical-blogging/">On technical blogging</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'brianz';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://blog.brianz.bzjs/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75475240-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+
