@@ -100,7 +100,10 @@ much.  I was able to successfully:
 
 - Build a Docker image based on the image above
 - Install some extra requirements
-- Create a color histogram from a <a href="/images/house.jpg">random image</a>
+- Create a color histogram from a 
+  <a href="http://static6.businessinsider.com/image/55918b77ecad04a3465a0a63/nbc-fires-donald-trump-after-he-calls-mexicans-rapists-and-drug-runners.jpg">random image of Donald Trump</a>
+
+![the-donald](/images/donald.jpg)
 
 Here's the `Dockerfile`
 
@@ -116,6 +119,12 @@ RUN apt-get install -y libfreetype6-dev
 RUN python3 -m pip install matplotlib
 ```
 
+Now, let's build it:
+
+```
+> docker build -t bz/opencv .
+```
+
 And the Python3 file to create the histogram...mostly [copied from
 here](http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_begins/py_histogram_begins.html)
 
@@ -125,41 +134,20 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-img = cv2.imread('house.jpg', 0)
-
-# create a mask
-mask = np.zeros(img.shape[:2], np.uint8)
-mask[100:300, 100:400] = 255
-masked_img = cv2.bitwise_and(img,img,mask = mask)
-
-# Calculate histogram with mask and without mask
-# Check third argument for mask
-hist_full = cv2.calcHist([img],[0],None,[256],[0,256])
-hist_mask = cv2.calcHist([img],[0],mask,[256],[0,256])
-
-plt.subplot(221)
-plt.imshow(img, 'gray')
-
-plt.subplot(222)
-plt.imshow(mask,'gray')
-
-plt.subplot(223)
-plt.imshow(masked_img, 'gray')
-
-plt.subplot(224)
-plt.plot(hist_full)
-plt.plot(hist_mask)
-
-plt.xlim([0,256])
-
+img = cv2.imread('donald.jpg',0)
+plt.hist(img.ravel(),256,[0,256])
 plt.savefig('histogram.png')
 ```
 
-And here is how I ran it:
+All we'll do now is launch a container from this new `bz/opencv` image and again, mount our current working directory as a volume
+in the container. Using this technique allows us to read/write files on either the host or
+container and see those changes in both places.
+
+The Python code above will be running inside the container. This line:
+`plt.savefig('histogram.png')` will write a new png file in the container...however, because we
+mounted this as a volume it will end up on our *local* system. Nice.
 
 ```
-# build the image
-> docker build -t bz/opencv .
 # run the image
 > docker run --rm -it -v $(pwd):/code bz/opencv bash
 root@f278f7a7124e:/# 
@@ -169,7 +157,24 @@ root@f278f7a7124e:/code# python histo.py
 
 And with that, I get an image on my *local* system which I can open:
 
+```
+brianz@gold$ pwd
+/Users/brianz/dev/opencv-test
+brianz@gold$ open histogram.png 
+```
+
 ![color-histogram](/images/histogram.png)
 
 From here it'd be pretty easy to add an `ENTRYPOINT` and `CMD` so that we could tell a container to
-run this script on startup and point it to any random image.
+run this script on startup and point it to any random image. A setup such as this would turn our
+Docker image into an executable rather than a long-lived running system. 
+
+A few tweaks to the python script could be made such that the command to create
+historgrams from images would look something like the following:
+
+```
+> docker run --rm \
+    -v path/to/images:/images \
+    bz/opencv \
+    python3 histo.py --in-file=some-image.jpg --out-file=some-image-histogram.png
+```

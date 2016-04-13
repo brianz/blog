@@ -105,8 +105,11 @@ much.  I was able to successfully:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Build a Docker image based on the image above&lt;/li&gt;
 &lt;li&gt;Install some extra requirements&lt;/li&gt;
-&lt;li&gt;Create a color histogram from a &lt;a href=&#34;http://blog.brianz.bz/images/house.jpg&#34;&gt;random image&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Create a color histogram from a
+&lt;a href=&#34;http://static6.businessinsider.com/image/55918b77ecad04a3465a0a63/nbc-fires-donald-trump-after-he-calls-mexicans-rapists-and-drug-runners.jpg&#34;&gt;random image of Donald Trump&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.brianz.bz/images/donald.jpg&#34; alt=&#34;the-donald&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Here&amp;rsquo;s the &lt;code&gt;Dockerfile&lt;/code&gt;&lt;/p&gt;
 
@@ -121,6 +124,11 @@ RUN apt-get install -y libfreetype6-dev
 RUN python3 -m pip install matplotlib
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;p&gt;Now, let&amp;rsquo;s build it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; docker build -t bz/opencv .
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;And the Python3 file to create the histogram&amp;hellip;mostly &lt;a href=&#34;http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_begins/py_histogram_begins.html&#34;&gt;copied from
 here&lt;/a&gt;&lt;/p&gt;
 
@@ -129,41 +137,20 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-img = cv2.imread(&#39;house.jpg&#39;, 0)
-
-# create a mask
-mask = np.zeros(img.shape[:2], np.uint8)
-mask[100:300, 100:400] = 255
-masked_img = cv2.bitwise_and(img,img,mask = mask)
-
-# Calculate histogram with mask and without mask
-# Check third argument for mask
-hist_full = cv2.calcHist([img],[0],None,[256],[0,256])
-hist_mask = cv2.calcHist([img],[0],mask,[256],[0,256])
-
-plt.subplot(221)
-plt.imshow(img, &#39;gray&#39;)
-
-plt.subplot(222)
-plt.imshow(mask,&#39;gray&#39;)
-
-plt.subplot(223)
-plt.imshow(masked_img, &#39;gray&#39;)
-
-plt.subplot(224)
-plt.plot(hist_full)
-plt.plot(hist_mask)
-
-plt.xlim([0,256])
-
+img = cv2.imread(&#39;donald.jpg&#39;,0)
+plt.hist(img.ravel(),256,[0,256])
 plt.savefig(&#39;histogram.png&#39;)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;And here is how I ran it:&lt;/p&gt;
+&lt;p&gt;All we&amp;rsquo;ll do now is launch a container from this new &lt;code&gt;bz/opencv&lt;/code&gt; image and again, mount our current working directory as a volume
+in the container. Using this technique allows us to read/write files on either the host or
+container and see those changes in both places.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;# build the image
-&amp;gt; docker build -t bz/opencv .
-# run the image
+&lt;p&gt;The Python code above will be running inside the container. This line:
+&lt;code&gt;plt.savefig(&#39;histogram.png&#39;)&lt;/code&gt; will write a new png file in the container&amp;hellip;however, because we
+mounted this as a volume it will end up on our &lt;em&gt;local&lt;/em&gt; system. Nice.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# run the image
 &amp;gt; docker run --rm -it -v $(pwd):/code bz/opencv bash
 root@f278f7a7124e:/# 
 root@f278f7a7124e:/# cd /code
@@ -172,10 +159,25 @@ root@f278f7a7124e:/code# python histo.py
 
 &lt;p&gt;And with that, I get an image on my &lt;em&gt;local&lt;/em&gt; system which I can open:&lt;/p&gt;
 
+&lt;pre&gt;&lt;code&gt;brianz@gold$ pwd
+/Users/brianz/dev/opencv-test
+brianz@gold$ open histogram.png 
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;img src=&#34;http://blog.brianz.bz/images/histogram.png&#34; alt=&#34;color-histogram&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;From here it&amp;rsquo;d be pretty easy to add an &lt;code&gt;ENTRYPOINT&lt;/code&gt; and &lt;code&gt;CMD&lt;/code&gt; so that we could tell a container to
-run this script on startup and point it to any random image.&lt;/p&gt;
+run this script on startup and point it to any random image. A setup such as this would turn our
+Docker image into an executable rather than a long-lived running system.&lt;/p&gt;
+
+&lt;p&gt;A few tweaks to the python script could be made such that the command to create
+historgrams from images would look something like the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; docker run --rm \
+    -v path/to/images:/images \
+    bz/opencv \
+    python3 histo.py --in-file=some-image.jpg --out-file=some-image-histogram.png
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
