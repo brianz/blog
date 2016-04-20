@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.15" />
+
+  <title>Serverless part I &middot; Brian Z</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="Brian Z" href="http://blog.brianz.bzindex.xml" />
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://blog.brianz.bzimg/favicon.ico" type="image/x-icon" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://blog.brianz.bz/">brianz</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="http://blog.brianz.bzindex.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+    </li>
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/brianzambrano" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/brian.zambrano" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://instagram.com/bzambrano" target="_blank"><i class="fa fa-instagram fa-fw"></i>Instagram</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/brianzambrano" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://news.ycombinator.com/user?id=brianz" target="_blank"><i class="fa fa-hacker-news fa-fw"></i>Hacker News</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/brianz" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://stackoverflow.com/users/87858" target="_blank"><i class="fa fa-stack-overflow fa-fw"></i>Stack Overflow</a>
+    </li>
+    
+
+  </ul>
+</div>
+
+
+  <div class="pure-g">
+  <div class="small-print pure-u-1 pure-u-md-1-1">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print pure-u-1 pure-u-md-1-1">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Serverless part I</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>20 Apr 2016, 16:08</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/aws">aws</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/architecture">architecture</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/serverless">serverless</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>It&rsquo;s a pretty exciting (and challenging) time to build software-based applications. Every week
+there are more and more tools to make our jobs easier or to enable us to focus on <em>application</em>
+development rather than dealing with the infrastructure around those applications. Of course, this
+makes our jobs challenging since we need to keep up with the innovation.</p>
+
+<p>This will be part one of a multi-part series about &ldquo;serverless&rdquo; architecture/design. I hesitate to
+call this &ldquo;architecture&rdquo; but it&rsquo;s definitely a way of doing things both from an infrastructure (or
+lack of) side and code organization. The possibility of running web applications without any servers
+has become a reality fairly recently and kicked off multiple projects around this idea.
+What I&rsquo;d like to do in Part I is to simply give an intro to &ldquo;serverless&rdquo; and talk through some moving parts.</p>
+
+<p>The big question, what is serverless?</p>
+
+<blockquote>
+<p>Serverless is a way to author a HTTP service using <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html" target="_blank">AWS API
+Gateway</a> and
+<a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank">AWS Lambda</a> which
+eliminates the need to manage or maintain any running servers or EC2 instances. Any servers used to
+process HTTP requests are managed by AWS and never exposed to you as the application developer.</p>
+</blockquote>
+
+<p>As a point of clarification, there is a project named Serverless. I&rsquo;ll try to differentiate the
+<em>term</em> &ldquo;serverless&rdquo; from the <em>project</em> Serverless by capitalizing the project.</p>
+
+<h2 id="api-gateway:16049c44302f91a3835f9f8afd5f9708">API Gateway</h2>
+
+<p>In July of 2015 <a href="https://aws.amazon.com/blogs/aws/amazon-api-gateway-build-and-run-scalable-application-backends/" target="_blank">AWS released API
+Gateway</a>
+which is a service to create and manage public API
+endpoints on your behalf. Gateway is comprised of two services really:</p>
+
+<ul>
+<li>control service to expose a REST endpoint</li>
+<li>execution service to run some code or backend system</li>
+</ul>
+
+<p>There&rsquo;s much more to it of course so I encourage you to <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html" target="_blank">read the docs from
+AWS</a>. For the purpose of
+this post we don&rsquo;t need to go into a <em>ton</em> of detail around API Gateway&hellip;just imagine that you can
+click a few buttons (or make some AWS API calls) and wind up with a URL that you can immediately start
+hitting with <code>curl</code> without setting up or managing EC2 instances. This is the first step in the
+world of &ldquo;serverless&rdquo;&hellip;getting a pubic HTTP endpoint without managing any servers.</p>
+
+<p><em>Without</em> API Gateway standing up a webserver which does something as simple as returning and empty
+response in response to a query to a public URL is quite an endeavor:</p>
+
+<ul>
+<li>spin up a cloud server</li>
+<li>install a webserver like nginx</li>
+<li>(optionally) pointing DNS at your cloud server</li>
+</ul>
+
+<p>Even if you&rsquo;re skilled at this, it&rsquo;s going to take several minutes. With API Gateway you can
+literally accomplish the same thing in 30 seconds. Not only that, you&rsquo;ll be paying every minute
+that your EC2 instance is running, regardless of the load. With API Gateway you pay per call.</p>
+
+<h2 id="lambda:16049c44302f91a3835f9f8afd5f9708">Lambda</h2>
+
+<p>So what is Lambda? <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank">From Amazon</a>:</p>
+
+<blockquote>
+<p>AWS Lambda is a compute service where you can upload your code to AWS Lambda and the service can
+run the code on your behalf using AWS infrastructure.</p>
+</blockquote>
+
+<p>What does that mean <em>exactly</em>?  Well, with Lambda you can</p>
+
+<ul>
+<li>author code in Java, Python or JavaScript/Node</li>
+<li>package your code in a zip file</li>
+<li>upload it to the Lambda service</li>
+<li>tell amazon to run your code</li>
+</ul>
+
+<p>What exactly can your code actually <em>do</em> though?  Again, this is mostly up to you. While there are
+some constraints you need to abide by (mostly around execution time and memory) you can do almost
+anything. Provided your code has access to any supporting libraries it needs, AWS will take care of
+the runtime. Your code is executed based on some trigger and once it&rsquo;s done, poof! There are no
+running servers (which you need to manage) which allows you to focus on your code.</p>
+
+<p>When it&rsquo;s being executed, AWS will magically unpack your code, run it and then be done with it until the next time
+it&rsquo;s run. There are several beautiful things about this:</p>
+
+<ul>
+<li>No servers to maintain</li>
+<li>Pay by execution time&hellip;no wasted cycles</li>
+<li>Ability to execute a Lambda from various triggers</li>
+</ul>
+
+<h2 id="api-gateway-lambda-serverless:16049c44302f91a3835f9f8afd5f9708">API Gateway + Lambda == Serverless</h2>
+
+<p>The confluence of API Gateway and Lambda is what serverless is all about. Above I described how
+easy it is to build a public URL which doesn&rsquo;t do anything. That&rsquo;s not interesting at all, but
+becomes interesting when you can have that API call trigger a Lambda function. Gateway actually
+supports different execution services:</p>
+
+<ul>
+<li>HTTP proxy</li>
+<li>Mock integration</li>
+<li>AWS Service Proxy</li>
+<li>Lambda function</li>
+</ul>
+
+<p>I&rsquo;m not going to talk about the first three&hellip;we&rsquo;re really interested in having API Gateway execute
+a Lambda function on our behalf.  This is the foundation of serverless&hellip;.API Gateway calls your custom
+Lambda function.  Your Lambda function can do whatever you can come up with and provide a response
+which is returned to the caller of your HTTP endpoint.  Your Lambda function could:</p>
+
+<ul>
+<li>fetch data from a database</li>
+<li>write data to a database</li>
+<li>kick off some processes with Kinesis</li>
+<li>anything you manage to accomplish with Lambda</li>
+</ul>
+
+<p>The power of this may or may not have hit you, but here it is: if you can write all of your application code as Lambda
+functions you have now created a <strong>completely serverless REST API</strong>.</p>
+
+<p>Let&rsquo;s drill in on this. Imagine making a HTTP call, getting a response
+and not having to manage a single EC2 instance (or any other type of server). Furthermore, that
+single call cost a fraction of a penny. If you look at the <a href="https://aws.amazon.com/lambda/pricing/" target="_blank">pricing for
+Lambda</a> and <a href="https://aws.amazon.com/api-gateway/pricing/" target="_blank">pricing for
+Gateway</a> you&rsquo;ll get a feel for how cheap this can be.</p>
+
+<h2 id="serverless-project:16049c44302f91a3835f9f8afd5f9708">Serverless project</h2>
+
+<p>One of my big questions was how this fits into the normal development cycle. Sure, this is
+<strong>super</strong> powerful, but how do I actually <em>use</em> it in the real world. Other folks are realizing the
+power of these systems and as usual, tooling is being built up around the AWS services.</p>
+
+<p>One of the more popular projects and one which I was referred to by the AWS folks is
+<a href="http://serverless.com" target="_blank">http://serverless.com</a>. There area
+others&hellip;here&rsquo;s one to run <a href="https://github.com/Miserlou/django-zappa" target="_blank">Django via Gateway/Lambda</a>
+and yet another one <a href="https://github.com/Miserlou/flask-zappa" target="_blank">doing the same thing with Flask</a>. I&rsquo;m
+sure there are other&hellip;Google <code>&quot;serverless fill-in-the-blank&quot;</code> and you&rsquo;ll undoubtedly find something
+interesting.</p>
+
+<p>In my initial testing the Serverless project is pretty nice. Since its main job is to wrap API
+calls to API Gateway and Lambda you&rsquo;ll need to understand those two services on your own before you
+can start building things with Serverless. In my experience that&rsquo;s pretty much always the case with
+any tool that wraps AWS services.</p>
+
+<p>That&rsquo;s the high level introduction to what serverless is all about. In Part II I&rsquo;ll do a walk
+through of the Serverless project and show some real-world examples of how to build something. Stay
+tuned!</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://blog.brianz.bz/post/if-youre-not-using-docker-you-should-be/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://blog.brianz.bz/post/if-youre-not-using-docker-you-should-be/">If you&#39;re not using Docker you should be</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'brianz';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://blog.brianz.bzjs/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75475240-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+

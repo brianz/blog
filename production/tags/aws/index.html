@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.15" />
 
-  <title>On technical blogging &middot; Brian Z</title>
+  <title>Aws &middot; Brian Z</title>
 
   
   
@@ -189,16 +189,20 @@
 
 
 <div class="header">
-  <h1>On technical blogging</h1>
-  <h2></h2>
+  <h1>Aws</h1>
 </div>
-<div class="content">
 
-  <div class="post-meta">
+<div class="content">
+  
+    <article>
+  <header>
+    <h2><a href="http://blog.brianz.bz/post/serverless-part-i/">Serverless part I</a></h2>
+
+    <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>07 Apr 2016, 18:41</time>
+    <time>20 Apr 2016, 16:08</time>
   </div>
 
   
@@ -211,9 +215,11 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/career-development">career development</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/aws">aws</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/sonmez">sonmez</a>
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/architecture">architecture</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/serverless">serverless</a>
     
   </div>
   
@@ -221,99 +227,20 @@
 
 </div>
 
-  <p>As I mentioned in my <a href="http://blog.brianz.bz/post/getting-started-with-hugo/">inaugural post</a>, I had been wanting to start a technical blog for some time.
-Mainly a a way of capturing things I learn or discover so that it can benefit others. As an
-engineer I consume a <em>lot</em> of content on the web. Let&rsquo;s face it, when we hit some technical hurdle
-or are trying to figure something out that we haven&rsquo;t seen before, our job become that of an
-internet sleuth, combing the web for answers on StackOverflow, blogs, etc.</p>
+  </header>
 
-<p>By nature I&rsquo;m not much of a self promoter and in some ways, I&rsquo;ve tended to view blogs and &ldquo;personal
-brands&rdquo; as shameless self-promotion (nothing personal <a href="http://simpleprogrammer.com" target="_blank">John Sonmez</a> or
-other bloggers).
-One day I listened to <a href="http://simpleprogrammer.com" target="_blank">John</a> on the <a href="http://www.se-radio.net/2015/12/se-radio-episode-245-john-sonmez-on-marketing-yourself-and-managing-your-career/" target="_blank">Software Engineering
-Radio Podcast</a>
-where his topic was that of soft skills. I&rsquo;m old enough to realize that the smartest engineers
-are not necessarily the most successful. Being a good engineer is <strong>really</strong> important&hellip;but it&rsquo;s
-good to have some personal skills rather than being the Doritos-eating-mt-dew-drinking person who
-lives in a hovel and cranks out code. The soft skills are the ones which can really propel your
-career and work forward taking it from great or good to amazing. Soft skills were the topic of
-discussion in this podcast interview with John and it really resonated with me&hellip;with that I got
-over my unfair view of being a self-promoter and whipped this up.</p>
-
-<p>I&rsquo;ve jumped in head first and signed up for John&rsquo;s 7-part course on boosting your career. Now, I
-can&rsquo;t say one way or another how or <em>if</em> this will help your career trajectory, but it&rsquo;s really
-helped to motivate me to get this blog up and running and to attempt to be a bit more visible in
-the &ldquo;public&rdquo; eye. I highly recommend it:</p>
-
-<p><a href="http://devcareerboost.com/blog-course/" target="_blank">http://devcareerboost.com/blog-course/</a></p>
-
-<p>As a real example, I authored and open sourced the <a href="https://github.com/clearcare/servant" target="_blank">servant
-library</a> over a year ago. We&rsquo;ve been running in production at
-work for <em>over a year</em>&hellip;but it hasn&rsquo;t been publicized outside of my small team. Just blogging
-about it and creating some links could help somewhere out there who&rsquo;s interested in authoring a
-microservice with Python. And, even if that doesn&rsquo;t happen, it&rsquo;s been fun to talk about what I work
-on and show something that I&rsquo;m proud of, even if the audience is small.</p>
-
-<p>John&rsquo;s email campaign is pretty light and gives you some practical assignments to get your blog up and
-running. I can definitely say that I wouldn&rsquo;t be writing this now had I not enrolled&hellip;so with
-that, I tip my hat to <a href="http://simpleprogrammer.com" target="_blank">John</a> and say thank you!</p>
-
-<p><img src="https://media.giphy.com/media/l2JJHgjz1uaEncXew/giphy.gif" title="Thank you sir" ></img></p>
-
+  <p>
+  It&rsquo;s a pretty exciting (and challenging) time to build software-based applications. Every week there are more and more tools to make our jobs easier or to enable us to focus on application development rather than dealing with the infrastructure around those applications. Of course, this makes our jobs challenging since we need to keep up with the innovation. This will be part one of a multi-part series about &ldquo;serverless&rdquo; architecture/design. I hesitate to call this &ldquo;architecture&rdquo; but it&rsquo;s definitely a way of doing things both from an infrastructure (or lack of) side and code organization.
+  </p>
 
   
-<div class="prev-next-post pure-g">
-  <div class="pure-u-1-24" style="text-align: left;">
-    
-    <a href="http://blog.brianz.bz/post/introducting-servant/"><i class="fa fa-chevron-left"></i></a>
-    
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="prev">
-      <a href="http://blog.brianz.bz/post/introducting-servant/">Introducing servant</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-2-24">
-    &nbsp;
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="next">
-      <a href="http://blog.brianz.bz/post/if-youre-not-using-docker-you-should-be/">If you&#39;re not using Docker you should be</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="http://blog.brianz.bz/post/if-youre-not-using-docker-you-should-be/"><i class="fa fa-chevron-right"></i></a>
-    
-  </div>
-</div>
-
-
+  <footer>
+    <a href="http://blog.brianz.bz/post/serverless-part-i/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
 
   
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-
-(function() {
-    
-    
-    if (window.location.hostname == "localhost")
-        return;
-
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    var disqus_shortname = 'brianz';
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
 </div>
 
 </div>
@@ -336,4 +263,3 @@ that, I tip my hat to <a href="http://simpleprogrammer.com" target="_blank">John
 
 </body>
 </html>
-

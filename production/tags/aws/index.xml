@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Aws on Brian Z</title>
+    <link>http://blog.brianz.bz/tags/aws/</link>
+    <description>Recent content in Aws on Brian Z</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Wed, 20 Apr 2016 16:08:07 -0600</lastBuildDate>
+    <atom:link href="http://blog.brianz.bz/tags/aws/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Serverless part I</title>
+      <link>http://blog.brianz.bz/post/serverless-part-i/</link>
+      <pubDate>Wed, 20 Apr 2016 16:08:07 -0600</pubDate>
+      
+      <guid>http://blog.brianz.bz/post/serverless-part-i/</guid>
+      <description>
+
+&lt;p&gt;It&amp;rsquo;s a pretty exciting (and challenging) time to build software-based applications. Every week
+there are more and more tools to make our jobs easier or to enable us to focus on &lt;em&gt;application&lt;/em&gt;
+development rather than dealing with the infrastructure around those applications. Of course, this
+makes our jobs challenging since we need to keep up with the innovation.&lt;/p&gt;
+
+&lt;p&gt;This will be part one of a multi-part series about &amp;ldquo;serverless&amp;rdquo; architecture/design. I hesitate to
+call this &amp;ldquo;architecture&amp;rdquo; but it&amp;rsquo;s definitely a way of doing things both from an infrastructure (or
+lack of) side and code organization. The possibility of running web applications without any servers
+has become a reality fairly recently and kicked off multiple projects around this idea.
+What I&amp;rsquo;d like to do in Part I is to simply give an intro to &amp;ldquo;serverless&amp;rdquo; and talk through some moving parts.&lt;/p&gt;
+
+&lt;p&gt;The big question, what is serverless?&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Serverless is a way to author a HTTP service using &lt;a href=&#34;https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html&#34; target=&#34;_blank&#34;&gt;AWS API
+Gateway&lt;/a&gt; and
+&lt;a href=&#34;https://docs.aws.amazon.com/lambda/latest/dg/welcome.html&#34; target=&#34;_blank&#34;&gt;AWS Lambda&lt;/a&gt; which
+eliminates the need to manage or maintain any running servers or EC2 instances. Any servers used to
+process HTTP requests are managed by AWS and never exposed to you as the application developer.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As a point of clarification, there is a project named Serverless. I&amp;rsquo;ll try to differentiate the
+&lt;em&gt;term&lt;/em&gt; &amp;ldquo;serverless&amp;rdquo; from the &lt;em&gt;project&lt;/em&gt; Serverless by capitalizing the project.&lt;/p&gt;
+
+&lt;h2 id=&#34;api-gateway:16049c44302f91a3835f9f8afd5f9708&#34;&gt;API Gateway&lt;/h2&gt;
+
+&lt;p&gt;In July of 2015 &lt;a href=&#34;https://aws.amazon.com/blogs/aws/amazon-api-gateway-build-and-run-scalable-application-backends/&#34; target=&#34;_blank&#34;&gt;AWS released API
+Gateway&lt;/a&gt;
+which is a service to create and manage public API
+endpoints on your behalf. Gateway is comprised of two services really:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;control service to expose a REST endpoint&lt;/li&gt;
+&lt;li&gt;execution service to run some code or backend system&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There&amp;rsquo;s much more to it of course so I encourage you to &lt;a href=&#34;http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html&#34; target=&#34;_blank&#34;&gt;read the docs from
+AWS&lt;/a&gt;. For the purpose of
+this post we don&amp;rsquo;t need to go into a &lt;em&gt;ton&lt;/em&gt; of detail around API Gateway&amp;hellip;just imagine that you can
+click a few buttons (or make some AWS API calls) and wind up with a URL that you can immediately start
+hitting with &lt;code&gt;curl&lt;/code&gt; without setting up or managing EC2 instances. This is the first step in the
+world of &amp;ldquo;serverless&amp;rdquo;&amp;hellip;getting a pubic HTTP endpoint without managing any servers.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Without&lt;/em&gt; API Gateway standing up a webserver which does something as simple as returning and empty
+response in response to a query to a public URL is quite an endeavor:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;spin up a cloud server&lt;/li&gt;
+&lt;li&gt;install a webserver like nginx&lt;/li&gt;
+&lt;li&gt;(optionally) pointing DNS at your cloud server&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Even if you&amp;rsquo;re skilled at this, it&amp;rsquo;s going to take several minutes. With API Gateway you can
+literally accomplish the same thing in 30 seconds. Not only that, you&amp;rsquo;ll be paying every minute
+that your EC2 instance is running, regardless of the load. With API Gateway you pay per call.&lt;/p&gt;
+
+&lt;h2 id=&#34;lambda:16049c44302f91a3835f9f8afd5f9708&#34;&gt;Lambda&lt;/h2&gt;
+
+&lt;p&gt;So what is Lambda? &lt;a href=&#34;https://docs.aws.amazon.com/lambda/latest/dg/welcome.html&#34; target=&#34;_blank&#34;&gt;From Amazon&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;AWS Lambda is a compute service where you can upload your code to AWS Lambda and the service can
+run the code on your behalf using AWS infrastructure.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;What does that mean &lt;em&gt;exactly&lt;/em&gt;?  Well, with Lambda you can&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;author code in Java, Python or JavaScript/Node&lt;/li&gt;
+&lt;li&gt;package your code in a zip file&lt;/li&gt;
+&lt;li&gt;upload it to the Lambda service&lt;/li&gt;
+&lt;li&gt;tell amazon to run your code&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;What exactly can your code actually &lt;em&gt;do&lt;/em&gt; though?  Again, this is mostly up to you. While there are
+some constraints you need to abide by (mostly around execution time and memory) you can do almost
+anything. Provided your code has access to any supporting libraries it needs, AWS will take care of
+the runtime. Your code is executed based on some trigger and once it&amp;rsquo;s done, poof! There are no
+running servers (which you need to manage) which allows you to focus on your code.&lt;/p&gt;
+
+&lt;p&gt;When it&amp;rsquo;s being executed, AWS will magically unpack your code, run it and then be done with it until the next time
+it&amp;rsquo;s run. There are several beautiful things about this:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;No servers to maintain&lt;/li&gt;
+&lt;li&gt;Pay by execution time&amp;hellip;no wasted cycles&lt;/li&gt;
+&lt;li&gt;Ability to execute a Lambda from various triggers&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;api-gateway-lambda-serverless:16049c44302f91a3835f9f8afd5f9708&#34;&gt;API Gateway + Lambda == Serverless&lt;/h2&gt;
+
+&lt;p&gt;The confluence of API Gateway and Lambda is what serverless is all about. Above I described how
+easy it is to build a public URL which doesn&amp;rsquo;t do anything. That&amp;rsquo;s not interesting at all, but
+becomes interesting when you can have that API call trigger a Lambda function. Gateway actually
+supports different execution services:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;HTTP proxy&lt;/li&gt;
+&lt;li&gt;Mock integration&lt;/li&gt;
+&lt;li&gt;AWS Service Proxy&lt;/li&gt;
+&lt;li&gt;Lambda function&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I&amp;rsquo;m not going to talk about the first three&amp;hellip;we&amp;rsquo;re really interested in having API Gateway execute
+a Lambda function on our behalf.  This is the foundation of serverless&amp;hellip;.API Gateway calls your custom
+Lambda function.  Your Lambda function can do whatever you can come up with and provide a response
+which is returned to the caller of your HTTP endpoint.  Your Lambda function could:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;fetch data from a database&lt;/li&gt;
+&lt;li&gt;write data to a database&lt;/li&gt;
+&lt;li&gt;kick off some processes with Kinesis&lt;/li&gt;
+&lt;li&gt;anything you manage to accomplish with Lambda&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The power of this may or may not have hit you, but here it is: if you can write all of your application code as Lambda
+functions you have now created a &lt;strong&gt;completely serverless REST API&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s drill in on this. Imagine making a HTTP call, getting a response
+and not having to manage a single EC2 instance (or any other type of server). Furthermore, that
+single call cost a fraction of a penny. If you look at the &lt;a href=&#34;https://aws.amazon.com/lambda/pricing/&#34; target=&#34;_blank&#34;&gt;pricing for
+Lambda&lt;/a&gt; and &lt;a href=&#34;https://aws.amazon.com/api-gateway/pricing/&#34; target=&#34;_blank&#34;&gt;pricing for
+Gateway&lt;/a&gt; you&amp;rsquo;ll get a feel for how cheap this can be.&lt;/p&gt;
+
+&lt;h2 id=&#34;serverless-project:16049c44302f91a3835f9f8afd5f9708&#34;&gt;Serverless project&lt;/h2&gt;
+
+&lt;p&gt;One of my big questions was how this fits into the normal development cycle. Sure, this is
+&lt;strong&gt;super&lt;/strong&gt; powerful, but how do I actually &lt;em&gt;use&lt;/em&gt; it in the real world. Other folks are realizing the
+power of these systems and as usual, tooling is being built up around the AWS services.&lt;/p&gt;
+
+&lt;p&gt;One of the more popular projects and one which I was referred to by the AWS folks is
+&lt;a href=&#34;http://serverless.com&#34; target=&#34;_blank&#34;&gt;http://serverless.com&lt;/a&gt;. There area
+others&amp;hellip;here&amp;rsquo;s one to run &lt;a href=&#34;https://github.com/Miserlou/django-zappa&#34; target=&#34;_blank&#34;&gt;Django via Gateway/Lambda&lt;/a&gt;
+and yet another one &lt;a href=&#34;https://github.com/Miserlou/flask-zappa&#34; target=&#34;_blank&#34;&gt;doing the same thing with Flask&lt;/a&gt;. I&amp;rsquo;m
+sure there are other&amp;hellip;Google &lt;code&gt;&amp;quot;serverless fill-in-the-blank&amp;quot;&lt;/code&gt; and you&amp;rsquo;ll undoubtedly find something
+interesting.&lt;/p&gt;
+
+&lt;p&gt;In my initial testing the Serverless project is pretty nice. Since its main job is to wrap API
+calls to API Gateway and Lambda you&amp;rsquo;ll need to understand those two services on your own before you
+can start building things with Serverless. In my experience that&amp;rsquo;s pretty much always the case with
+any tool that wraps AWS services.&lt;/p&gt;
+
+&lt;p&gt;That&amp;rsquo;s the high level introduction to what serverless is all about. In Part II I&amp;rsquo;ll do a walk
+through of the Serverless project and show some real-world examples of how to build something. Stay
+tuned!&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

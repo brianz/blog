@@ -18,7 +18,7 @@
       <description>
 
 &lt;p&gt;If you&amp;rsquo;re a developer and don&amp;rsquo;t live under a rock you&amp;rsquo;ve undoubtedly heard of
-&lt;a href=&#34;https://www.docker.com&#34;&gt;Docker&lt;/a&gt;.  There are &lt;em&gt;many many&lt;/em&gt; sites out there which will tell you about
+&lt;a href=&#34;https://www.docker.com&#34; target=&#34;_blank&#34;&gt;Docker&lt;/a&gt;.  There are &lt;em&gt;many many&lt;/em&gt; sites out there which will tell you about
 how to use Docker and how to start using it&amp;hellip;this will not be one of those posts. Rather, I&amp;rsquo;d like
 to write about some practical advantages about Docker which I&amp;rsquo;ve learned that weren&amp;rsquo;t super obvious
 when getting started.&lt;/p&gt;
@@ -42,7 +42,7 @@ mytest&lt;/code&gt; and you&amp;rsquo;re done.&lt;/p&gt;
 &lt;p&gt;With Docker, the need for &lt;code&gt;virtualenv&lt;/code&gt; pretty much goes always (although, I&amp;rsquo;m not getting rid of it
 anytime soon).  Since containers are so cheap it&amp;rsquo;s trivial to build you&amp;rsquo;re own Docker image and
 install all of the packages you need.  Here&amp;rsquo;s a two-line &lt;code&gt;Dockerfile&lt;/code&gt; which will work and can be
-used to build documentation using the popular (Sphinx)[&lt;a href=&#34;http://sphinx.pocoo.org&#34;&gt;http://sphinx.pocoo.org&lt;/a&gt;] library&amp;hellip;I&amp;rsquo;ll
+used to build documentation using the popular (Sphinx)[&lt;a href=&#34;http://sphinx.pocoo.org&#34; target=&#34;_blank&#34;&gt;http://sphinx.pocoo.org&lt;/a&gt;] library&amp;hellip;I&amp;rsquo;ll
 install some extension just for fun:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;# Dockerfile
@@ -81,7 +81,7 @@ what the requirements are other than something with PHP&amp;hellip;definitely no
 reached for Docker and docker-compose.  Sure enough, there is an official image which is even so
 kind as to give you a demo &lt;code&gt;docker-compose.yml&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://hub.docker.com/_/wordpress/&#34;&gt;https://hub.docker.com/_/wordpress/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://hub.docker.com/_/wordpress/&#34; target=&#34;_blank&#34;&gt;https://hub.docker.com/_/wordpress/&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;If you use the example &lt;code&gt;docker-compose.yml&lt;/code&gt; all you really need to do is hit the IP address of your
 host running the Docker daemon and voilà&amp;hellip;Wordpress. Just like above, I classify this as
@@ -99,7 +99,7 @@ package managers in some sense.  This is sort of a contrived example but imagine
 the &lt;code&gt;opencv&lt;/code&gt; library to run some image analysis. In the past you&amp;rsquo;d probably spend 8 hours trying to
 figure out how to install it on your Mac or even on a Linux machine. Google around a bit and
 chances are someone has already created an image&amp;hellip;yup..here we go!
-&lt;a href=&#34;https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/&#34;&gt;https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&#34;https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/&#34; target=&#34;_blank&#34;&gt;https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Now I can use this image as a &lt;em&gt;utility&lt;/em&gt; rather than as a running system. Since containers spin up
 and down so quickly there is no reason why we can&amp;rsquo;t consider them executables for &lt;em&gt;any&lt;/em&gt; command.
@@ -133,7 +133,7 @@ RUN python3 -m pip install matplotlib
 &lt;pre&gt;&lt;code&gt;&amp;gt; docker build -t bz/opencv .
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;And the Python3 file to create the histogram&amp;hellip;mostly &lt;a href=&#34;http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_begins/py_histogram_begins.html&#34;&gt;copied from
+&lt;p&gt;And the Python3 file to create the histogram&amp;hellip;mostly &lt;a href=&#34;http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_begins/py_histogram_begins.html&#34; target=&#34;_blank&#34;&gt;copied from
 here&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;# histo.py

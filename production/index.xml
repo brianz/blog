@@ -6,8 +6,164 @@
     <description>Recent content on Brian Z</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Wed, 13 Apr 2016 07:24:44 -0600</lastBuildDate>
+    <lastBuildDate>Wed, 20 Apr 2016 16:08:07 -0600</lastBuildDate>
     <atom:link href="http://blog.brianz.bz/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Serverless part I</title>
+      <link>http://blog.brianz.bz/post/serverless-part-i/</link>
+      <pubDate>Wed, 20 Apr 2016 16:08:07 -0600</pubDate>
+      
+      <guid>http://blog.brianz.bz/post/serverless-part-i/</guid>
+      <description>
+
+&lt;p&gt;It&amp;rsquo;s a pretty exciting (and challenging) time to build software-based applications. Every week
+there are more and more tools to make our jobs easier or to enable us to focus on &lt;em&gt;application&lt;/em&gt;
+development rather than dealing with the infrastructure around those applications. Of course, this
+makes our jobs challenging since we need to keep up with the innovation.&lt;/p&gt;
+
+&lt;p&gt;This will be part one of a multi-part series about &amp;ldquo;serverless&amp;rdquo; architecture/design. I hesitate to
+call this &amp;ldquo;architecture&amp;rdquo; but it&amp;rsquo;s definitely a way of doing things both from an infrastructure (or
+lack of) side and code organization. The possibility of running web applications without any servers
+has become a reality fairly recently and kicked off multiple projects around this idea.
+What I&amp;rsquo;d like to do in Part I is to simply give an intro to &amp;ldquo;serverless&amp;rdquo; and talk through some moving parts.&lt;/p&gt;
+
+&lt;p&gt;The big question, what is serverless?&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Serverless is a way to author a HTTP service using &lt;a href=&#34;https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html&#34; target=&#34;_blank&#34;&gt;AWS API
+Gateway&lt;/a&gt; and
+&lt;a href=&#34;https://docs.aws.amazon.com/lambda/latest/dg/welcome.html&#34; target=&#34;_blank&#34;&gt;AWS Lambda&lt;/a&gt; which
+eliminates the need to manage or maintain any running servers or EC2 instances. Any servers used to
+process HTTP requests are managed by AWS and never exposed to you as the application developer.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As a point of clarification, there is a project named Serverless. I&amp;rsquo;ll try to differentiate the
+&lt;em&gt;term&lt;/em&gt; &amp;ldquo;serverless&amp;rdquo; from the &lt;em&gt;project&lt;/em&gt; Serverless by capitalizing the project.&lt;/p&gt;
+
+&lt;h2 id=&#34;api-gateway:16049c44302f91a3835f9f8afd5f9708&#34;&gt;API Gateway&lt;/h2&gt;
+
+&lt;p&gt;In July of 2015 &lt;a href=&#34;https://aws.amazon.com/blogs/aws/amazon-api-gateway-build-and-run-scalable-application-backends/&#34; target=&#34;_blank&#34;&gt;AWS released API
+Gateway&lt;/a&gt;
+which is a service to create and manage public API
+endpoints on your behalf. Gateway is comprised of two services really:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;control service to expose a REST endpoint&lt;/li&gt;
+&lt;li&gt;execution service to run some code or backend system&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There&amp;rsquo;s much more to it of course so I encourage you to &lt;a href=&#34;http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html&#34; target=&#34;_blank&#34;&gt;read the docs from
+AWS&lt;/a&gt;. For the purpose of
+this post we don&amp;rsquo;t need to go into a &lt;em&gt;ton&lt;/em&gt; of detail around API Gateway&amp;hellip;just imagine that you can
+click a few buttons (or make some AWS API calls) and wind up with a URL that you can immediately start
+hitting with &lt;code&gt;curl&lt;/code&gt; without setting up or managing EC2 instances. This is the first step in the
+world of &amp;ldquo;serverless&amp;rdquo;&amp;hellip;getting a pubic HTTP endpoint without managing any servers.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Without&lt;/em&gt; API Gateway standing up a webserver which does something as simple as returning and empty
+response in response to a query to a public URL is quite an endeavor:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;spin up a cloud server&lt;/li&gt;
+&lt;li&gt;install a webserver like nginx&lt;/li&gt;
+&lt;li&gt;(optionally) pointing DNS at your cloud server&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Even if you&amp;rsquo;re skilled at this, it&amp;rsquo;s going to take several minutes. With API Gateway you can
+literally accomplish the same thing in 30 seconds. Not only that, you&amp;rsquo;ll be paying every minute
+that your EC2 instance is running, regardless of the load. With API Gateway you pay per call.&lt;/p&gt;
+
+&lt;h2 id=&#34;lambda:16049c44302f91a3835f9f8afd5f9708&#34;&gt;Lambda&lt;/h2&gt;
+
+&lt;p&gt;So what is Lambda? &lt;a href=&#34;https://docs.aws.amazon.com/lambda/latest/dg/welcome.html&#34; target=&#34;_blank&#34;&gt;From Amazon&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;AWS Lambda is a compute service where you can upload your code to AWS Lambda and the service can
+run the code on your behalf using AWS infrastructure.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;What does that mean &lt;em&gt;exactly&lt;/em&gt;?  Well, with Lambda you can&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;author code in Java, Python or JavaScript/Node&lt;/li&gt;
+&lt;li&gt;package your code in a zip file&lt;/li&gt;
+&lt;li&gt;upload it to the Lambda service&lt;/li&gt;
+&lt;li&gt;tell amazon to run your code&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;What exactly can your code actually &lt;em&gt;do&lt;/em&gt; though?  Again, this is mostly up to you. While there are
+some constraints you need to abide by (mostly around execution time and memory) you can do almost
+anything. Provided your code has access to any supporting libraries it needs, AWS will take care of
+the runtime. Your code is executed based on some trigger and once it&amp;rsquo;s done, poof! There are no
+running servers (which you need to manage) which allows you to focus on your code.&lt;/p&gt;
+
+&lt;p&gt;When it&amp;rsquo;s being executed, AWS will magically unpack your code, run it and then be done with it until the next time
+it&amp;rsquo;s run. There are several beautiful things about this:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;No servers to maintain&lt;/li&gt;
+&lt;li&gt;Pay by execution time&amp;hellip;no wasted cycles&lt;/li&gt;
+&lt;li&gt;Ability to execute a Lambda from various triggers&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;api-gateway-lambda-serverless:16049c44302f91a3835f9f8afd5f9708&#34;&gt;API Gateway + Lambda == Serverless&lt;/h2&gt;
+
+&lt;p&gt;The confluence of API Gateway and Lambda is what serverless is all about. Above I described how
+easy it is to build a public URL which doesn&amp;rsquo;t do anything. That&amp;rsquo;s not interesting at all, but
+becomes interesting when you can have that API call trigger a Lambda function. Gateway actually
+supports different execution services:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;HTTP proxy&lt;/li&gt;
+&lt;li&gt;Mock integration&lt;/li&gt;
+&lt;li&gt;AWS Service Proxy&lt;/li&gt;
+&lt;li&gt;Lambda function&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I&amp;rsquo;m not going to talk about the first three&amp;hellip;we&amp;rsquo;re really interested in having API Gateway execute
+a Lambda function on our behalf.  This is the foundation of serverless&amp;hellip;.API Gateway calls your custom
+Lambda function.  Your Lambda function can do whatever you can come up with and provide a response
+which is returned to the caller of your HTTP endpoint.  Your Lambda function could:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;fetch data from a database&lt;/li&gt;
+&lt;li&gt;write data to a database&lt;/li&gt;
+&lt;li&gt;kick off some processes with Kinesis&lt;/li&gt;
+&lt;li&gt;anything you manage to accomplish with Lambda&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The power of this may or may not have hit you, but here it is: if you can write all of your application code as Lambda
+functions you have now created a &lt;strong&gt;completely serverless REST API&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s drill in on this. Imagine making a HTTP call, getting a response
+and not having to manage a single EC2 instance (or any other type of server). Furthermore, that
+single call cost a fraction of a penny. If you look at the &lt;a href=&#34;https://aws.amazon.com/lambda/pricing/&#34; target=&#34;_blank&#34;&gt;pricing for
+Lambda&lt;/a&gt; and &lt;a href=&#34;https://aws.amazon.com/api-gateway/pricing/&#34; target=&#34;_blank&#34;&gt;pricing for
+Gateway&lt;/a&gt; you&amp;rsquo;ll get a feel for how cheap this can be.&lt;/p&gt;
+
+&lt;h2 id=&#34;serverless-project:16049c44302f91a3835f9f8afd5f9708&#34;&gt;Serverless project&lt;/h2&gt;
+
+&lt;p&gt;One of my big questions was how this fits into the normal development cycle. Sure, this is
+&lt;strong&gt;super&lt;/strong&gt; powerful, but how do I actually &lt;em&gt;use&lt;/em&gt; it in the real world. Other folks are realizing the
+power of these systems and as usual, tooling is being built up around the AWS services.&lt;/p&gt;
+
+&lt;p&gt;One of the more popular projects and one which I was referred to by the AWS folks is
+&lt;a href=&#34;http://serverless.com&#34; target=&#34;_blank&#34;&gt;http://serverless.com&lt;/a&gt;. There area
+others&amp;hellip;here&amp;rsquo;s one to run &lt;a href=&#34;https://github.com/Miserlou/django-zappa&#34; target=&#34;_blank&#34;&gt;Django via Gateway/Lambda&lt;/a&gt;
+and yet another one &lt;a href=&#34;https://github.com/Miserlou/flask-zappa&#34; target=&#34;_blank&#34;&gt;doing the same thing with Flask&lt;/a&gt;. I&amp;rsquo;m
+sure there are other&amp;hellip;Google &lt;code&gt;&amp;quot;serverless fill-in-the-blank&amp;quot;&lt;/code&gt; and you&amp;rsquo;ll undoubtedly find something
+interesting.&lt;/p&gt;
+
+&lt;p&gt;In my initial testing the Serverless project is pretty nice. Since its main job is to wrap API
+calls to API Gateway and Lambda you&amp;rsquo;ll need to understand those two services on your own before you
+can start building things with Serverless. In my experience that&amp;rsquo;s pretty much always the case with
+any tool that wraps AWS services.&lt;/p&gt;
+
+&lt;p&gt;That&amp;rsquo;s the high level introduction to what serverless is all about. In Part II I&amp;rsquo;ll do a walk
+through of the Serverless project and show some real-world examples of how to build something. Stay
+tuned!&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>If you&#39;re not using Docker you should be</title>
@@ -18,7 +174,7 @@
       <description>
 
 &lt;p&gt;If you&amp;rsquo;re a developer and don&amp;rsquo;t live under a rock you&amp;rsquo;ve undoubtedly heard of
-&lt;a href=&#34;https://www.docker.com&#34;&gt;Docker&lt;/a&gt;.  There are &lt;em&gt;many many&lt;/em&gt; sites out there which will tell you about
+&lt;a href=&#34;https://www.docker.com&#34; target=&#34;_blank&#34;&gt;Docker&lt;/a&gt;.  There are &lt;em&gt;many many&lt;/em&gt; sites out there which will tell you about
 how to use Docker and how to start using it&amp;hellip;this will not be one of those posts. Rather, I&amp;rsquo;d like
 to write about some practical advantages about Docker which I&amp;rsquo;ve learned that weren&amp;rsquo;t super obvious
 when getting started.&lt;/p&gt;
@@ -42,7 +198,7 @@ mytest&lt;/code&gt; and you&amp;rsquo;re done.&lt;/p&gt;
 &lt;p&gt;With Docker, the need for &lt;code&gt;virtualenv&lt;/code&gt; pretty much goes always (although, I&amp;rsquo;m not getting rid of it
 anytime soon).  Since containers are so cheap it&amp;rsquo;s trivial to build you&amp;rsquo;re own Docker image and
 install all of the packages you need.  Here&amp;rsquo;s a two-line &lt;code&gt;Dockerfile&lt;/code&gt; which will work and can be
-used to build documentation using the popular (Sphinx)[&lt;a href=&#34;http://sphinx.pocoo.org&#34;&gt;http://sphinx.pocoo.org&lt;/a&gt;] library&amp;hellip;I&amp;rsquo;ll
+used to build documentation using the popular (Sphinx)[&lt;a href=&#34;http://sphinx.pocoo.org&#34; target=&#34;_blank&#34;&gt;http://sphinx.pocoo.org&lt;/a&gt;] library&amp;hellip;I&amp;rsquo;ll
 install some extension just for fun:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;# Dockerfile
@@ -81,7 +237,7 @@ what the requirements are other than something with PHP&amp;hellip;definitely no
 reached for Docker and docker-compose.  Sure enough, there is an official image which is even so
 kind as to give you a demo &lt;code&gt;docker-compose.yml&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://hub.docker.com/_/wordpress/&#34;&gt;https://hub.docker.com/_/wordpress/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://hub.docker.com/_/wordpress/&#34; target=&#34;_blank&#34;&gt;https://hub.docker.com/_/wordpress/&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;If you use the example &lt;code&gt;docker-compose.yml&lt;/code&gt; all you really need to do is hit the IP address of your
 host running the Docker daemon and voilà&amp;hellip;Wordpress. Just like above, I classify this as
@@ -99,7 +255,7 @@ package managers in some sense.  This is sort of a contrived example but imagine
 the &lt;code&gt;opencv&lt;/code&gt; library to run some image analysis. In the past you&amp;rsquo;d probably spend 8 hours trying to
 figure out how to install it on your Mac or even on a Linux machine. Google around a bit and
 chances are someone has already created an image&amp;hellip;yup..here we go!
-&lt;a href=&#34;https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/&#34;&gt;https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&#34;https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/&#34; target=&#34;_blank&#34;&gt;https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Now I can use this image as a &lt;em&gt;utility&lt;/em&gt; rather than as a running system. Since containers spin up
 and down so quickly there is no reason why we can&amp;rsquo;t consider them executables for &lt;em&gt;any&lt;/em&gt; command.
@@ -133,7 +289,7 @@ RUN python3 -m pip install matplotlib
 &lt;pre&gt;&lt;code&gt;&amp;gt; docker build -t bz/opencv .
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;And the Python3 file to create the histogram&amp;hellip;mostly &lt;a href=&#34;http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_begins/py_histogram_begins.html&#34;&gt;copied from
+&lt;p&gt;And the Python3 file to create the histogram&amp;hellip;mostly &lt;a href=&#34;http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_begins/py_histogram_begins.html&#34; target=&#34;_blank&#34;&gt;copied from
 here&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;# histo.py
@@ -198,9 +354,9 @@ or are trying to figure something out that we haven&amp;rsquo;t seen before, our
 internet sleuth, combing the web for answers on StackOverflow, blogs, etc.&lt;/p&gt;
 
 &lt;p&gt;By nature I&amp;rsquo;m not much of a self promoter and in some ways, I&amp;rsquo;ve tended to view blogs and &amp;ldquo;personal
-brands&amp;rdquo; as shameless self-promotion (nothing personal &lt;a href=&#34;http://simpleprogrammer.com&#34;&gt;John Sonmez&lt;/a&gt; or
+brands&amp;rdquo; as shameless self-promotion (nothing personal &lt;a href=&#34;http://simpleprogrammer.com&#34; target=&#34;_blank&#34;&gt;John Sonmez&lt;/a&gt; or
 other bloggers).
-One day I listened to &lt;a href=&#34;http://simpleprogrammer.com&#34;&gt;John&lt;/a&gt; on the &lt;a href=&#34;http://www.se-radio.net/2015/12/se-radio-episode-245-john-sonmez-on-marketing-yourself-and-managing-your-career/&#34;&gt;Software Engineering
+One day I listened to &lt;a href=&#34;http://simpleprogrammer.com&#34; target=&#34;_blank&#34;&gt;John&lt;/a&gt; on the &lt;a href=&#34;http://www.se-radio.net/2015/12/se-radio-episode-245-john-sonmez-on-marketing-yourself-and-managing-your-career/&#34; target=&#34;_blank&#34;&gt;Software Engineering
 Radio Podcast&lt;/a&gt;
 where his topic was that of soft skills. I&amp;rsquo;m old enough to realize that the smartest engineers
 are not necessarily the most successful. Being a good engineer is &lt;strong&gt;really&lt;/strong&gt; important&amp;hellip;but it&amp;rsquo;s
@@ -215,9 +371,9 @@ can&amp;rsquo;t say one way or another how or &lt;em&gt;if&lt;/em&gt; this will 
 helped to motivate me to get this blog up and running and to attempt to be a bit more visible in
 the &amp;ldquo;public&amp;rdquo; eye. I highly recommend it:&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://devcareerboost.com/blog-course/&#34;&gt;http://devcareerboost.com/blog-course/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://devcareerboost.com/blog-course/&#34; target=&#34;_blank&#34;&gt;http://devcareerboost.com/blog-course/&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;As a real example, I authored and open sourced the &lt;a href=&#34;https://github.com/clearcare/servant&#34;&gt;servant
+&lt;p&gt;As a real example, I authored and open sourced the &lt;a href=&#34;https://github.com/clearcare/servant&#34; target=&#34;_blank&#34;&gt;servant
 library&lt;/a&gt; over a year ago. We&amp;rsquo;ve been running in production at
 work for &lt;em&gt;over a year&lt;/em&gt;&amp;hellip;but it hasn&amp;rsquo;t been publicized outside of my small team. Just blogging
 about it and creating some links could help somewhere out there who&amp;rsquo;s interested in authoring a
@@ -226,7 +382,7 @@ on and show something that I&amp;rsquo;m proud of, even if the audience is small
 
 &lt;p&gt;John&amp;rsquo;s email campaign is pretty light and gives you some practical assignments to get your blog up and
 running. I can definitely say that I wouldn&amp;rsquo;t be writing this now had I not enrolled&amp;hellip;so with
-that, I tip my hat to &lt;a href=&#34;http://simpleprogrammer.com&#34;&gt;John&lt;/a&gt; and say thank you!&lt;/p&gt;
+that, I tip my hat to &lt;a href=&#34;http://simpleprogrammer.com&#34; target=&#34;_blank&#34;&gt;John&lt;/a&gt; and say thank you!&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://media.giphy.com/media/l2JJHgjz1uaEncXew/giphy.gif&#34; title=&#34;Thank you sir&#34; &gt;&lt;/img&gt;&lt;/p&gt;
 </description>
@@ -241,7 +397,7 @@ that, I tip my hat to &lt;a href=&#34;http://simpleprogrammer.com&#34;&gt;John&l
       <description>
 
 &lt;p&gt;Late in 2014 we began the process of discussing a payment system at
-&lt;a href=&#34;http://www.clearcareonline.com&#34;&gt;work&lt;/a&gt;. The system was to have a fairly simple reason for
+&lt;a href=&#34;http://www.clearcareonline.com&#34; target=&#34;_blank&#34;&gt;work&lt;/a&gt;. The system was to have a fairly simple reason for
 existing&amp;hellip;to do all the work needed to charge credit cards on behalf of our customers.&lt;/p&gt;
 
 &lt;p&gt;Backing up a bit&amp;hellip;our system is mainly a B2B application. Home care agencies all over the country
@@ -267,11 +423,11 @@ proven frameworks for building services in Python.&lt;/p&gt;
 &lt;h2 id=&#34;enter-servant:9879b9e4b526681137999e709cb09eff&#34;&gt;Enter servant&lt;/h2&gt;
 
 &lt;p&gt;Leaning on a custom service framework I had worked with while at
-&lt;a href=&#34;http://eventbrite.com&#34;&gt;Eventbrite&lt;/a&gt; I came up with servant. You can see the project page on Github.
+&lt;a href=&#34;http://eventbrite.com&#34; target=&#34;_blank&#34;&gt;Eventbrite&lt;/a&gt; I came up with servant. You can see the project page on Github.
 We currently have multiple services deployed in production at Clearcare based on servant and so
 far, they&amp;rsquo;ve been working great:&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://github.com/clearcare/servant&#34;&gt;https://github.com/clearcare/servant&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/clearcare/servant&#34; target=&#34;_blank&#34;&gt;https://github.com/clearcare/servant&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;What exactly is this library? At a very high level servant is:&lt;/p&gt;
 
@@ -344,7 +500,7 @@ this code will work and spit out the expected result of &lt;code&gt;25&lt;/code&
 &lt;h3 id=&#34;server:9879b9e4b526681137999e709cb09eff&#34;&gt;Server&lt;/h3&gt;
 
 &lt;p&gt;Authoring a service is a bit more work but still quite easy. This is how you&amp;rsquo;d implement the &lt;code&gt;add&lt;/code&gt;
-method we used above. Note you can also &lt;a href=&#34;https://github.com/clearcare/servant/tree/master/examples/calculator_service&#34;&gt;peruse the
+method we used above. Note you can also &lt;a href=&#34;https://github.com/clearcare/servant/tree/master/examples/calculator_service&#34; target=&#34;_blank&#34;&gt;peruse the
 &lt;code&gt;calculator_service&lt;/code&gt;&lt;/a&gt;
 to see a more thorough implemenation..but the below code will actually work.&lt;/p&gt;
 
@@ -407,7 +563,7 @@ files:&lt;/p&gt;
 &lt;p&gt;You can imagine what &lt;code&gt;SubtractAction&lt;/code&gt; would look like. From there, provided you
 can install your service as a Python package, this code is fully functional. You can see all of
 this and actually give it a try&amp;hellip;clone the repo and look in
-the &lt;a href=&#34;https://github.com/clearcare/servant/tree/master/examples/calculator_service&#34;&gt;the examples directory&lt;/a&gt;.&lt;/p&gt;
+the &lt;a href=&#34;https://github.com/clearcare/servant/tree/master/examples/calculator_service&#34; target=&#34;_blank&#34;&gt;the examples directory&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;local-library-mode:9879b9e4b526681137999e709cb09eff&#34;&gt;Local library mode&lt;/h2&gt;
 
@@ -460,7 +616,7 @@ and any differences are definitely worth the increase in productivity.&lt;/p&gt;
 
 &lt;p&gt;In terms of the transport, we currently have implementations for local mode and HTTP mode. If you
 look at the
-&lt;a href=&#34;https://github.com/clearcare/servant/blob/master/examples/calculator_service/README.md&#34;&gt;README&lt;/a&gt;
+&lt;a href=&#34;https://github.com/clearcare/servant/blob/master/examples/calculator_service/README.md&#34; target=&#34;_blank&#34;&gt;README&lt;/a&gt;
 you&amp;rsquo;ll see example of how to run the demo via &lt;code&gt;uwsgi&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;trade-offs:9879b9e4b526681137999e709cb09eff&#34;&gt;Trade offs&lt;/h2&gt;
@@ -498,11 +654,11 @@ haven&amp;rsquo;t been implemented yet.&lt;/p&gt;
 
 &lt;h2 id=&#34;saas-application-architecture:6fd2790aca2c37753fb7cd100f77c2ec&#34;&gt;SAAS Application Architecture&lt;/h2&gt;
 
-&lt;p&gt;I was finally inspired to get this site up and running after listening to a &lt;a href=&#34;http://www.se-radio.net/2015/12/se-radio-episode-245-john-sonmez-on-marketing-yourself-and-managing-your-career/&#34;&gt;Software Engineering
+&lt;p&gt;I was finally inspired to get this site up and running after listening to a &lt;a href=&#34;http://www.se-radio.net/2015/12/se-radio-episode-245-john-sonmez-on-marketing-yourself-and-managing-your-career/&#34; target=&#34;_blank&#34;&gt;Software Engineering
 Radio podcast&lt;/a&gt;
-with &lt;a href=&#34;http://simpleprogrammer.com/&#34;&gt;John Sonmez&lt;/a&gt;. In that podcast episode John talks about how a
+with &lt;a href=&#34;http://simpleprogrammer.com/&#34; target=&#34;_blank&#34;&gt;John Sonmez&lt;/a&gt;. In that podcast episode John talks about how a
 technical blog can really help your career&amp;hellip;that&amp;rsquo;s never a bad thing and as mentioned in my
-&lt;a href=&#34;http://blog.brianz.bz/post/getting-started-with-hugo/&#34;&gt;last post&lt;/a&gt;, I wanted a place to help others with any
+&lt;a href=&#34;http://blog.brianz.bz/post/getting-started-with-hugo/&#34; target=&#34;_blank&#34;&gt;last post&lt;/a&gt;, I wanted a place to help others with any
 tips, tricks or general things I learn.&lt;/p&gt;
 
 &lt;p&gt;John suggests coming up with a &amp;ldquo;theme&amp;rdquo; for a tech blog&amp;hellip;a theme not in the visual sense but a
@@ -532,8 +688,8 @@ performed are typically within a certain domain. Taking some examples from thing
 &lt;p&gt;With all of that, what I intend to write about here are my experiences building systems like this.&lt;/p&gt;
 
 &lt;p&gt;Also, since the previous post I&amp;rsquo;ve changed themes. The new one is called
-&lt;a href=&#34;http://themes.gohugo.io/blackburn/&#34;&gt;blackburn&lt;/a&gt; and is really slick. It only took a few minutes to
-completely switch. You can &lt;a href=&#34;https://github.com/brianz/blog&#34;&gt;look through the git history&lt;/a&gt; for this
+&lt;a href=&#34;http://themes.gohugo.io/blackburn/&#34; target=&#34;_blank&#34;&gt;blackburn&lt;/a&gt; and is really slick. It only took a few minutes to
+completely switch. You can &lt;a href=&#34;https://github.com/brianz/blog&#34; target=&#34;_blank&#34;&gt;look through the git history&lt;/a&gt; for this
 blog if you&amp;rsquo;re interested in what I did to make the change.&lt;/p&gt;
 </description>
     </item>
@@ -554,9 +710,9 @@ about building microservices with Python and overall architecture patterns for m
 
 &lt;p&gt;I knew that I definitely wanted something static, meaning I didn&amp;rsquo;t want to stand up my own virtual
 server nor did I want to sign up with any of the hosted solutions for Wordpress, Blogger, etc.
-I tried out &lt;a href=&#34;https://jekyllrb.com&#34;&gt;Jekyll&lt;/a&gt; a long time ago which looked neat and had tight
-integration with &lt;a href=&#34;https://pages.github.com&#34;&gt;Github Pages&lt;/a&gt;.  At some point I came across
-&lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; and played around with it. It&amp;rsquo;s quite slick and apparently has been
+I tried out &lt;a href=&#34;https://jekyllrb.com&#34; target=&#34;_blank&#34;&gt;Jekyll&lt;/a&gt; a long time ago which looked neat and had tight
+integration with &lt;a href=&#34;https://pages.github.com&#34; target=&#34;_blank&#34;&gt;Github Pages&lt;/a&gt;.  At some point I came across
+&lt;a href=&#34;https://gohugo.io/&#34; target=&#34;_blank&#34;&gt;Hugo&lt;/a&gt; and played around with it. It&amp;rsquo;s quite slick and apparently has been
 gaining more and more users. I went with Hugo since it&amp;rsquo;s pretty darn fast, easy-ish to set up and
 it&amp;rsquo;s written in Go (I usually hate dealing with Ruby gems and dependencies).&lt;/p&gt;
 
@@ -568,8 +724,8 @@ $ mkdir bz-blog &amp;amp;&amp;amp; cd bz-blog
 $ hugo new site brianz
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;To find a theme I liked went to the &lt;a href=&#34;http://themes.gohugo.io&#34;&gt;Hugo themes&lt;/a&gt; site and picked
-&lt;a href=&#34;http://themes.gohugo.io/greyshade/&#34;&gt;greyshade&lt;/a&gt;. Hugo themes are &lt;em&gt;really&lt;/em&gt; easy to use:&lt;/p&gt;
+&lt;p&gt;To find a theme I liked went to the &lt;a href=&#34;http://themes.gohugo.io&#34; target=&#34;_blank&#34;&gt;Hugo themes&lt;/a&gt; site and picked
+&lt;a href=&#34;http://themes.gohugo.io/greyshade/&#34; target=&#34;_blank&#34;&gt;greyshade&lt;/a&gt;. Hugo themes are &lt;em&gt;really&lt;/em&gt; easy to use:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ cd brianz/themes
 $ git clone https://github.com/cxfksword/greyshade.git
@@ -634,10 +790,10 @@ In addition to software I really like the outdoors, coffee and cycling.&lt;/p&gt
 &lt;h2 id=&#34;background:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;Background&lt;/h2&gt;
 
 &lt;p&gt;You can read more about my professional background on my LinkedIn profile to the
-left. In a nutshell, I grew up in Sunnyvale, CA and originally studied &lt;a href=&#34;http://mate.calpoly.edu&#34;&gt;Materials
+left. In a nutshell, I grew up in Sunnyvale, CA and originally studied &lt;a href=&#34;http://mate.calpoly.edu&#34; target=&#34;_blank&#34;&gt;Materials
 Engineering&lt;/a&gt; at Cal Poly, San Luis Obispo. I ended up back home in the
 middle of the first dot-com boom in 2000 and fell into software. Eventually I got a second degree
-in computer science from &lt;a href=&#34;http://cs.sfsu.edu&#34;&gt;San Francisco State&lt;/a&gt;.&lt;/p&gt;
+in computer science from &lt;a href=&#34;http://cs.sfsu.edu&#34; target=&#34;_blank&#34;&gt;San Francisco State&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;areas-of-interest:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;Areas of interest&lt;/h2&gt;
 
@@ -654,13 +810,13 @@ since 2005. In addition to Python my current areas of interest are:&lt;/p&gt;
 
 &lt;p&gt;Of course, I have &lt;strong&gt;many&lt;/strong&gt; more interests but those are the highlights.&lt;/p&gt;
 
-&lt;p&gt;I&amp;rsquo;m currently the lead architect at &lt;a href=&#34;http://clearcareonline.com&#34;&gt;Clearcare&lt;/a&gt; building a SAAS
+&lt;p&gt;I&amp;rsquo;m currently the lead architect at &lt;a href=&#34;http://clearcareonline.com&#34; target=&#34;_blank&#34;&gt;Clearcare&lt;/a&gt; building a SAAS
 platform for in-home health care agencies.&lt;/p&gt;
 
 &lt;h2 id=&#34;roastlog:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;RoastLog&lt;/h2&gt;
 
 &lt;p&gt;In 2008 I had an idea for a SAAS platform for coffee roasters. That idea grew and turned into
-&lt;a href=&#34;http://roastlog.com/&#34;&gt;RoastLog&lt;/a&gt;. I&amp;rsquo;ve been running RoastLog as a real business since 2009 with my
+&lt;a href=&#34;http://roastlog.com/&#34; target=&#34;_blank&#34;&gt;RoastLog&lt;/a&gt;. I&amp;rsquo;ve been running RoastLog as a real business since 2009 with my
 long-time friend and business partner, Linsey Fan. RoastLog is used every day of the week all over
 the world to help coffee roasters run their business.&lt;/p&gt;
 </description>

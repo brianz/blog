@@ -222,7 +222,7 @@
   
 
 <p>If you&rsquo;re a developer and don&rsquo;t live under a rock you&rsquo;ve undoubtedly heard of
-<a href="https://www.docker.com">Docker</a>.  There are <em>many many</em> sites out there which will tell you about
+<a href="https://www.docker.com" target="_blank">Docker</a>.  There are <em>many many</em> sites out there which will tell you about
 how to use Docker and how to start using it&hellip;this will not be one of those posts. Rather, I&rsquo;d like
 to write about some practical advantages about Docker which I&rsquo;ve learned that weren&rsquo;t super obvious
 when getting started.</p>
@@ -246,7 +246,7 @@ mytest</code> and you&rsquo;re done.</p>
 <p>With Docker, the need for <code>virtualenv</code> pretty much goes always (although, I&rsquo;m not getting rid of it
 anytime soon).  Since containers are so cheap it&rsquo;s trivial to build you&rsquo;re own Docker image and
 install all of the packages you need.  Here&rsquo;s a two-line <code>Dockerfile</code> which will work and can be
-used to build documentation using the popular (Sphinx)[<a href="http://sphinx.pocoo.org">http://sphinx.pocoo.org</a>] library&hellip;I&rsquo;ll
+used to build documentation using the popular (Sphinx)[<a href="http://sphinx.pocoo.org" target="_blank">http://sphinx.pocoo.org</a>] library&hellip;I&rsquo;ll
 install some extension just for fun:</p>
 
 <pre><code># Dockerfile
@@ -285,7 +285,7 @@ what the requirements are other than something with PHP&hellip;definitely not my
 reached for Docker and docker-compose.  Sure enough, there is an official image which is even so
 kind as to give you a demo <code>docker-compose.yml</code>:</p>
 
-<p><a href="https://hub.docker.com/_/wordpress/">https://hub.docker.com/_/wordpress/</a></p>
+<p><a href="https://hub.docker.com/_/wordpress/" target="_blank">https://hub.docker.com/_/wordpress/</a></p>
 
 <p>If you use the example <code>docker-compose.yml</code> all you really need to do is hit the IP address of your
 host running the Docker daemon and voilà&hellip;Wordpress. Just like above, I classify this as
@@ -303,7 +303,7 @@ package managers in some sense.  This is sort of a contrived example but imagine
 the <code>opencv</code> library to run some image analysis. In the past you&rsquo;d probably spend 8 hours trying to
 figure out how to install it on your Mac or even on a Linux machine. Google around a bit and
 chances are someone has already created an image&hellip;yup..here we go!
-<a href="https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/">https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/</a></p>
+<a href="https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/" target="_blank">https://hub.docker.com/r/kavolorn/opencv/~/dockerfile/</a></p>
 
 <p>Now I can use this image as a <em>utility</em> rather than as a running system. Since containers spin up
 and down so quickly there is no reason why we can&rsquo;t consider them executables for <em>any</em> command.
@@ -337,7 +337,7 @@ RUN python3 -m pip install matplotlib
 <pre><code>&gt; docker build -t bz/opencv .
 </code></pre>
 
-<p>And the Python3 file to create the histogram&hellip;mostly <a href="http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_begins/py_histogram_begins.html">copied from
+<p>And the Python3 file to create the histogram&hellip;mostly <a href="http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_begins/py_histogram_begins.html" target="_blank">copied from
 here</a></p>
 
 <pre><code># histo.py
@@ -407,8 +407,14 @@ historgrams from images would look something like the following:</p>
   </div>
   <div class="pure-u-10-24">
     
+    <nav class="next">
+      <a href="http://blog.brianz.bz/post/serverless-part-i/">Serverless part I</a>
+    </nav>
+    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="http://blog.brianz.bz/post/serverless-part-i/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

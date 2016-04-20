@@ -25,9 +25,9 @@ about building microservices with Python and overall architecture patterns for m
 
 &lt;p&gt;I knew that I definitely wanted something static, meaning I didn&amp;rsquo;t want to stand up my own virtual
 server nor did I want to sign up with any of the hosted solutions for Wordpress, Blogger, etc.
-I tried out &lt;a href=&#34;https://jekyllrb.com&#34;&gt;Jekyll&lt;/a&gt; a long time ago which looked neat and had tight
-integration with &lt;a href=&#34;https://pages.github.com&#34;&gt;Github Pages&lt;/a&gt;.  At some point I came across
-&lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; and played around with it. It&amp;rsquo;s quite slick and apparently has been
+I tried out &lt;a href=&#34;https://jekyllrb.com&#34; target=&#34;_blank&#34;&gt;Jekyll&lt;/a&gt; a long time ago which looked neat and had tight
+integration with &lt;a href=&#34;https://pages.github.com&#34; target=&#34;_blank&#34;&gt;Github Pages&lt;/a&gt;.  At some point I came across
+&lt;a href=&#34;https://gohugo.io/&#34; target=&#34;_blank&#34;&gt;Hugo&lt;/a&gt; and played around with it. It&amp;rsquo;s quite slick and apparently has been
 gaining more and more users. I went with Hugo since it&amp;rsquo;s pretty darn fast, easy-ish to set up and
 it&amp;rsquo;s written in Go (I usually hate dealing with Ruby gems and dependencies).&lt;/p&gt;
 
@@ -39,8 +39,8 @@ $ mkdir bz-blog &amp;amp;&amp;amp; cd bz-blog
 $ hugo new site brianz
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;To find a theme I liked went to the &lt;a href=&#34;http://themes.gohugo.io&#34;&gt;Hugo themes&lt;/a&gt; site and picked
-&lt;a href=&#34;http://themes.gohugo.io/greyshade/&#34;&gt;greyshade&lt;/a&gt;. Hugo themes are &lt;em&gt;really&lt;/em&gt; easy to use:&lt;/p&gt;
+&lt;p&gt;To find a theme I liked went to the &lt;a href=&#34;http://themes.gohugo.io&#34; target=&#34;_blank&#34;&gt;Hugo themes&lt;/a&gt; site and picked
+&lt;a href=&#34;http://themes.gohugo.io/greyshade/&#34; target=&#34;_blank&#34;&gt;greyshade&lt;/a&gt;. Hugo themes are &lt;em&gt;really&lt;/em&gt; easy to use:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ cd brianz/themes
 $ git clone https://github.com/cxfksword/greyshade.git

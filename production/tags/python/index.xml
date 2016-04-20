@@ -18,7 +18,7 @@
       <description>
 
 &lt;p&gt;Late in 2014 we began the process of discussing a payment system at
-&lt;a href=&#34;http://www.clearcareonline.com&#34;&gt;work&lt;/a&gt;. The system was to have a fairly simple reason for
+&lt;a href=&#34;http://www.clearcareonline.com&#34; target=&#34;_blank&#34;&gt;work&lt;/a&gt;. The system was to have a fairly simple reason for
 existing&amp;hellip;to do all the work needed to charge credit cards on behalf of our customers.&lt;/p&gt;
 
 &lt;p&gt;Backing up a bit&amp;hellip;our system is mainly a B2B application. Home care agencies all over the country
@@ -44,11 +44,11 @@ proven frameworks for building services in Python.&lt;/p&gt;
 &lt;h2 id=&#34;enter-servant:9879b9e4b526681137999e709cb09eff&#34;&gt;Enter servant&lt;/h2&gt;
 
 &lt;p&gt;Leaning on a custom service framework I had worked with while at
-&lt;a href=&#34;http://eventbrite.com&#34;&gt;Eventbrite&lt;/a&gt; I came up with servant. You can see the project page on Github.
+&lt;a href=&#34;http://eventbrite.com&#34; target=&#34;_blank&#34;&gt;Eventbrite&lt;/a&gt; I came up with servant. You can see the project page on Github.
 We currently have multiple services deployed in production at Clearcare based on servant and so
 far, they&amp;rsquo;ve been working great:&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://github.com/clearcare/servant&#34;&gt;https://github.com/clearcare/servant&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/clearcare/servant&#34; target=&#34;_blank&#34;&gt;https://github.com/clearcare/servant&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;What exactly is this library? At a very high level servant is:&lt;/p&gt;
 
@@ -121,7 +121,7 @@ this code will work and spit out the expected result of &lt;code&gt;25&lt;/code&
 &lt;h3 id=&#34;server:9879b9e4b526681137999e709cb09eff&#34;&gt;Server&lt;/h3&gt;
 
 &lt;p&gt;Authoring a service is a bit more work but still quite easy. This is how you&amp;rsquo;d implement the &lt;code&gt;add&lt;/code&gt;
-method we used above. Note you can also &lt;a href=&#34;https://github.com/clearcare/servant/tree/master/examples/calculator_service&#34;&gt;peruse the
+method we used above. Note you can also &lt;a href=&#34;https://github.com/clearcare/servant/tree/master/examples/calculator_service&#34; target=&#34;_blank&#34;&gt;peruse the
 &lt;code&gt;calculator_service&lt;/code&gt;&lt;/a&gt;
 to see a more thorough implemenation..but the below code will actually work.&lt;/p&gt;
 
@@ -184,7 +184,7 @@ files:&lt;/p&gt;
 &lt;p&gt;You can imagine what &lt;code&gt;SubtractAction&lt;/code&gt; would look like. From there, provided you
 can install your service as a Python package, this code is fully functional. You can see all of
 this and actually give it a try&amp;hellip;clone the repo and look in
-the &lt;a href=&#34;https://github.com/clearcare/servant/tree/master/examples/calculator_service&#34;&gt;the examples directory&lt;/a&gt;.&lt;/p&gt;
+the &lt;a href=&#34;https://github.com/clearcare/servant/tree/master/examples/calculator_service&#34; target=&#34;_blank&#34;&gt;the examples directory&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;local-library-mode:9879b9e4b526681137999e709cb09eff&#34;&gt;Local library mode&lt;/h2&gt;
 
@@ -237,7 +237,7 @@ and any differences are definitely worth the increase in productivity.&lt;/p&gt;
 
 &lt;p&gt;In terms of the transport, we currently have implementations for local mode and HTTP mode. If you
 look at the
-&lt;a href=&#34;https://github.com/clearcare/servant/blob/master/examples/calculator_service/README.md&#34;&gt;README&lt;/a&gt;
+&lt;a href=&#34;https://github.com/clearcare/servant/blob/master/examples/calculator_service/README.md&#34; target=&#34;_blank&#34;&gt;README&lt;/a&gt;
 you&amp;rsquo;ll see example of how to run the demo via &lt;code&gt;uwsgi&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;trade-offs:9879b9e4b526681137999e709cb09eff&#34;&gt;Trade offs&lt;/h2&gt;
