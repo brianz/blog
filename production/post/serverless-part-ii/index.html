@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.15" />
+
+  <title>Serverless part II &middot; Brian Z</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="Brian Z" href="http://blog.brianz.bzindex.xml" />
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://blog.brianz.bzimg/favicon.ico" type="image/x-icon" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://blog.brianz.bz/">brianz</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="http://blog.brianz.bzindex.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+    </li>
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/brianzambrano" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/brian.zambrano" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://instagram.com/bzambrano" target="_blank"><i class="fa fa-instagram fa-fw"></i>Instagram</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/brianzambrano" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://news.ycombinator.com/user?id=brianz" target="_blank"><i class="fa fa-hacker-news fa-fw"></i>Hacker News</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/brianz" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://stackoverflow.com/users/87858" target="_blank"><i class="fa fa-stack-overflow fa-fw"></i>Stack Overflow</a>
+    </li>
+    
+
+  </ul>
+</div>
+
+
+  <div class="pure-g">
+  <div class="small-print pure-u-1 pure-u-md-1-1">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print pure-u-1 pure-u-md-1-1">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Serverless part II</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>02 May 2016, 22:08</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/aws">aws</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/architecture">architecture</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/serverless">serverless</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>Following up from my <a href="http://blog.brianz.bz/post/serverless-part-i/" target="_blank">last post about serverless</a> systems, let&rsquo;s do
+a walk-through of the <a href="http://serverless.com" target="_blank">Serverless</a> project.</p>
+
+<h2 id="getting-started:0b254221062177bc7d224c33605af89c">Getting started</h2>
+
+<p>As usual I&rsquo;ll demo this using a Docker container. You can check out the code on Github and follow
+along: <a href="https://github.com/brianz/serverless-demo" target="_blank">https://github.com/brianz/serverless-demo</a>.</p>
+
+<p>This Docker image has Serverless v0.5.5&hellip;and that&rsquo;s about it.
+I use a basic <code>Makefile</code> to build and run the container. You can take a
+look at it yourself and change the container name if you&rsquo;d like to follow along.</p>
+
+<p>I also recommend reading the <a href="http://docs.serverless.com/docs/configuring-aws" target="_blank">getting started docs on the serverless
+website</a>, perhaps in parallel with this blog post
+in case I have missed any details.</p>
+
+<h3 id="prerequisites:0b254221062177bc7d224c33605af89c">Prerequisites</h3>
+
+<p>If you&rsquo;re following along, you should create two files alongside the Makefile:</p>
+
+<ul>
+<li><code>credentials</code></li>
+<li><code>config</code></li>
+</ul>
+
+<p>These two files will be copied to <code>/root/.aws/</code> when you build the Docker image.</p>
+
+<p>These should have the following contents which will be specific to you:</p>
+
+<p><code>credentials</code></p>
+
+<pre><code>[default]
+aws_access_key_id=YOUR_AWS_ACCESS_KEY
+aws_secret_access_key=YOUR_AWS_SECRET_KEY
+</code></pre>
+
+<p><code>config</code></p>
+
+<pre><code>[default]
+region=YOUR_PREFERRED_REGION(ex. us-west-2)
+output=json
+</code></pre>
+
+<h2 id="really-getting-started:0b254221062177bc7d224c33605af89c">Really getting started</h2>
+
+<p>With that out of the way, fire up your container and let&rsquo;s take this for a spin. To build the
+container just type <code>make</code>.</p>
+
+<pre><code>brianz@bz-cconline(master)$ make
+brianz@bz-cconline(master)$ # lots of output
+</code></pre>
+
+<p>After that you can start the container with <code>make shell</code>.</p>
+
+<pre><code>brianz@bz-cconline(master)$ make shell
+docker run --rm -it \
+        -v `pwd`:/code \
+        --name=slsdemo &quot;bz/serverless&quot; bash
+root@8b733bf6a50a:/code# 
+root@ea44710fc5db:/code# sls --version
+0.5.5
+</code></pre>
+
+<p>Note that the code in this directory is being mapped to <code>/code</code> on the container. This is one of
+my favorite Docker tricks and will help here since anything we do with the <code>serverless</code> or <code>sls</code>
+commands will write files to our <em>local</em> file system but be visible in the running container.
+Serverless is largely/completely controlled by writing and reading files on the local file system.
+By mapping the <code>/code</code> directory on the Docker container to our host system&rsquo;s we&rsquo;re ensured we
+won&rsquo;t lose all of our work/files when we stop the container.</p>
+
+<h2 id="starting-a-project:0b254221062177bc7d224c33605af89c">Starting a project</h2>
+
+<p>We can now start setting up a new serverless project. It&rsquo;s
+important to understand that Serverless is coordinating <em>both</em> AWS API Gateway and AWS Lambda for
+us. When executing commands with Serverless it may be hard to know exactly what&rsquo;s being done behind
+the scenes. I&rsquo;d recommend looking at both API Gateway and Lambda in the AWS Console to see what
+affect your commands have on those services.</p>
+
+<p>The first thing we&rsquo;ll do is create a new project which will bootstrap the entire project.</p>
+
+<pre><code>root@48f5e89483ac:/code# serverless project create
+ _______                             __
+|   _   .-----.----.--.--.-----.----|  .-----.-----.-----.
+|   |___|  -__|   _|  |  |  -__|   _|  |  -__|__ --|__ --|
+|____   |_____|__|  \___/|_____|__| |__|_____|_____|_____|
+|   |   |             The Serverless Application Framework
+|       |                           serverless.com, v0.5.5
+`-------'
+
+Serverless: Initializing Serverless Project...  
+Serverless: Enter a name for this project:  (serverless-rjdqri) serverless-demo
+Serverless: Enter a new stage name for this project:  (dev) 
+Serverless: For the &quot;dev&quot; stage, do you want to use an existing Amazon Web Services profile or
+create a new one?
+  &gt; Existing Profile
+    Create A New Profile
+Serverless: Select a profile for your project: 
+  &gt; default
+Serverless: Creating stage &quot;dev&quot;...  
+Serverless: Select a new region for your stage: 
+    us-east-1
+  &gt; us-west-2
+    eu-west-1
+    eu-central-1
+    ap-northeast-1
+Serverless: Creating region &quot;us-west-2&quot; in stage &quot;dev&quot;...  
+Serverless: Deploying resources to stage &quot;dev&quot; in region &quot;us-west-2&quot; via Cloudformation (~3
+minutes)...  
+Serverless: No resource updates are to be performed.  
+Serverless: Successfully created region &quot;us-west-2&quot; within stage &quot;dev&quot;  
+Serverless: Successfully created stage &quot;dev&quot;  
+Serverless: Successfully initialized project &quot;serverless-demo&quot; 
+</code></pre>
+
+<p>It should be noted that the the step asking about the AWS Profile (where I select &ldquo;Existing
+Profile&rdquo;) was reading from our previously configured
+<code>credentials</code> file. You could also bypass this step and instead type in your AWS credentials by
+selecting <code>Create A New Profile</code>. This will save your AWS credentials in a filed named <code>admin.env</code>.
+Setting up profiles the <code>admin.env</code> file instead references your named profile stored in your home
+directory.</p>
+
+<pre><code>root@48f5e89483ac:/code/serverless-demo# cat admin.env 
+AWS_DEV_PROFILE=defaultroot
+</code></pre>
+
+<p>OK, so what just happened?  Let&rsquo;s take it slow&hellip;.a new project folder will now exist which is the
+name of your project. From now on you&rsquo;ll need to be in this directory when executing any
+<code>serverless</code> commands (or the alias, <code>sls</code>). Let&rsquo;s have a look inside:</p>
+
+<pre><code>root@c477313ae84f:/code# cd serverless-demo/
+root@c477313ae84f:/code/serverless-demo# ls -l
+total 16
+drwxr-xr-x 1 1000 staff  136 Apr 18 22:46 _meta
+-rw-r--r-- 1 1000 staff   35 Apr 18 22:46 admin.env
+-rw-r--r-- 1 1000 staff  287 Apr 18 22:45 package.json
+-rw-r--r-- 1 1000 staff   64 Apr 18 22:45 s-project.json
+-rw-r--r-- 1 1000 staff 1527 Apr 18 22:45 s-resources-cf.json
+</code></pre>
+
+<p>So what exactly are all of these files? Serverless works by creating and reading files on your
+local system.  These files server different purposes but in the end are used to compose API calls
+to Amazon. For example, have a look at <code>s-resource-cf.json</code>&hellip;this is the Cloudformation template
+which Serverless used to create various resources for you. By looking at it, you can see exactly
+what <code>serverless create project</code> actually did.  As you can see, we don&rsquo;t have much now other than
+some IAM stuff. If you browse the AWS console you will see that there is a Cloudformation stack
+matching what you see in <code>s-resources-cf.json</code>.</p>
+
+<p>Now that we&rsquo;re bootstrapped let&rsquo;s get to something more fun.</p>
+
+<h2 id="create-a-function-and-endpoint:0b254221062177bc7d224c33605af89c">Create a function and endpoint</h2>
+
+<p>Next up, we need to actually create a Lambda function. Again, remember that at this point we really
+have nothing to use..just some IAM roles.</p>
+
+<p>Your source code can go anywhere really&hellip;but what I&rsquo;ll do here is create a <code>lib</code> directory to hold
+any library dependencies (which we&rsquo;ll use later) and a <code>src</code> directory which is where we&rsquo;ll put our
+own source code.</p>
+
+<pre><code>root@c477313ae84f:/code/serverless-demo# mkdir lib src
+</code></pre>
+
+<p>Now, we&rsquo;re ready to create our own Lambda function which will be a Python 2.7 function.</p>
+
+<pre><code>root@c477313ae84f:/code/serverless-demo# sls function create src/hello
+Serverless: Please, select a runtime for this new Function
+    nodejs4.3
+  &gt; python2.7
+    nodejs (v0.10, soon to be deprecated)
+Serverless: For this new Function, would you like to create an Endpoint, Event, or just the
+Function?
+  &gt; Create Endpoint
+    Create Event
+    Just the Function...
+Serverless: Successfully created function: &quot;src/hello&quot;  
+</code></pre>
+
+<p>The last question isn&rsquo;t quite intuitive. What exactly is serverless asking you?</p>
+
+<ul>
+<li><code>Create Endpoint</code>: Will create <em>both</em> an API Gateway endpoint plus the Lambda function</li>
+<li><code>Create Event</code>: Will create a Lambda function which is setup to be triggered on a schedule or
+from another type of event (<strong>not</strong> from API Gateway)</li>
+<li><code>Just the Function...</code>: Will create <em>just</em> the Lambda function leaving it up to you to setup
+how/when it&rsquo;s triggered</li>
+</ul>
+
+<p>Now, we have some Python code:</p>
+
+<pre><code>root@c477313ae84f:/code/serverless-demo# ls -l src/hello/
+total 12
+-rw-r--r-- 1 1000 staff    2 Apr 18 22:53 event.json
+-rw-r--r-- 1 1000 staff  226 Apr 18 22:53 handler.py
+-rw-r--r-- 1 1000 staff 1198 Apr 18 22:53 s-function.json
+</code></pre>
+
+<p>Have a look at the code in <code>handler.py</code>:</p>
+
+<pre><code>from __future__ import print_function
+
+import json
+import logging
+
+log = logging.getLogger()
+log.setLevel(logging.DEBUG)
+
+def handler(event, context):
+    log.debug(&quot;Received event {}&quot;.format(json.dumps(event)))
+    return {}
+</code></pre>
+
+<p>If you&rsquo;re unfamiliar with Lambda just know that you:</p>
+
+<ul>
+<li>create a function which accepts two params, <code>event</code> and <code>context</code></li>
+<li>map the name of the file/function when creating the Lambda so Lambda knows what to execute</li>
+<li>can use any library you need provided you can zip it up in a single zip file and upload it to
+Lambda</li>
+</ul>
+
+<p>This function is a bit boring&hellip;let&rsquo;s change the return value to be more fun:</p>
+
+<pre><code>    # stuff
+    return {'message': 'Serverless is the future!'}
+</code></pre>
+
+<p>Now, for the curious browse over to the AWS Lambda page in the AWS Console.  Note, <strong>your new hello
+function isn&rsquo;t there!</strong>.  Why is this?  Well, Serverless has just set things up for you on your
+local system but you haven&rsquo;t pushed it to AWS yet.</p>
+
+<p>To get your code running, we need to <em>deploy</em> it.</p>
+
+<h2 id="deploying-an-endpoint:0b254221062177bc7d224c33605af89c">Deploying an endpoint</h2>
+
+<p>Now for the fun part&hellip;we&rsquo;re going to tell Serverless to package up our code, upload it to Lambda
+and create us a new endpoint with API Gateway.  Sounds complicated and indeed, if you did this by
+hand there are several clicks and <code>zip</code> commands to take care of. Let&rsquo;s see how easy it is with
+Serverless.</p>
+
+<pre><code>root@3ce920c5854d:/code/serverless-demo# sls dash deploy
+ _______                             __
+|   _   .-----.----.--.--.-----.----|  .-----.-----.-----.
+|   |___|  -__|   _|  |  |  -__|   _|  |  -__|__ --|__ --|
+|____   |_____|__|  \___/|_____|__| |__|_____|_____|_____|
+|   |   |             The Serverless Application Framework
+|       |                           serverless.com, v0.5.5
+`-------'
+
+Use the &lt;up&gt;, &lt;down&gt;, &lt;pageup&gt;, &lt;pagedown&gt;, &lt;home&gt;, and &lt;end&gt; keys to navigate.
+Press &lt;enter&gt; to select/deselect, or &lt;space&gt; to select/deselect and move down.
+Press &lt;ctrl&gt; + a to select all, and &lt;ctrl&gt; + d to deselect all.
+Press &lt;ctrl&gt; + f to select all functions, and &lt;ctrl&gt; + e to select all endpoints.
+Press &lt;ctrl&gt; + &lt;enter&gt; to immediately deploy selected.
+Press &lt;escape&gt; to cancel.
+
+
+Serverless: Select the assets you wish to deploy:
+    hello
+      function - hello
+      endpoint - hello - GET
+    - - - - -
+  &gt; Deploy
+    Cancel
+
+Serverless: Deploying the specified functions in &quot;dev&quot; to the following regions: us-west-2  
+Serverless: ------------------------  
+Serverless: Successfully deployed the following functions in &quot;dev&quot; to the following regions:   
+Serverless: us-west-2 ------------------------  
+Serverless:   hello (serverless-demo-hello):
+arn:aws:lambda:us-west-2:123874195435:function:serverless-demo-hello:dev  
+
+Serverless: Deploying endpoints in &quot;dev&quot; to the following regions: us-west-2  
+Serverless: Successfully deployed endpoints in &quot;dev&quot; to the following regions:  
+Serverless: us-west-2 ------------------------  
+Serverless:   GET - hello - https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/hello 
+</code></pre>
+
+<p>You can&rsquo;t see it in the syntax highlighting above, but it&rsquo;s important to deploy <strong>both</strong> the
+<code>function</code> and the <code>endpoint</code>.  Here&rsquo;s how that breaks down and what those two things means:</p>
+
+<ul>
+<li><code>function</code>: Upload your <code>hello.py</code> function to Lambda. Serverless takes care of the packaging,
+upload, etc.</li>
+<li><code>endpoint</code>: Create/update the API Gateway endpoint which will be responsible for calling the
+<code>hello.py</code> function</li>
+</ul>
+
+<p>With that we get a URL&hellip;let&rsquo;s test it out:</p>
+
+<pre><code>brianz@bz-cconline(master)$ curl https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/hello &amp;&amp; echo
+{&quot;message&quot;: &quot;Serverless is the future!&quot;}
+</code></pre>
+
+<p>Nice!  You can see that it just returns a our fun message, but hot damned, it worked! Let&rsquo;s add a
+<code>-v</code> to see the details from the request:o</p>
+
+<pre><code>brianz@bz-cconline(master)$ curl -v https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/hello &amp;&amp; echo
+*   Trying 54.192.137.191...
+* Connected to 4m98c4l3i1.execute-api.us-west-2.amazonaws.com (54.192.137.191) port 443 (#0)
+* TLS 1.2 connection using TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+* Server certificate: *.execute-api.us-west-2.amazonaws.com
+* Server certificate: Symantec Class 3 Secure Server CA - G4
+* Server certificate: VeriSign Class 3 Public Primary Certification Authority - G5
+&gt; GET /dev/hello HTTP/1.1
+&gt; Host: 4m98c4l3i1.execute-api.us-west-2.amazonaws.com
+&gt; User-Agent: curl/7.43.0
+&gt; Accept: */*
+&gt; 
+&lt; HTTP/1.1 200 OK
+&lt; Content-Type: application/json;charset=UTF-8
+&lt; Content-Length: 40
+&lt; Connection: keep-alive
+&lt; Date: Tue, 03 May 2016 02:47:27 GMT
+&lt; x-amzn-RequestId: 5f2a649a-10d9-11e6-b880-9737ae2ed884
+&lt; X-Cache: Miss from cloudfront
+&lt; Via: 1.1 b67f54b549c6579a21be3a5a67642d7a.cloudfront.net (CloudFront)
+&lt; X-Amz-Cf-Id: 8SqEhohANyUqXGf-uvv9_-dsJLU2SZBvAHCrU1B1d3sIqARCt-weuQ==
+&lt; 
+* Connection #0 to host 4m98c4l3i1.execute-api.us-west-2.amazonaws.com left intact
+{&quot;message&quot;: &quot;Serverless is the future!&quot;}
+</code></pre>
+
+<p>Note that our <code>Content-Type</code> header is being returned as <code>application/json;charset=UTF-8</code>. This
+works quite well for us in this case since our Lambda function returned a Python dictionary and
+apparently it&rsquo;s getting cast to a JSON object somewhere along the way. Here is where the details of
+API Gateway come into play.  Let&rsquo;s assume we wanted our API to return HTML&hellip;how would we do that?</p>
+
+<h2 id="update-and-deploy-a-function:0b254221062177bc7d224c33605af89c">Update and deploy a function</h2>
+
+<p>With our goal of returning HTML, let&rsquo;s update our function.</p>
+
+<pre><code>def handler(event, context):
+    return &quot;&quot;&quot;&lt;html&gt;
+    &lt;head&gt;&lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Hello from Serverless/API Gateway/Lambda&lt;/h1&gt;
+        &lt;h2&gt;Event:&lt;/h2&gt;
+        &lt;pre&gt;
+            %s
+        &lt;/pre&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;&quot;&quot;&quot; % (json.dumps(event), )
+</code></pre>
+
+<p>What we&rsquo;ll do now is deploy this. Note, the analogy here is rolling out new code. Think about how
+complicated that normally is with a traditional web application.  Undoubtedly there are scripts,
+CI systems and the like who are tasked with rolling out your new code. Here, we&rsquo;re going to roll
+out our code with one small command and it will take a mere seconds:</p>
+
+<p>Note, some text removed for brevity:</p>
+
+<pre><code>root@3ce920c5854d:/code/serverless-demo# sls dash deploy
+Serverless: Select the assets you wish to deploy:
+    hello
+      &gt; function - hello
+      endpoint - hello - GET
+    - - - - -
+  &gt; Deploy
+    Cancel
+</code></pre>
+
+<p>We select <em>just</em> the function since our API Gateway endpoint isn&rsquo;t changing at all. This took about
+20 seconds for me and I&rsquo;ve seen it go faster and slower&hellip;but I&rsquo;ve never seen it take longer than
+a minute or so. Once we start pushing up Lambda functions with more requirements the zip files will
+be larger and uploads will take slightly longer.</p>
+
+<p>Let&rsquo;s load it in browser and see what we get now!</p>
+
+<pre><code>&quot;&lt;html&gt;\n    &lt;head&gt;&lt;/head&gt;\n    &lt;body&gt;\n        &lt;h1&gt;Hello from Serverless/API Gateway/Lambda&lt;/h1&gt;\n
+&lt;h2&gt;Event:&lt;/h2&gt;\n        &lt;pre&gt;\n            {}\n        &lt;/pre&gt;\n        &lt;/body&gt;\n    &lt;/html&gt;&quot;
+</code></pre>
+
+<p>Hrm. Not exactly what we were hoping for.</p>
+
+<p>Remember our <code>Content-Type</code> header? Let&rsquo;s see what it is now:</p>
+
+<pre><code>brianz@bz-cconline(master)$ curl -v -s https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/hello 2&gt;&amp;1 | grep Content-Type
+&lt; Content-Type: application/json;charset=UTF-8
+</code></pre>
+
+<p>Yup&hellip;my browser isn&rsquo;t parsing this because it thinks it&rsquo;s JSON. To solve this we need to tell API
+Gateway to return <code>text/html</code>. Honestly, this is <strong>way</strong> harder than it should be. By default we
+saw that API Gateway is setup to return <code>application/json</code> which worked great out of the box. To
+make it return <code>text/html</code> is much more convoluted and not intuitive in the least. To do this we&rsquo;ll
+need to tweak the mappings in API Gateway via the <code>s-function.json</code> file. I&rsquo;m not going to explain
+the details for now, but here are the lines you&rsquo;ll need to change:</p>
+
+<pre><code>&quot;responses&quot;: {
+    &quot;400&quot;: {
+    &quot;statusCode&quot;: &quot;400&quot;
+},  
+&quot;default&quot;: {
+    &quot;statusCode&quot;: &quot;200&quot;,
+    &quot;responseParameters&quot;: {
+        &quot;method.response.header.Content-Type&quot;: &quot;'text/html'&quot;
+    },  
+    &quot;responseTemplates&quot;: {
+        &quot;text/html&quot;: &quot;$input.path('$')&quot;
+    }   
+}   
+</code></pre>
+
+<p>The lines are those with <code>text/html</code> in them. Now, we just <code>sls dash deploy</code> again, select just the
+endpoint and refresh our browser:</p>
+
+<p><img src="http://blog.brianz.bz/images/api-gateway-in-browser-success.png" alt="" /></p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://blog.brianz.bz/post/serverless-part-i/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://blog.brianz.bz/post/serverless-part-i/">Serverless part I</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'brianz';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://blog.brianz.bzjs/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75475240-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+

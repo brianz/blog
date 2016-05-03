@@ -3,8 +3,13 @@
   
   <url>
     <loc>http://blog.brianz.bz/</loc>
-    <lastmod>2016-04-20T16:08:07-06:00</lastmod>
+    <lastmod>2016-05-02T22:08:40-06:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.brianz.bz/post/serverless-part-ii/</loc>
+    <lastmod>2016-05-02T22:08:40-06:00</lastmod>
   </url>
   
   <url>
