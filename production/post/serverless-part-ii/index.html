@@ -571,7 +571,7 @@ API Gateway come into play.  Let&rsquo;s assume we wanted our API to return HTML
 <p>What we&rsquo;ll do now is deploy this. Note, the analogy here is rolling out new code. Think about how
 complicated that normally is with a traditional web application.  Undoubtedly there are scripts,
 CI systems and the like who are tasked with rolling out your new code. Here, we&rsquo;re going to roll
-out our code with one small command and it will take a mere seconds:</p>
+out our code with one small command and it will take mere seconds:</p>
 
 <p>Note, some text removed for brevity:</p>
 
@@ -609,7 +609,8 @@ Gateway to return <code>text/html</code>. Honestly, this is <strong>way</strong>
 saw that API Gateway is setup to return <code>application/json</code> which worked great out of the box. To
 make it return <code>text/html</code> is much more convoluted and not intuitive in the least. To do this we&rsquo;ll
 need to tweak the mappings in API Gateway via the <code>s-function.json</code> file. I&rsquo;m not going to explain
-the details for now, but here are the lines you&rsquo;ll need to change:</p>
+the details for now mostly because I&rsquo;m still figuring out exactly how these mapping work. For now,
+here are the lines you&rsquo;ll need to change:</p>
 
 <pre><code>&quot;responses&quot;: {
     &quot;400&quot;: {
@@ -630,6 +631,16 @@ the details for now, but here are the lines you&rsquo;ll need to change:</p>
 endpoint and refresh our browser:</p>
 
 <p><img src="http://blog.brianz.bz/images/api-gateway-in-browser-success.png" alt="" /></p>
+
+<p>Success!</p>
+
+<h2 id="summary:0b254221062177bc7d224c33605af89c">Summary</h2>
+
+<p>Serverless is quite amazing and I&rsquo;m very excited by this project. When building SAAS applications
+it&rsquo;s quite obvious how much power and flexibility this gives us. Of course, there are limitations
+to this type of system and not all problems can be solved with Serverless&hellip;but a lot of them can.</p>
+
+<p>I will attempt to follow up with more details in future posts&hellip;look for Part III coming soon.</p>
 
 
   

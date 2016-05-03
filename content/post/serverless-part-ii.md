@@ -364,7 +364,7 @@ def handler(event, context):
 What we'll do now is deploy this. Note, the analogy here is rolling out new code. Think about how
 complicated that normally is with a traditional web application.  Undoubtedly there are scripts,
 CI systems and the like who are tasked with rolling out your new code. Here, we're going to roll
-out our code with one small command and it will take a mere seconds:
+out our code with one small command and it will take mere seconds:
 
 Note, some text removed for brevity:
 
@@ -405,7 +405,8 @@ Gateway to return `text/html`. Honestly, this is **way** harder than it should b
 saw that API Gateway is setup to return `application/json` which worked great out of the box. To
 make it return `text/html` is much more convoluted and not intuitive in the least. To do this we'll
 need to tweak the mappings in API Gateway via the `s-function.json` file. I'm not going to explain
-the details for now, but here are the lines you'll need to change:
+the details for now mostly because I'm still figuring out exactly how these mapping work. For now,
+here are the lines you'll need to change:
 
 ```
 "responses": {
@@ -427,3 +428,13 @@ The lines are those with `text/html` in them. Now, we just `sls dash deploy` aga
 endpoint and refresh our browser:
 
 ![](/images/api-gateway-in-browser-success.png)
+
+Success!
+
+## Summary
+
+Serverless is quite amazing and I'm very excited by this project. When building SAAS applications
+it's quite obvious how much power and flexibility this gives us. Of course, there are limitations
+to this type of system and not all problems can be solved with Serverless...but a lot of them can.
+
+I will attempt to follow up with more details in future posts...look for Part III coming soon.
