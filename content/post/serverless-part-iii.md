@@ -1,6 +1,6 @@
 +++
-date = "2016-05-18T16:27:48-06:00"
-draft = true
+date = "2016-06-02T17:01:36-06:00"
+draft = false
 title = "Serverless part III"
 tags = [
     'aws',
@@ -21,7 +21,7 @@ you'll undoubtedly run into when doing real development with Serverless.
 I'll be covering two topics in this post:
 
 - API Gateway Stages
-- Managing configuration with environment variables
+- Managing configuration with variables
 
 
 ## API Gateway Stages
@@ -124,7 +124,7 @@ Serverless docs](http://docs.serverless.com/docs/workflow#deploying-your-functio
 around to see for yourself what changes in the AWS console as you deploy code.
 
 
-## Managing configuration with stage variables
+## Managing configuration with variables
 
 Now that we have two different stages let's show that they are indeed separated and can be
 controlled independently. What we'll do is actually print out the name of the stage from our Lambda function.
@@ -134,7 +134,7 @@ which can be unique for a given deployment...think about a database username, an
 party system, etc. When rolling out different versions of your code you'll inevitably require each
 one to use specific settings.
 
-Crack open `s-function.json` and grep for `environment`...you'll see that Serverless is reference
+Crack open `s-function.json` and grep for `environment`...you'll see that Serverless is referencing
 three different environment variables:
 
 ```
@@ -145,13 +145,13 @@ three different environment variables:
   },
 ```
 
-These are simple key/value pairs which Serverless will send over to API Gateway when doing a
+These are simple key/value pairs which Serverless will send over to Lamda when doing a
 deployment. Here, the "values" are being referenced by some magic serverless variables with the
 `${thing}` syntax.  What is actually populating the values?  The answer lies in the `_meta`
 directory:
 
 ```
-brianz@bz-cconline(master=)$ ls -l
+brianz@gold(master=)$ ls -l
 total 40
 -rw-r--r--  1 brianz  staff   34 Jun  2 15:22 s-variables-common.json
 -rw-r--r--  1 brianz  staff  220 Jun  2 15:22 s-variables-dev-uswest2.json
@@ -165,7 +165,7 @@ contains some meta data about our deployments...for now, we're more interested i
 `s-variables-production.json` file.
 
 ```
-brianz@bz-cconline(master=)$ grep stage *
+brianz@gold(master=)$ grep stage *
 s-variables-dev.json:  "stage": "dev",
 s-variables-production.json:  "stage": "production"
 ```
@@ -215,7 +215,7 @@ download the zip file containing your code which backs your lambda function you'
 rewritten handler actually looks like:
 
 ```
-brianz@bz-cconline(master=)$ cat ~/Desktop/serverless-demo-hello-5b5a957b-4073-43fd-8b76-d315422fd269/_serverless_handler.py 
+brianz@gold(master=)$ cat ~/Desktop/serverless-demo-hello-5b5a957b-4073-43fd-8b76-d315422fd269/_serverless_handler.py 
 ```
 
 ```
@@ -263,7 +263,10 @@ turns into this:
 The production file has the same variable but of course with a different value.  Now let's deploy
 both of these and see what we get:
 
+`dev`
 <img src="/images/serverless-demo-magic-var-dev.png" width="800">
+
+...and, `production`
 <img src="/images/serverless-demo-magic-var-production.png" width="800">
 
 ## Conclusion

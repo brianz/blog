@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.15" />
+
+  <title>Serverless part III &middot; Brian Z</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://blog.brianz.bzimg/favicon.ico" type="image/x-icon" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://blog.brianz.bz/">brianz</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/brianzambrano" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/brian.zambrano" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://instagram.com/bzambrano" target="_blank"><i class="fa fa-instagram fa-fw"></i>Instagram</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/brianzambrano" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://news.ycombinator.com/user?id=brianz" target="_blank"><i class="fa fa-hacker-news fa-fw"></i>Hacker News</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/brianz" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://stackoverflow.com/users/87858" target="_blank"><i class="fa fa-stack-overflow fa-fw"></i>Stack Overflow</a>
+    </li>
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Serverless part III</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>02 Jun 2016, 17:01</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/aws">aws</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/architecture">architecture</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/serverless">serverless</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>This is part three in my series about creating serverless systems using AWS API Gateway + Lambda
+via the <a href="http://serverless.com" target="_blank">Serverless</a> project. If you&rsquo;re haven&rsquo;t already you can read
+<a href="http://blog.brianz.bz/post/serverless-part-i/" target="_blank">part I</a> and <a href="http://blog.brianz.bz/post/serverless-part-ii/" target="_blank">part II</a>.</p>
+
+<p>My goal is to continue evolving this example to walk through a non-trivial example of doing
+something with the serverless architecture. Along the way I&rsquo;ll demo some useful features which
+you&rsquo;ll undoubtedly run into when doing real development with Serverless.</p>
+
+<p>I&rsquo;ll be covering two topics in this post:</p>
+
+<ul>
+<li>API Gateway Stages</li>
+<li>Managing configuration with variables</li>
+</ul>
+
+<h2 id="api-gateway-stages:48f3c93668433bcff400a726b76f0ce0">API Gateway Stages</h2>
+
+<p>If you&rsquo;re new to API Gateway and Lambda an obvious question you may ask is, &ldquo;How do I setup
+different deployments for my Serverless system?&rdquo;  Coming from a traditional setup most everyone
+will spin up different stacks/servers for their QA, Staging and Production environments.  However,
+with a serverless project, how to you go about the same thing?</p>
+
+<p>The answer to this are API Gateway stages. <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/stages.html" target="_blank">You can read the
+docs</a> but I&rsquo;ll try to
+distill down the big concepts&hellip;it&rsquo;s not that complicated to grok.</p>
+
+<p>With Gateway, a Stage is analogous to an &ldquo;environment&rdquo; if you&rsquo;re running your own system.  For
+example, in a given AWS account you may want to run and manage your Serverless project as one unit
+but manage your QA and Production environments separately.  Of course, any new code or
+configuration changes you would first deploy to your QA Stage. Once you were confident things were
+working you&rsquo;d then roll out those same changes to your Production Stage.  Again, the analogy here
+is that you&rsquo;re deploying code to different and separate systems.  Another scenario is multiple
+developers working on the same project&hellip;each developer could have their own stage which would
+eliminate stepping on each other while doing development.  API Gateway gives us this ability
+(and more) via Stages.</p>
+
+<p>By default, you&rsquo;ll get a <code>dev</code> stage when setting up a new Serverless project. Let&rsquo;s create a new
+stage which we&rsquo;ll call <code>production</code>.</p>
+
+<p>Remember, I&rsquo;m using a Docker container to execute all of my Serverless commands.  You can follow
+along by <a href="https://github.com/brianz/serverless-demo/tree/part-iii" target="_blank">checking out the repository</a>.</p>
+
+<pre><code>brianz@gold(master=)$ make shell
+docker run --rm -it \
+        -v `pwd`:/code \
+        --name=slsdemo &quot;bz/serverless&quot; bash
+root@8941047f877c:/code# 
+root@7c84db71d474:/code/serverless-demo# sls stage create   
+Serverless: Enter a new stage name for this project:  (dev) production
+Serverless: For the &quot;production&quot; stage, do you want to use an existing Amazon Web Services profile
+or create a new one?
+  &gt; Existing Profile
+    Create A New Profile
+Serverless: Select a profile for your project: 
+  &gt; default
+Serverless: Creating stage &quot;production&quot;...  
+Serverless: Select a new region for your stage: 
+    us-east-1
+  &gt; us-west-2
+    eu-west-1
+    eu-central-1
+    ap-northeast-1
+Serverless: Creating region &quot;us-west-2&quot; in stage &quot;production&quot;...  
+Serverless: Deploying resources to stage &quot;production&quot; in region &quot;us-west-2&quot; via Cloudformation (~3 minutes)...  
+Serverless: Successfully deployed &quot;production&quot; resources to &quot;us-west-2&quot;  
+Serverless: Successfully created region &quot;us-west-2&quot; within stage &quot;production&quot;  
+Serverless: Successfully created stage &quot;production&quot;  
+</code></pre>
+
+<p>Great! Remembering back, creating this new stage is akin to creating a new project.  We don&rsquo;t
+actually have anything behind the scenes&hellip;we just have scaffolding in place so that we can deploy
+some stuff.  So, let&rsquo;s deploy our existing <code>hello</code> function and endpoint:</p>
+
+<pre><code>root@7c84db71d474:/code/serverless-demo# sls dash deploy
+Serverless: Select the assets you wish to deploy:
+    hello
+      &gt; function - hello
+      &gt; endpoint - hello - GET
+    - - - - -
+  &gt; Deploy
+    Cancel
+
+Serverless: Choose a Stage: 
+    1) dev
+  &gt; 2) production
+Serverless: Deploying the specified functions in &quot;production&quot; to the following regions: us-west-2  
+Serverless: ------------------------  
+Serverless: Successfully deployed the following functions in &quot;production&quot; to the following regions:   
+Serverless: us-west-2 ------------------------  
+Serverless:   hello (serverless-demo-hello):
+arn:aws:lambda:us-west-2:123874195435:function:serverless-demo-hello:production  
+
+Serverless: Deploying endpoints in &quot;production&quot; to the following regions: us-west-2  
+Serverless: Successfully deployed endpoints in &quot;production&quot; to the following regions:  
+Serverless: us-west-2 ------------------------  
+Serverless:   GET - hello - https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/production/hello  
+</code></pre>
+
+<p>Above, note that I&rsquo;m deploying to the <code>production</code> stage.  Down below Serverless spit out a new URL
+which we can use to hit.</p>
+
+<p>Behind the scenes, what is actually happening is that Serverless is instruction API Gateway and
+Lambda to do several things&hellip;one of which is creating new versions of your Lambda function. Once
+the new Lambda version is available, API Gateway will be pointed to that new version via a Lambda
+Alias.  API Gateway has a notion of a Stage Variable. As an example, our <code>production</code> stage will
+have a Stage Variable of <code>functionAlias = production</code>.  That means that this stage will point to
+the <code>production</code> alias of our lambda function.</p>
+
+<p>It&rsquo;s quite interesting how it&rsquo;s all orchestrated and I&rsquo;d recommend <a href="http://docs.serverless.com/docs/workflow#deploying-your-functions" target="_blank">reading the
+Serverless docs</a> and playing
+around to see for yourself what changes in the AWS console as you deploy code.</p>
+
+<h2 id="managing-configuration-with-variables:48f3c93668433bcff400a726b76f0ce0">Managing configuration with variables</h2>
+
+<p>Now that we have two different stages let&rsquo;s show that they are indeed separated and can be
+controlled independently. What we&rsquo;ll do is actually print out the name of the stage from our Lambda function.
+This is really easy to do thanks to <a href="http://docs.serverless.com/docs/function-configuration" target="_blank">Serverless variables</a>.  These are settings
+which can be unique for a given deployment&hellip;think about a database username, an API key for a 3rd
+party system, etc. When rolling out different versions of your code you&rsquo;ll inevitably require each
+one to use specific settings.</p>
+
+<p>Crack open <code>s-function.json</code> and grep for <code>environment</code>&hellip;you&rsquo;ll see that Serverless is referencing
+three different environment variables:</p>
+
+<pre><code>  &quot;environment&quot;: {
+    &quot;SERVERLESS_PROJECT&quot;: &quot;${project}&quot;,
+    &quot;SERVERLESS_STAGE&quot;: &quot;${stage}&quot;,
+    &quot;SERVERLESS_REGION&quot;: &quot;${region}&quot;
+  },
+</code></pre>
+
+<p>These are simple key/value pairs which Serverless will send over to Lamda when doing a
+deployment. Here, the &ldquo;values&rdquo; are being referenced by some magic serverless variables with the
+<code>${thing}</code> syntax.  What is actually populating the values?  The answer lies in the <code>_meta</code>
+directory:</p>
+
+<pre><code>brianz@gold(master=)$ ls -l
+total 40
+-rw-r--r--  1 brianz  staff   34 Jun  2 15:22 s-variables-common.json
+-rw-r--r--  1 brianz  staff  220 Jun  2 15:22 s-variables-dev-uswest2.json
+-rw-r--r--  1 brianz  staff   50 Jun  2 15:22 s-variables-dev.json
+-rw-r--r--  1 brianz  staff  234 Jun  2 15:27 s-variables-production-uswest2.json
+-rw-r--r--  1 brianz  staff   27 Jun  2 15:25 s-variables-production.json
+</code></pre>
+
+<p>You can see here that for each stage we have two different files. The files with the region name
+contains some meta data about our deployments&hellip;for now, we&rsquo;re more interested in the
+<code>s-variables-production.json</code> file.</p>
+
+<pre><code>brianz@gold(master=)$ grep stage *
+s-variables-dev.json:  &quot;stage&quot;: &quot;dev&quot;,
+s-variables-production.json:  &quot;stage&quot;: &quot;production&quot;
+</code></pre>
+
+<p>So, the <code>stage</code> variable is automatically set in these files.</p>
+
+<p>Now, you may think that these variables are being set and uploaded to AWS somewhere via Stage
+Variables or the like. I definitely thought that&hellip;but I was wrong. Environment variables which you
+define and use in Serverless like this are actually injected into your Lambda handler upon
+deployment.  You can <a href="http://docs.serverless.com/docs/workflow#deploying-your-functions" target="_blank">read all about it in the Serverless
+docs</a>. The key is this single
+bullet point:</p>
+
+<blockquote>
+<p>Your regular handler file is replaced by one that Serverless adds titled _serverless_handler, which
+contains your Function&rsquo;s Environment Variables in-lined in the code.</p>
+</blockquote>
+
+<p>Serverless actually gives us a <em>new</em> Lambda handler with the environment variables injected to
+<code>os.environ</code> before calling our <a href="https://github.com/brianz/serverless-demo/blob/cccda988e257423348c87c87983a4f7c4add401d/serverless-demo/src/hello/handler.py#L12" target="_blank">Python handler</a>.
+.Getting access to the values is quite easy&hellip;it&rsquo;s just the stock Python way of getting stuff from
+the environment Here&rsquo;s the change we&rsquo;ll make to get the stage name and return it in the HTML message:</p>
+
+<pre><code>def handler(event, context):
+    value = os.environ.get('SERVERLESS_STAGE', '')
+    return &quot;&quot;&quot;&lt;html&gt;
+    &lt;head&gt;&lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Hello from Serverless/API Gateway/Lambda&lt;/h1&gt;
+        &lt;h2&gt;SERVERLESS_STAGE: %s&lt;/h2&gt;
+        &lt;h2&gt;Event:&lt;/h2&gt;
+        &lt;pre&gt;
+            %s
+        &lt;/pre&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;&quot;&quot;&quot; % (value, json.dumps(event), )
+</code></pre>
+
+<p>Once that&rsquo;s done I&rsquo;ll <code>sls dash deploy</code> for the <code>dev</code> and <code>production</code> stages&hellip;low and behold,
+when I hit the two endpoint I get what I expect:</p>
+
+<p><img src="http://blog.brianz.bz/images/serverless-demo-dev.png" width="800">
+<img src="http://blog.brianz.bz/images/serverless-demo-production.png" width="800"></p>
+
+<p>I think it&rsquo;s interesting to look behind the scenes to see how this actually happened. When you
+download the zip file containing your code which backs your lambda function you&rsquo;ll see what your
+rewritten handler actually looks like:</p>
+
+<pre><code>brianz@gold(master=)$ cat ~/Desktop/serverless-demo-hello-5b5a957b-4073-43fd-8b76-d315422fd269/_serverless_handler.py 
+</code></pre>
+
+<pre><code>import os, sys
+os.environ['SERVERLESS_PROJECT'] = str('serverless-demo')
+os.environ['SERVERLESS_STAGE'] = str('dev')
+os.environ['SERVERLESS_REGION'] = str('us-west-2')
+os.environ['SERVERLESS_DATA_MODEL_STAGE'] = str('dev')
+here = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(here)
+</code></pre>
+
+<p>Great&hellip;we now know how to access environment variables and control deployments via stages. Let&rsquo;s
+do the work of adding some configuration of our own!</p>
+
+<p>I&rsquo;m going to add another reference in <code>handler.py</code> to a new variable:</p>
+
+<pre><code>magic = os.environ.get('MAGIC_VARIABLE', '')
+</code></pre>
+
+<p>The other small change is simply putting it in the HTML output string.  I also will need to inject
+this variable into the lambda function by adding it to <code>s-function.json</code></p>
+
+<pre><code>  &quot;environment&quot;: {
+    &quot;MAGIC_VARIABLE&quot;: &quot;${magicVariable}&quot;,
+    // existing vars
+</code></pre>
+
+<p>The final step is setting these variable. Note here, we have a <em>single</em> change to
+<code>s-function.json</code>&hellip;it&rsquo;s getting the actual value for <code>MAGIC_VARIABLE</code> from the Serverless
+framework.  We can control the value of <code>${magicVariable}</code> by hooking into Serverless
+configuration/variable files.  I&rsquo;m going to add two different values&hellip;one for each of our two
+deployments. Open up <code>s-variables-production.json</code> and <code>s-variables-dev.json</code>. The <code>dev</code> version
+turns into this:</p>
+
+<pre><code>{
+  &quot;magicVariable&quot;: &quot;Not secret or important&quot;,
+  &quot;stage&quot;: &quot;dev&quot;
+}
+</code></pre>
+
+<p>The production file has the same variable but of course with a different value.  Now let&rsquo;s deploy
+both of these and see what we get:</p>
+
+<p><code>dev</code>
+<img src="http://blog.brianz.bz/images/serverless-demo-magic-var-dev.png" width="800"></p>
+
+<p>&hellip;and, <code>production</code>
+<img src="http://blog.brianz.bz/images/serverless-demo-magic-var-production.png" width="800"></p>
+
+<h2 id="conclusion:48f3c93668433bcff400a726b76f0ce0">Conclusion</h2>
+
+<p>We now know how to create different deployments and control them independently. I also explained
+some of the voodoo going on behind the scenes. In Part IV I&rsquo;ll cover some other features in the
+Serverless ecosystem which allows for easier collaboration and syncing of sensitive data.
+Hopefully, we can also start building out a more interesting demo which actually does something.</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://blog.brianz.bz/post/serverless-part-ii/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://blog.brianz.bz/post/serverless-part-ii/">Serverless part II</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'brianz';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://blog.brianz.bzjs/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75475240-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+

@@ -6,8 +6,273 @@
     <description>Recent content in Architecture on Brian Z</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Mon, 02 May 2016 22:08:40 -0600</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jun 2016 17:01:36 -0600</lastBuildDate>
     <atom:link href="http://blog.brianz.bz/tags/architecture/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Serverless part III</title>
+      <link>http://blog.brianz.bz/post/serverless-part-iii/</link>
+      <pubDate>Thu, 02 Jun 2016 17:01:36 -0600</pubDate>
+      
+      <guid>http://blog.brianz.bz/post/serverless-part-iii/</guid>
+      <description>
+
+&lt;p&gt;This is part three in my series about creating serverless systems using AWS API Gateway + Lambda
+via the &lt;a href=&#34;http://serverless.com&#34; target=&#34;_blank&#34;&gt;Serverless&lt;/a&gt; project. If you&amp;rsquo;re haven&amp;rsquo;t already you can read
+&lt;a href=&#34;http://blog.brianz.bz/post/serverless-part-i/&#34; target=&#34;_blank&#34;&gt;part I&lt;/a&gt; and &lt;a href=&#34;http://blog.brianz.bz/post/serverless-part-ii/&#34; target=&#34;_blank&#34;&gt;part II&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;My goal is to continue evolving this example to walk through a non-trivial example of doing
+something with the serverless architecture. Along the way I&amp;rsquo;ll demo some useful features which
+you&amp;rsquo;ll undoubtedly run into when doing real development with Serverless.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ll be covering two topics in this post:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;API Gateway Stages&lt;/li&gt;
+&lt;li&gt;Managing configuration with variables&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;api-gateway-stages:48f3c93668433bcff400a726b76f0ce0&#34;&gt;API Gateway Stages&lt;/h2&gt;
+
+&lt;p&gt;If you&amp;rsquo;re new to API Gateway and Lambda an obvious question you may ask is, &amp;ldquo;How do I setup
+different deployments for my Serverless system?&amp;rdquo;  Coming from a traditional setup most everyone
+will spin up different stacks/servers for their QA, Staging and Production environments.  However,
+with a serverless project, how to you go about the same thing?&lt;/p&gt;
+
+&lt;p&gt;The answer to this are API Gateway stages. &lt;a href=&#34;https://docs.aws.amazon.com/apigateway/latest/developerguide/stages.html&#34; target=&#34;_blank&#34;&gt;You can read the
+docs&lt;/a&gt; but I&amp;rsquo;ll try to
+distill down the big concepts&amp;hellip;it&amp;rsquo;s not that complicated to grok.&lt;/p&gt;
+
+&lt;p&gt;With Gateway, a Stage is analogous to an &amp;ldquo;environment&amp;rdquo; if you&amp;rsquo;re running your own system.  For
+example, in a given AWS account you may want to run and manage your Serverless project as one unit
+but manage your QA and Production environments separately.  Of course, any new code or
+configuration changes you would first deploy to your QA Stage. Once you were confident things were
+working you&amp;rsquo;d then roll out those same changes to your Production Stage.  Again, the analogy here
+is that you&amp;rsquo;re deploying code to different and separate systems.  Another scenario is multiple
+developers working on the same project&amp;hellip;each developer could have their own stage which would
+eliminate stepping on each other while doing development.  API Gateway gives us this ability
+(and more) via Stages.&lt;/p&gt;
+
+&lt;p&gt;By default, you&amp;rsquo;ll get a &lt;code&gt;dev&lt;/code&gt; stage when setting up a new Serverless project. Let&amp;rsquo;s create a new
+stage which we&amp;rsquo;ll call &lt;code&gt;production&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Remember, I&amp;rsquo;m using a Docker container to execute all of my Serverless commands.  You can follow
+along by &lt;a href=&#34;https://github.com/brianz/serverless-demo/tree/part-iii&#34; target=&#34;_blank&#34;&gt;checking out the repository&lt;/a&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;brianz@gold(master=)$ make shell
+docker run --rm -it \
+        -v `pwd`:/code \
+        --name=slsdemo &amp;quot;bz/serverless&amp;quot; bash
+root@8941047f877c:/code# 
+root@7c84db71d474:/code/serverless-demo# sls stage create   
+Serverless: Enter a new stage name for this project:  (dev) production
+Serverless: For the &amp;quot;production&amp;quot; stage, do you want to use an existing Amazon Web Services profile
+or create a new one?
+  &amp;gt; Existing Profile
+    Create A New Profile
+Serverless: Select a profile for your project: 
+  &amp;gt; default
+Serverless: Creating stage &amp;quot;production&amp;quot;...  
+Serverless: Select a new region for your stage: 
+    us-east-1
+  &amp;gt; us-west-2
+    eu-west-1
+    eu-central-1
+    ap-northeast-1
+Serverless: Creating region &amp;quot;us-west-2&amp;quot; in stage &amp;quot;production&amp;quot;...  
+Serverless: Deploying resources to stage &amp;quot;production&amp;quot; in region &amp;quot;us-west-2&amp;quot; via Cloudformation (~3 minutes)...  
+Serverless: Successfully deployed &amp;quot;production&amp;quot; resources to &amp;quot;us-west-2&amp;quot;  
+Serverless: Successfully created region &amp;quot;us-west-2&amp;quot; within stage &amp;quot;production&amp;quot;  
+Serverless: Successfully created stage &amp;quot;production&amp;quot;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Great! Remembering back, creating this new stage is akin to creating a new project.  We don&amp;rsquo;t
+actually have anything behind the scenes&amp;hellip;we just have scaffolding in place so that we can deploy
+some stuff.  So, let&amp;rsquo;s deploy our existing &lt;code&gt;hello&lt;/code&gt; function and endpoint:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;root@7c84db71d474:/code/serverless-demo# sls dash deploy
+Serverless: Select the assets you wish to deploy:
+    hello
+      &amp;gt; function - hello
+      &amp;gt; endpoint - hello - GET
+    - - - - -
+  &amp;gt; Deploy
+    Cancel
+
+Serverless: Choose a Stage: 
+    1) dev
+  &amp;gt; 2) production
+Serverless: Deploying the specified functions in &amp;quot;production&amp;quot; to the following regions: us-west-2  
+Serverless: ------------------------  
+Serverless: Successfully deployed the following functions in &amp;quot;production&amp;quot; to the following regions:   
+Serverless: us-west-2 ------------------------  
+Serverless:   hello (serverless-demo-hello):
+arn:aws:lambda:us-west-2:123874195435:function:serverless-demo-hello:production  
+
+Serverless: Deploying endpoints in &amp;quot;production&amp;quot; to the following regions: us-west-2  
+Serverless: Successfully deployed endpoints in &amp;quot;production&amp;quot; to the following regions:  
+Serverless: us-west-2 ------------------------  
+Serverless:   GET - hello - https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/production/hello  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Above, note that I&amp;rsquo;m deploying to the &lt;code&gt;production&lt;/code&gt; stage.  Down below Serverless spit out a new URL
+which we can use to hit.&lt;/p&gt;
+
+&lt;p&gt;Behind the scenes, what is actually happening is that Serverless is instruction API Gateway and
+Lambda to do several things&amp;hellip;one of which is creating new versions of your Lambda function. Once
+the new Lambda version is available, API Gateway will be pointed to that new version via a Lambda
+Alias.  API Gateway has a notion of a Stage Variable. As an example, our &lt;code&gt;production&lt;/code&gt; stage will
+have a Stage Variable of &lt;code&gt;functionAlias = production&lt;/code&gt;.  That means that this stage will point to
+the &lt;code&gt;production&lt;/code&gt; alias of our lambda function.&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s quite interesting how it&amp;rsquo;s all orchestrated and I&amp;rsquo;d recommend &lt;a href=&#34;http://docs.serverless.com/docs/workflow#deploying-your-functions&#34; target=&#34;_blank&#34;&gt;reading the
+Serverless docs&lt;/a&gt; and playing
+around to see for yourself what changes in the AWS console as you deploy code.&lt;/p&gt;
+
+&lt;h2 id=&#34;managing-configuration-with-variables:48f3c93668433bcff400a726b76f0ce0&#34;&gt;Managing configuration with variables&lt;/h2&gt;
+
+&lt;p&gt;Now that we have two different stages let&amp;rsquo;s show that they are indeed separated and can be
+controlled independently. What we&amp;rsquo;ll do is actually print out the name of the stage from our Lambda function.
+This is really easy to do thanks to &lt;a href=&#34;http://docs.serverless.com/docs/function-configuration&#34; target=&#34;_blank&#34;&gt;Serverless variables&lt;/a&gt;.  These are settings
+which can be unique for a given deployment&amp;hellip;think about a database username, an API key for a 3rd
+party system, etc. When rolling out different versions of your code you&amp;rsquo;ll inevitably require each
+one to use specific settings.&lt;/p&gt;
+
+&lt;p&gt;Crack open &lt;code&gt;s-function.json&lt;/code&gt; and grep for &lt;code&gt;environment&lt;/code&gt;&amp;hellip;you&amp;rsquo;ll see that Serverless is referencing
+three different environment variables:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &amp;quot;environment&amp;quot;: {
+    &amp;quot;SERVERLESS_PROJECT&amp;quot;: &amp;quot;${project}&amp;quot;,
+    &amp;quot;SERVERLESS_STAGE&amp;quot;: &amp;quot;${stage}&amp;quot;,
+    &amp;quot;SERVERLESS_REGION&amp;quot;: &amp;quot;${region}&amp;quot;
+  },
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;These are simple key/value pairs which Serverless will send over to Lamda when doing a
+deployment. Here, the &amp;ldquo;values&amp;rdquo; are being referenced by some magic serverless variables with the
+&lt;code&gt;${thing}&lt;/code&gt; syntax.  What is actually populating the values?  The answer lies in the &lt;code&gt;_meta&lt;/code&gt;
+directory:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;brianz@gold(master=)$ ls -l
+total 40
+-rw-r--r--  1 brianz  staff   34 Jun  2 15:22 s-variables-common.json
+-rw-r--r--  1 brianz  staff  220 Jun  2 15:22 s-variables-dev-uswest2.json
+-rw-r--r--  1 brianz  staff   50 Jun  2 15:22 s-variables-dev.json
+-rw-r--r--  1 brianz  staff  234 Jun  2 15:27 s-variables-production-uswest2.json
+-rw-r--r--  1 brianz  staff   27 Jun  2 15:25 s-variables-production.json
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can see here that for each stage we have two different files. The files with the region name
+contains some meta data about our deployments&amp;hellip;for now, we&amp;rsquo;re more interested in the
+&lt;code&gt;s-variables-production.json&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;brianz@gold(master=)$ grep stage *
+s-variables-dev.json:  &amp;quot;stage&amp;quot;: &amp;quot;dev&amp;quot;,
+s-variables-production.json:  &amp;quot;stage&amp;quot;: &amp;quot;production&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, the &lt;code&gt;stage&lt;/code&gt; variable is automatically set in these files.&lt;/p&gt;
+
+&lt;p&gt;Now, you may think that these variables are being set and uploaded to AWS somewhere via Stage
+Variables or the like. I definitely thought that&amp;hellip;but I was wrong. Environment variables which you
+define and use in Serverless like this are actually injected into your Lambda handler upon
+deployment.  You can &lt;a href=&#34;http://docs.serverless.com/docs/workflow#deploying-your-functions&#34; target=&#34;_blank&#34;&gt;read all about it in the Serverless
+docs&lt;/a&gt;. The key is this single
+bullet point:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Your regular handler file is replaced by one that Serverless adds titled _serverless_handler, which
+contains your Function&amp;rsquo;s Environment Variables in-lined in the code.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Serverless actually gives us a &lt;em&gt;new&lt;/em&gt; Lambda handler with the environment variables injected to
+&lt;code&gt;os.environ&lt;/code&gt; before calling our &lt;a href=&#34;https://github.com/brianz/serverless-demo/blob/cccda988e257423348c87c87983a4f7c4add401d/serverless-demo/src/hello/handler.py#L12&#34; target=&#34;_blank&#34;&gt;Python handler&lt;/a&gt;.
+.Getting access to the values is quite easy&amp;hellip;it&amp;rsquo;s just the stock Python way of getting stuff from
+the environment Here&amp;rsquo;s the change we&amp;rsquo;ll make to get the stage name and return it in the HTML message:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def handler(event, context):
+    value = os.environ.get(&#39;SERVERLESS_STAGE&#39;, &#39;&#39;)
+    return &amp;quot;&amp;quot;&amp;quot;&amp;lt;html&amp;gt;
+    &amp;lt;head&amp;gt;&amp;lt;/head&amp;gt;
+    &amp;lt;body&amp;gt;
+        &amp;lt;h1&amp;gt;Hello from Serverless/API Gateway/Lambda&amp;lt;/h1&amp;gt;
+        &amp;lt;h2&amp;gt;SERVERLESS_STAGE: %s&amp;lt;/h2&amp;gt;
+        &amp;lt;h2&amp;gt;Event:&amp;lt;/h2&amp;gt;
+        &amp;lt;pre&amp;gt;
+            %s
+        &amp;lt;/pre&amp;gt;
+        &amp;lt;/body&amp;gt;
+    &amp;lt;/html&amp;gt;&amp;quot;&amp;quot;&amp;quot; % (value, json.dumps(event), )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once that&amp;rsquo;s done I&amp;rsquo;ll &lt;code&gt;sls dash deploy&lt;/code&gt; for the &lt;code&gt;dev&lt;/code&gt; and &lt;code&gt;production&lt;/code&gt; stages&amp;hellip;low and behold,
+when I hit the two endpoint I get what I expect:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.brianz.bz/images/serverless-demo-dev.png&#34; width=&#34;800&#34;&gt;
+&lt;img src=&#34;http://blog.brianz.bz/images/serverless-demo-production.png&#34; width=&#34;800&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;I think it&amp;rsquo;s interesting to look behind the scenes to see how this actually happened. When you
+download the zip file containing your code which backs your lambda function you&amp;rsquo;ll see what your
+rewritten handler actually looks like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;brianz@gold(master=)$ cat ~/Desktop/serverless-demo-hello-5b5a957b-4073-43fd-8b76-d315422fd269/_serverless_handler.py 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;import os, sys
+os.environ[&#39;SERVERLESS_PROJECT&#39;] = str(&#39;serverless-demo&#39;)
+os.environ[&#39;SERVERLESS_STAGE&#39;] = str(&#39;dev&#39;)
+os.environ[&#39;SERVERLESS_REGION&#39;] = str(&#39;us-west-2&#39;)
+os.environ[&#39;SERVERLESS_DATA_MODEL_STAGE&#39;] = str(&#39;dev&#39;)
+here = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(here)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Great&amp;hellip;we now know how to access environment variables and control deployments via stages. Let&amp;rsquo;s
+do the work of adding some configuration of our own!&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m going to add another reference in &lt;code&gt;handler.py&lt;/code&gt; to a new variable:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;magic = os.environ.get(&#39;MAGIC_VARIABLE&#39;, &#39;&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The other small change is simply putting it in the HTML output string.  I also will need to inject
+this variable into the lambda function by adding it to &lt;code&gt;s-function.json&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &amp;quot;environment&amp;quot;: {
+    &amp;quot;MAGIC_VARIABLE&amp;quot;: &amp;quot;${magicVariable}&amp;quot;,
+    // existing vars
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The final step is setting these variable. Note here, we have a &lt;em&gt;single&lt;/em&gt; change to
+&lt;code&gt;s-function.json&lt;/code&gt;&amp;hellip;it&amp;rsquo;s getting the actual value for &lt;code&gt;MAGIC_VARIABLE&lt;/code&gt; from the Serverless
+framework.  We can control the value of &lt;code&gt;${magicVariable}&lt;/code&gt; by hooking into Serverless
+configuration/variable files.  I&amp;rsquo;m going to add two different values&amp;hellip;one for each of our two
+deployments. Open up &lt;code&gt;s-variables-production.json&lt;/code&gt; and &lt;code&gt;s-variables-dev.json&lt;/code&gt;. The &lt;code&gt;dev&lt;/code&gt; version
+turns into this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;magicVariable&amp;quot;: &amp;quot;Not secret or important&amp;quot;,
+  &amp;quot;stage&amp;quot;: &amp;quot;dev&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The production file has the same variable but of course with a different value.  Now let&amp;rsquo;s deploy
+both of these and see what we get:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;dev&lt;/code&gt;
+&lt;img src=&#34;http://blog.brianz.bz/images/serverless-demo-magic-var-dev.png&#34; width=&#34;800&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;hellip;and, &lt;code&gt;production&lt;/code&gt;
+&lt;img src=&#34;http://blog.brianz.bz/images/serverless-demo-magic-var-production.png&#34; width=&#34;800&#34;&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion:48f3c93668433bcff400a726b76f0ce0&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;We now know how to create different deployments and control them independently. I also explained
+some of the voodoo going on behind the scenes. In Part IV I&amp;rsquo;ll cover some other features in the
+Serverless ecosystem which allows for easier collaboration and syncing of sensitive data.
+Hopefully, we can also start building out a more interesting demo which actually does something.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Serverless part II</title>
