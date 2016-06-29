@@ -51,7 +51,7 @@ stage which we'll call `production`.
 Remember, I'm using a Docker container to execute all of my Serverless commands.  You can follow
 along by [checking out the repository](https://github.com/brianz/serverless-demo/tree/part-iii).
 
-```
+```bash
 brianz@gold(master=)$ make shell
 docker run --rm -it \
         -v `pwd`:/code \
