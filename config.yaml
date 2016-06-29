@@ -2,14 +2,25 @@ baseurl: http://blog.brianz.bz
 title: Brian Z
 author: Brian Zambrano
 theme: blackburn
+#theme: hugo-material-docs
+languageCode: en-us
 
 # Shown in the side menu
 copyright: "&copy; 2016. All rights reserved."
 canonifyurls: true
 paginate: 10
 
+#metadataformat = "yaml"
+#canonifyurls = true
+# Enable Google Analytics by entering your tracking id
+#googleAnalytics = ""
+
 blackfriday:
   hrefTargetBlank: true
+#smartypants	= true
+#fractions = true
+#smartDashes = true
+#plainIDAnchors = true
 
 indexes:
   tag: tags
@@ -17,13 +28,33 @@ indexes:
 
 params:
   # Shown in the home page
+  author: Brian Zambrano
   subtitle: A SAAS application architecture blog
+  description: A SAAS application architecture blog
+  copyright: "&copy; 2016. All rights reserved."
   brand: brianz
   googleAnalytics: UA-75475240-1
   disqus: brianz
   # CSS name for highlight.js
   highlightjs: androidstudio
   dateFormat: 02 Jan 2006, 15:04
+
+  #permalink: "#"
+
+  # Custom assets
+#  custom_css = []
+#  custom_js  = []
+
+  # Syntax highlighting theme
+#  highlight_css  = ""
+
+  palette:
+    primary: "blue"
+    accent: "light green"
+
+  font:
+    text: "Noto Sans"
+    code: "Ubuntu Mono"
 
 # Shown in the side menu.
 menu:
