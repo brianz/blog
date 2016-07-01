@@ -13,16 +13,23 @@ tags = [
 Welcome to part four in my series about [Serverless](http://serverless.com). As a reminder, there
 are now three other parts you can read if you aren't coming here from those posts already:
 
-- [part I]({{< ref "serverless-part-i.md" >}}) 
-- [part II]({{< ref "serverless-part-ii.md" >}})
-- [part III]({{< ref "serverless-part-iii.md" >}})
+- [Serverless Part I]({{< ref "serverless-part-i.md" >}}) 
+- [Serverless Part II]({{< ref "serverless-part-ii.md" >}})
+- [Serverless Part III]({{< ref "serverless-part-iii.md" >}})
 
 In the previous posts I worked through some of the basics of Serverless and stood up an API
 endpoint which returned HTML.  Now I'd like to start working through some more real-world examples
-and talk through some warts I've found with Serverless.  Of course, not project is
+and talk through some warts I've found with Serverless.  Of course, no project is
 perfect...Serverless is still quite new and the team behind it is making great progress.  As of
 this writing there are a few stumbling blocks which can be solved but are not quite as easy as they
-could be.  As long as you're aware of these issues they're fairly easy to work around.
+could be. I think the Serverless team is aware of the shortcomings since they've openly discussed
+these in their push towards v1.0. Only a few days ago [they announce a beta version of
+1.0](http://blog.serverless.com/serverless-v1-0-alpha1-announcement/) which I have yet to try out.
+
+In any case, as long as you're aware of the issues in v0.5.5 which is what is currently stable you
+should have no trouble working around them. With v1.0 being not too far away I suspect very soon
+I'll start writing about that system since it appears to be much improved and fundamentally
+differeint in the way it organizing things.
 
 So, what we'll disuss here is:
 
@@ -37,26 +44,27 @@ working on your own project on different computers is that of the `_meta` direct
 the repository for this demo project](https://github.com/brianz/serverless-demo)
 you'll notice there isn't a `_meta` directory. The reason is
 that this directory stores (potentially) sensitive information about your project such as private keys, etc.
-Not only that, different "environments" or "stages" in the world of Lambda, will undoubtedly have
+By default, Serverless will [add `_meta` to the `.gitignore` of your
+project](https://github.com/brianz/serverless-demo/blob/part-ii/serverless-demo/.gitignore#L43).
+Not only that, different "environments" (or "stages" in the world of Lambda) will undoubtedly have
 different configuration settings at some point. Imagine an endpoint which needs to talk to DynamoDB
 or an SNS topic. Serverless allows us to reference things like this with environment variables
 which are injected at deploy time through some `_meta` files 
 (see [part III]({{< ref "serverless-part-iii.md" >}}) to learn about variables).
-By default, Serverless will [add `_meta` to the `.gitignore` of your
-project](https://github.com/brianz/serverless-demo/blob/part-ii/serverless-demo/.gitignore#L43).
 
 What this means is that when you `git clone` a repository Serverless won't have a clue what to do
 with it.  Any `sls` command you issue will result in an error since Serverless doesn't know what
 resources to work with.  **This is one area where Serverless needs to improve.**  I find this part
-quite clunkly since there are a few things to make a simple `git clone` actually work.
+quite clunkly since there are multiple hoops to jump through in order to get a project running
+after a simple `git clone`.
 
-First, you'll want to use a plugin which will sync your `_meta` folder to S3. All this does is give
+To start, you'll want to use a plugin which will sync your `_meta` folder to S3. All this does is give
 you a way to (in effect) copy and paste the contents of `_meta` between computers in a secure
 manner.  The caveat being that users or systems using this will both need to have read/write access
-to the S3 bucket which is configure.  How you manage your AWS keys between systems is an entirely
-different discussion which we won't talk about (and a question which I'm working out myself).
+to the designated S3 bucket.  How you manage your AWS keys between systems is an entirely
+different discussion which we won't talk about now (and is a question which I'm working out myself).
 
-Setting up `meta sync` is pretty simple...the github page give you all the details you'll need:
+Setting up `meta sync` is pretty simple...the github page gives you all the details you'll need:
 https://github.com/serverless/serverless-meta-sync
 
 Someone will need to initially set this up to actually put the `_meta` directory up in S3.  If
@@ -64,13 +72,15 @@ you're working between different systems and you're the sole developer it'll be 
 you're working on a team the same instructions apply as long as your colleagues have access to the
 S3 bucket.
 
-Let's setup `meta sync`:
+Let's setup `meta sync`. To be crystal clear, this setup only needs to be performed *once* by the
+original author of the project. After all, the `_meta` directory will be created when the project
+is first brought to life, so it'll be the responsibility of that first developer to set this up:
 
 ```
 root@1035dd7cffb6:/code# npm install serverless-meta-sync --save
 ```
 
-Now that the plugin is installed I just need to update the project file:
+Now that the plugin is installed I just need to update the `s-project.json` file:
 
 ```json
 {
@@ -90,9 +100,13 @@ Now that the plugin is installed I just need to update the project file:
 All I'm doing is telling the plugin to sync the `_meta` directory to an S3 bucket named
 `brianz-cco-serverless-test` in `us-west-2`.  Now that that's done, I issue the sync command...the
 trick here is ensuring you *sync for all of your stages and regions*. That's easy to gloss over but
-I'll reiterate...if you have multiple stages for your project you'll need to issue multiple `sls
-meta sync` commands.  From part iii of this series I created two stages...`dev` and
-`production`...I'll be doing this on my laptop:
+I'll pause here to reemphasize
+
+> **If you have multiple stages for your project you'll need to issue multiple `sls
+> meta sync` commands.**
+
+From part iii of this series I created two stages...`dev` and
+`production`. I authored that project on my laptop so I'll be doing the following on that computer:
 
 ```bash
 root@5457e51bf687:/code# sls meta sync -s dev -r us-west-2
@@ -132,7 +146,7 @@ total 24
 drwxr-xr-x  3 brianz  staff   102 May 19 09:53 src
 ```
 
-Ok...this is what we expect.  There isn't a `_meta` folder but let's start getting setup and see
+Ok...this is what we expect.  There isn't a `_meta` folder. Let's start getting set up and see
 what happens (as a reminder I'm in a Docker container when running `sls` aka `serverless`):
 
 ```
@@ -145,14 +159,19 @@ ServerlessError: This plugin could not be found: serverless-meta-sync
 ```
 
 Doh!  We need to install the plugin which makes sense. Since we (or our colleauge who setup the
-project) performed an `npm install --save` of the plugin it'll be in our `package.json` file so all
-we'll need to do is `npm install`:
+project, aka me on my MBPro) performed an `npm install --save` of the plugin it'll be in our `package.json`. As with
+any node/npm system all we'll need to do is `npm install`:
 
 ```
 root@bcdeb57d5754:/code#  npm install
-.....
+# snip...lots of output
 npm info ok 
 root@bcdeb57d5754:/code# 
+```
+
+Now that we have met all our requirements let's try to sync again:
+
+```
 root@bcdeb57d5754:/code# sls meta sync 
 /usr/local/lib/node_modules/serverless/node_modules/bluebird/js/release/async.js:61
         fn = function () { throw arg; };
@@ -164,15 +183,20 @@ ServerlessError: No existing stages in the project
 Hrmmm....it's really not that simple. The root cause here is that Serverless still knows nothing of
 our project.  Since Serverless works by keeping track of several files in the `_meta` directory it
 doesn't even know what your project is about...what resource it needs, nada.  **Serverless should
-really make this easier and more intuitive.**.
+really make this easier and more intuitive.**
 
-    After cloning a repo you will need to perform a `sls project init` command
+> **After cloning a repo you will need to perform one or more `sls project init` commands**
 
-This will walk you through some prompts to get setup...you can also pass command line arguments to
+While the meta-sync plugin will sync your variables files, there are some other files in the
+`_meta` directory which aren't synced. In order to get that directory and some other non-variable
+files bootstrapped and created you'll need to use `sls project init`. This can be confusing since
+that same command is exactly what you'd use to setup a brand new project. Here, because we're
+issuing the command in and *existing* project, Serverless will setup your `_meta` directory and
+recreate a few files.
+
+So let's do it.  Note, you can also pass command line arguments to
 speed this up as needed.  Doing a `sls project init --help` will show you all of the options you
-can use.  Note, this is the same command you'll use to setup a brand new serverless project.  Here,
-the `project init` command will initialize and existing project since we're *inside* the project
-directory already.
+can use.
 
 ```
 root@bcdeb57d5754:/code# sls project init
@@ -306,209 +330,219 @@ Serverless: How should these differences be handled?
 Serverless: Done  
 ```
 
+Phew. In my opinion that's a lot of work to do just to get the project in a state where you can
+start working on. I expect and hope this flow to get much easier in Serverless v1.0.
 
-### Setting up Meta Sync
 
-[Serverless Meta Sync](https://github.com/serverless/serverless-meta-sync) to the rescue.  This
-plugin is pretty simple...what it does is store these magic files in an S3 bucket and allows you
-"syncing" them periodically when there are changes.  This has the benefit that sensistive
-information (environment variables, etc.) stay out of source control but are also shared between
-systems. I recommend [reading through the Serverless Project 
-Structure docs](http://docs.serverless.com/docs/project-structure) for a more comprehensive
-explanation of all the critical files.
+## Creating a new API endpoint
 
-Let's walk through setting it up on an existing projects. If you read the plugin's docs you'll see
-that the setup is just a matter of adding some data to your `s-project.json` file and running the
-`npm install`.
+Now that we're set up on a new system let's start the process of creating a new function. A simple
+`Hello world!` example is quite boring, so what I'll do is create a new endpoint which accepts a
+`jwt` token in a `json` payload validates that it's correct.  To do this, we'll use a 3rd party
+Python library and some of our own Python code. This will demonstrate a few things:
 
-```
-root@8941047f877c:/code/serverless-demo# npm install serverless-meta-sync --save
-```
+- how to package requirements
+- how to deal with POST data
 
-Here is what I added to `s-project.json`:
+First we'll create the function and endpoint...this is a Python 2.7 function:
 
 ```
-root@8941047f877c:/code/serverless-demo# cat s-project.json 
+root@bcdeb57d5754:/code# sls function create src/authenticate -r python2.7
+Serverless: For this new Function, would you like to create an Endpoint, Event, or just the
+Function?
+  > Create Endpoint
+    Create Event
+    Just the Function...
+Serverless: Successfully created function: "src/authenticate"  
+```
+
+Now that the function and API endpoint are set up we'll actually need to write some some. Crack
+open the `src/authenticate/handler.py` function if you're following along. You can also [look at
+the final version on
+Github](https://github.com/brianz/serverless-demo/blob/part-iiii/serverless-demo/src/authenticate/handler.py).
+
+There are a few things to note in order to get non-trivial functions like this one working:
+
+### Installing libraries
+
+Since we're relying on a `jwt` library from a 3rd party we need to send that up to Lambda with our
+own function. Serverless does the work of creating a zip file of your code and any supporting
+code/libaries and uploading that to Lambda. With Python, we can "install" any supporting libraries
+in a folder next to our application code.  In this example I'll use the `lib` directory. [If you
+look at this repo on
+Github](https://github.com/brianz/serverless-demo/tree/master/serverless-demo/src) you'll see a
+`requirements.txt` file along with a little helper script to create and populate the `lib/`
+directory.  Running this script will get the `lib/` directory bootstrapped...only after that is
+done will you be able to move on to the next step.  *Without* the supporting libraries installed
+and uploaded your function will throw an `ImportError` and not execute successfully.
+
+### Path hacking
+
+With our `lib/` directory successfully populated and uploaded with our application code we need
+to make our application code/Lambda function aware that it exists.  Remember, this is just an
+arbitrary directory with Python packages that we're uploading with our main Lambda function...our
+Lambda function/handler has no way of knowing that it should look in this directory for any of its
+dependencies.  
+
+**Before** any imports to 3rd party packages we need to hack the system path ourselves:
+
+```python
+cwd = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.join(cwd, "../lib"))
+
+# now you can import jwt or anything else you install
+```
+
+Pretty simple...if you decide to change the name of your directory which holds your dependencies
+you'll of course need to change your functions to reference that location.  Also, if you create a
+function which is nested any deeper in the package structure you'll have to adjust the
+`os.path.join` call...for example if you create a function in `authenticate/users/handler.py` that
+function would then need to use `"../..lib" since it's two directories away from `lib/`.
+
+### Packaging `lib/`
+
+The last thing we need to take care of is instructing Serverless to package up our `lib/` directory
+with our handler function. This is done by mangling the `handler` value in `s-function.json`. In
+short, all you do it change the path to the handler which you're using. Originally the `hander`
+value is a simple string, pointing to your handlerfile.handlerfunction like this:
+
+```json
+    "handler": "handler.handler",
+```
+
+Our change will add in one level to the path to that handler file:
+
+```json
+    "handler": "authenticate/handler.handler",
+```
+
+Serverless will notice this and then package up everything which sits alongside the `authenticate`
+directory:
+
+```bash
+brianz@gold(master=)$ ls -l
+total 16
+drwxr-xr-x  5 brianz  staff  170 Jul  1 11:18 authenticate/
+-rwxr-xr-x  1 brianz  staff   94 Jun 28 20:46 build-requirements.sh*
+drwxr-xr-x  5 brianz  staff  170 Jun 20 16:18 hello/
+drwxr-xr-x  4 brianz  staff  136 Jun 28 20:45 lib/
+-rw-r--r--  1 brianz  staff   13 Jun 28 20:41 requirements.txt
+```
+
+Everything you see here will wind up in our final zip file.
+
+### Extracting POST body
+
+Finally, there's the work of extracting content from the actual `POST` body and sending it over to
+the Lambda function.  This is handled by API Gateway.  Here's the change/addition in
+`s-function.json`:
+
+```json
+  "requestTemplates": {
+    "application/json": {
+      "token": "$input.json('$.token')"
+    }   
+  }
+```
+
+This is one of the most confusing parts of API Gateway IMO. This ends up injecting a `token` field
+into your Lambda `event` by extracting the `token` field from the expected json payload in the
+`POST`.  Our Python function can then reference this:
+
+
+```python
+    token = event.get('token', '')
+```
+
+Phew! Let's try this out. Our JWT secret for signing our tokens is simply the string `"secret"`.
+You can visit https://jwt.io and generate a new token and try it for yourself. My Lambda function
+will simply decode the token and return the results if it's valid. If it's *not* valid the Lambda
+function will raise an exception which will be returned to you:
+
+Here's a valid token:
+
+
+```bash curl -s -d '{"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJyaWFueiIsIm9yaWdfaWF0IjoxNDY3MTMyMTgzLCJleHAiOjE3ODI3NTIzNzIsImVtYWlsIjoiYnJpYW56QGdtYWlsLmNvbSIsInNjb3BlcyI6WyJkZXZlbG9wZXIiLCJzZXJ2ZXJsZXNzLWZhbiJdfQ.tmbOyytr0vbNdaFL0wc31SIpWw8E_xqUIDoWsXYM2do"}' https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
 {
-  "name": "serverless-demo",
-  "custom": {
-    "meta": {
-      "name": "brianz-cco-serverless-test",
-      "region": "us-west-2"
-    }
-  },
-  "plugins": [
-    "serverless-meta-sync"
-  ]
+    "email": "brianz@gmail.com",
+    "exp": 1782752372,
+    "orig_iat": 1467132183,
+    "scopes": [
+        "developer",
+        "serverless-fan"
+    ],
+    "username": "brianz"
 }
 ```
 
-Now, it's time to sync. 
+Neat! Generated this token by plugging in some arbirary data at the https://jwt.io playground. Note
+that I pushed the `exp` (expires) field far in the future.
 
-```
-root@12de1c686e55:/code/serverless-demo# sls meta sync -s dev -r us-west-2
-```
+Let's try an invalid signature where the `exp` field is in the past:
 
-And with that, your files will be uploaded to S3.
-
-### Syncing stages and regions
-
-It's not obvious at all...but if you have multiple stages, each stage will need
-to be sync separately. Basically, each combination of region/stage needs to be synced
-explicity...the `sls meta sync` command will **not** by default sync all of the parameters for all of
-the stages/regions. To make this more interesting let's reference an environment variable in our
-Labmda Function:
-
-```
-def handler(event, context):
-    value = os.environ.get('MY_MAGIC_VARIABLE', 'dev')
-    # Use value later on
-```
-
-We'll now create a new stage called `test` and set that variable to something else:
-
-```
-root@12de1c686e55:/code/serverless-demo# sls stage create 
-Serverless: Enter a new stage name for this project:  (dev) test
-Serverless: For the "test" stage, do you want to use an existing Amazon Web Services profile or
-create a new one?
-  > Existing Profile
-    Create A New Profile
-Serverless: Select a profile for your project: 
-  > default
-Serverless: Creating stage "test"...  
-Serverless: Select a new region for your stage: 
-    us-east-1
-  > us-west-2
-    eu-west-1
-    eu-central-1
-    ap-northeast-1
-Serverless: Creating region "us-west-2" in stage "test"...  
-Serverless: Deploying resources to stage "test" in region "us-west-2" via Cloudformation (~3 minutes)... 
-Serverless: Successfully deployed "test" resources to "us-west-2"  
-Serverless: Successfully created region "us-west-2" within stage "test"  
-Serverless: Successfully created stage "test"  
-```
-
-After a new stage is created we get some files in our `_meta` directory where we can add our new
-environment variable:
-
-```
-brianz@bz-cconline(master=)$ ls -l _meta/variables/
-total 40
--rw-r--r--  1 brianz  staff   34 May  2 16:50 s-variables-common.json
--rw-r--r--  1 brianz  staff  220 May  2 21:40 s-variables-dev-uswest2.json
--rw-r--r--  1 brianz  staff   20 May  2 16:50 s-variables-dev.json
--rw-r--r--  1 brianz  staff   27 May 31 20:57 s-variables-test-uswest2.json
--rw-r--r--  1 brianz  staff   21 May 31 20:57 s-variables-test.json
-```
-
-To use a variable, there are three places you'll need to deal with it:
-
-- The variables file for a specific stage. Here, I'll add our `MY_MAGIC_VARIABLE` variable to the `s-variables-test.json`
-- The `s-function.json` file which actually pulls the variable from the previous file and injects
-  it into your lambda function.
-- Your actual handler code
-
-```
-brianz@bz-cconline(master=)$ cat _meta/variables/s-variables-test.json 
+```bash
+curl -s -d '{"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJyaWFueiIsIm9yaWdfaWF0IjoxNDY3MTMyMTgzLCJleHAiOjE0NjcyMTk2OTMsImVtYWlsIjoiYnJpYW56QGdtYWlsLmNvbSIsInNjb3BlcyI6WyJkZXZlbG9wZXIiLCJzZXJ2ZXJsZXNzLWZhbiJdfQ.A1UJOKcSfpUSuAgZoBO9g0oBtGdkrl71VtNt4F5eJZg"}' https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
 {
-  "stage": "test",
-  "MY_MAGIC_VARIABLE": "wavy gravy"
+    "errorMessage": "Signature has expired",
+    "errorType": "ExpiredSignatureError",
+    "stackTrace": [
+        [
+            "/var/task/authenticate/handler.py",
+            30,
+            "handler",
+            "decoded = jwt_decode_handler(token)"
+        ],
+        [
+            "/var/task/authenticate/handler.py",
+            21,
+            "jwt_decode_handler",
+            "return jwt.decode(token, JWT_SECRET_KEY)"
+        ],
+        [
+            "/var/task/authenticate/../lib/jwt/api_jwt.py",
+            75,
+            "decode",
+            "self._validate_claims(payload, merged_options, **kwargs)"
+        ],
+        [
+            "/var/task/authenticate/../lib/jwt/api_jwt.py",
+            104,
+            "_validate_claims",
+            "self._validate_exp(payload, now, leeway)"
+        ],
+        [
+            "/var/task/authenticate/../lib/jwt/api_jwt.py",
+            149,
+            "_validate_exp",
+            "raise ExpiredSignatureError('Signature has expired')"
+        ]
+    ]
 }
 ```
 
-In `s-function.json`:
-
-```
-"environment": {
-    "MY_MAGIC_VARIABLE": "${MY_MAGIC_VARIABLE}",
-```
-
-Now, we'll `sls dash deploy` this to our `test` stage. When we hit our `test` endpoint we can see
-that "wavy gravy" is listed in the output. Try for yourself...load up
-https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/test/hello in your browser to take a look.
-
-That was a lot of setup just to show how we're going to sync out two different stages. But, this is
-important....we have two different "stacks" if you will.  Imagine these being your production
-system and your qa system. 
-
-We'll now push our changes *up* into S3 so that we can get at these settings from a different
-machine and our imaginary collegues can also get them.
-
-```
-root@12de1c686e55:/code/serverless-demo# sls meta sync
-Serverless: Select an existing stage: 
-  > 1) dev
-    2) test
-Serverless: WARNING: This variable is not defined: region  
-Serverless: WARNING: This variable is not defined: region  
-Serverless: Going to sync "s-variables-dev.json"... 
-  
- {
--  MY_MAGIC_VARIABLE: "dev"
- }
-
-Serverless: How should these differences be handled?
-    Review these changes one by one
-    Apply these changes to the local version
-  > Discard these changes and sync the remote version with the local one
-    Cancel
-Serverless: Done 
-```
+Pretty cool. And how about a missing token?
 
 
-"But wait", you ask...if files are stored in S3 how do you actually *connect* to S3 to pull down
-the files?  Yes, there are some minimum requirements here...any Serverless project is going to need
-to reference some AWS credentials so that it can perform the nessecary actions.  You'll notice
-above there are some other files missing, notably the `admin.env` file which points to some AWS
-credentials stored in my home directory.  Since that is in `.gitignore` you'll need to recreate the
-AWS auth setup on each newly cloned repository.
-
-I use a Docker image for installing and using the Serverless library.  One stage of my `Dockerfile`
-copies over the AWS credentials in the correct location...once that is done my image is
-bootstrapped and away I go.  If you were doing this on your own system you may not need to do that
-since Serverless will simply look in the normal locations for AWS credentials.  For me, all I need
-to do is copy over my `credentials` file to the newly cloned repo and I'm done.
-
-```
-brianz@gold(master=)$ cp ~/Sync/serverless-demo/credentials  .
-brianz@gold(master=)$ make
-$ # snip
-Successfully built 59d18fcd3d6c
-```
-
-I can now fire up a container and start meta syncing~
-
-```
-brianz@gold(master=)$ make shell
-docker run --rm -it \
-        -v `pwd`:/code \
-        --name=slsdemo "bz/serverless" bash
-root@8941047f877c:/code# 
-```
-
-You can read the docs on how to actually set up Meta Sync on an existing project...it's really
-really simple.  We can see here that I've already set it up:
-
-```
-root@8941047f877c:/code# cd serverless-demo/
-root@8941047f877c:/code/serverless-demo# cat s-project.json 
+```bash
+curl -s -X POST https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
 {
-  "name": "serverless-demo",
-  "custom": {
-    "meta": {
-      "name": "brianz-cco-serverless-test",
-      "region": "us-west-2"
-    }
-  },
-  "plugins": [
-    "serverless-meta-sync"
-  ]
+    "errorMessage": "Mission token",
+    "errorType": "Exception",
+    "stackTrace": [
+        [
+            "/var/task/authenticate/handler.py",
+            27,
+            "handler",
+            "raise Exception('Mission token')"
+        ]
+    ]
 }
 ```
 
+If you were doing this for real you'd want to handle failures more gracefully.  With API Gateway
+you can match on certain responses to control HTTP return codes. Of course, you'd also want to hide
+the details of the stack blowing up and instead return some nicer error messages.
 
-
-## Setting up environment variables
-
+That was a big post...hopefully this gives  you some idea on how to use Serverless for a *real*
+application. I'll continue developing this series and I'm sure there will be updates as Serverless
+v1.0 evolves!
