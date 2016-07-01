@@ -359,7 +359,7 @@ Serverless: Successfully created function: "src/authenticate"
 Now that the function and API endpoint are set up we'll actually need to write some some. Crack
 open the `src/authenticate/handler.py` function if you're following along. You can also [look at
 the final version on
-Github](https://github.com/brianz/serverless-demo/blob/part-iiii/serverless-demo/src/authenticate/handler.py).
+Github](https://github.com/brianz/serverless-demo/blob/part-iv/serverless-demo/src/authenticate/handler.py).
 
 There are a few things to note in order to get non-trivial functions like this one working:
 
