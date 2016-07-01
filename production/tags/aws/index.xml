@@ -7,8 +7,539 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
-    <lastBuildDate>Thu, 02 Jun 2016 17:01:36 -0600</lastBuildDate>
+    <lastBuildDate>Fri, 01 Jul 2016 11:55:51 -0600</lastBuildDate>
     <atom:link href="http://blog.brianz.bz/tags/aws/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Serverless part IV</title>
+      <link>http://blog.brianz.bz/post/serverless-part-iv/</link>
+      <pubDate>Fri, 01 Jul 2016 11:55:51 -0600</pubDate>
+      
+      <guid>http://blog.brianz.bz/post/serverless-part-iv/</guid>
+      <description>
+
+&lt;p&gt;Welcome to part four in my series about &lt;a href=&#34;http://serverless.com&#34; target=&#34;_blank&#34;&gt;Serverless&lt;/a&gt;. As a reminder, there
+are now three other parts you can read if you aren&amp;rsquo;t coming here from those posts already:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://blog.brianz.bz/post/serverless-part-i/&#34; target=&#34;_blank&#34;&gt;Serverless Part I&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://blog.brianz.bz/post/serverless-part-ii/&#34; target=&#34;_blank&#34;&gt;Serverless Part II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://blog.brianz.bz/post/serverless-part-iii/&#34; target=&#34;_blank&#34;&gt;Serverless Part III&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the previous posts I worked through some of the basics of Serverless and stood up an API
+endpoint which returned HTML.  Now I&amp;rsquo;d like to start working through some more real-world examples
+and talk through some warts I&amp;rsquo;ve found with Serverless.  Of course, no project is
+perfect&amp;hellip;Serverless is still quite new and the team behind it is making great progress.  As of
+this writing there are a few stumbling blocks which can be solved but are not quite as easy as they
+could be. I think the Serverless team is aware of the shortcomings since they&amp;rsquo;ve openly discussed
+these in their push towards v1.0. Only a few days ago &lt;a href=&#34;http://blog.serverless.com/serverless-v1-0-alpha1-announcement/&#34; target=&#34;_blank&#34;&gt;they announce a beta version of
+1.0&lt;/a&gt; which I have yet to try out.&lt;/p&gt;
+
+&lt;p&gt;In any case, as long as you&amp;rsquo;re aware of the issues in v0.5.5 which is what is currently stable you
+should have no trouble working around them. With v1.0 being not too far away I suspect very soon
+I&amp;rsquo;ll start writing about that system since it appears to be much improved and fundamentally
+different in the way it organizing things.&lt;/p&gt;
+
+&lt;p&gt;So, what we&amp;rsquo;ll discuss here is:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Syncing sensitive AWS data with the &lt;code&gt;meta sync&lt;/code&gt; plugin&lt;/li&gt;
+&lt;li&gt;Working on an existing project after a &lt;code&gt;git clone&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Creating a new API endpoint and function&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;syncing-with-the-meta-sync-plugin:c45138b3e8031bde51353796bd1f4daf&#34;&gt;Syncing with the &lt;code&gt;meta sync&lt;/code&gt; plugin&lt;/h2&gt;
+
+&lt;p&gt;One issue you will quickly run in to when either working on a project with someone else &lt;em&gt;or&lt;/em&gt;
+working on your own project on different computers is that of the &lt;code&gt;_meta&lt;/code&gt; directory. If you &lt;a href=&#34;https://github.com/brianz/serverless-demo&#34; target=&#34;_blank&#34;&gt;look at
+the repository for this demo project&lt;/a&gt;
+you&amp;rsquo;ll notice there isn&amp;rsquo;t a &lt;code&gt;_meta&lt;/code&gt; directory. The reason is
+that this directory stores (potentially) sensitive information about your project such as private keys, etc.
+By default, Serverless will &lt;a href=&#34;https://github.com/brianz/serverless-demo/blob/part-ii/serverless-demo/.gitignore#L43&#34; target=&#34;_blank&#34;&gt;add &lt;code&gt;_meta&lt;/code&gt; to the &lt;code&gt;.gitignore&lt;/code&gt; of your
+project&lt;/a&gt;.
+Not only that, different &amp;ldquo;environments&amp;rdquo; (or &amp;ldquo;stages&amp;rdquo; in the world of Lambda) will undoubtedly have
+different configuration settings at some point. Imagine an endpoint which needs to talk to DynamoDB
+or an SNS topic. Serverless allows us to reference things like this with environment variables
+which are injected at deploy time through some &lt;code&gt;_meta&lt;/code&gt; files
+(see &lt;a href=&#34;http://blog.brianz.bz/post/serverless-part-iii/&#34; target=&#34;_blank&#34;&gt;part III&lt;/a&gt; to learn about variables).&lt;/p&gt;
+
+&lt;p&gt;What this means is that when you &lt;code&gt;git clone&lt;/code&gt; a repository Serverless won&amp;rsquo;t have a clue what to do
+with it.  Any &lt;code&gt;sls&lt;/code&gt; command you issue will result in an error since Serverless doesn&amp;rsquo;t know what
+resources to work with.  &lt;strong&gt;This is one area where Serverless needs to improve.&lt;/strong&gt;  I find this part
+quite clunky since there are multiple hoops to jump through in order to get a project running
+after a simple &lt;code&gt;git clone&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To start, you&amp;rsquo;ll want to use a plugin which will sync your &lt;code&gt;_meta&lt;/code&gt; folder to S3. All this does is give
+you a way to (in effect) copy and paste the contents of &lt;code&gt;_meta&lt;/code&gt; between computers in a secure
+manner.  The caveat being that users or systems using this will both need to have read/write access
+to the designated S3 bucket.  How you manage your AWS keys between systems is an entirely
+different discussion which we won&amp;rsquo;t talk about now (and is a question which I&amp;rsquo;m working out myself).&lt;/p&gt;
+
+&lt;p&gt;Setting up &lt;code&gt;meta sync&lt;/code&gt; is pretty simple&amp;hellip;the Github page gives you all the details you&amp;rsquo;ll need:
+&lt;a href=&#34;https://github.com/serverless/serverless-meta-sync&#34; target=&#34;_blank&#34;&gt;https://github.com/serverless/serverless-meta-sync&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Someone will need to initially set this up to actually put the &lt;code&gt;_meta&lt;/code&gt; directory up in S3.  If
+you&amp;rsquo;re working between different systems and you&amp;rsquo;re the sole developer it&amp;rsquo;ll be pretty easy&amp;hellip;if
+you&amp;rsquo;re working on a team the same instructions apply as long as your colleagues have access to the
+S3 bucket.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s setup &lt;code&gt;meta sync&lt;/code&gt;. To be crystal clear, this setup only needs to be performed &lt;em&gt;once&lt;/em&gt; by the
+original author of the project. After all, the &lt;code&gt;_meta&lt;/code&gt; directory will be created when the project
+is first brought to life, so it&amp;rsquo;ll be the responsibility of that first developer to set this up:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;root@1035dd7cffb6:/code# npm install serverless-meta-sync --save
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now that the plugin is installed I just need to update the &lt;code&gt;s-project.json&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
+  &amp;quot;name&amp;quot;: &amp;quot;serverless-demo&amp;quot;,
+  &amp;quot;custom&amp;quot;: {
+    &amp;quot;meta&amp;quot;: {
+      &amp;quot;name&amp;quot;: &amp;quot;brianz-cco-serverless-test&amp;quot;,
+      &amp;quot;region&amp;quot;: &amp;quot;us-west-2&amp;quot;
+    }
+  },
+  &amp;quot;plugins&amp;quot;: [
+    &amp;quot;serverless-meta-sync&amp;quot;
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;All I&amp;rsquo;m doing is telling the plugin to sync the &lt;code&gt;_meta&lt;/code&gt; directory to an S3 bucket named
+&lt;code&gt;brianz-cco-serverless-test&lt;/code&gt; in &lt;code&gt;us-west-2&lt;/code&gt;.  Now that that&amp;rsquo;s done, I issue the sync command&amp;hellip;the
+trick here is ensuring you &lt;em&gt;sync for all of your stages and regions&lt;/em&gt;. That&amp;rsquo;s easy to gloss over but
+I&amp;rsquo;ll pause here to reemphasize&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;If you have multiple stages for your project you&amp;rsquo;ll need to issue multiple &lt;code&gt;sls
+meta sync&lt;/code&gt; commands.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;From part iii of this series I created two stages&amp;hellip;&lt;code&gt;dev&lt;/code&gt; and
+&lt;code&gt;production&lt;/code&gt;. I authored that project on my laptop so I&amp;rsquo;ll be doing the following on that computer:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;root@5457e51bf687:/code# sls meta sync -s dev -r us-west-2
+Serverless: Going to sync &amp;quot;s-variables-dev-uswest2.json&amp;quot;... 
+Serverless: Creating remote copy of s-variables-dev-uswest2.json...  
+Serverless: Done  
+root@5457e51bf687:/code# sls meta sync -s production -r us-west-2
+Serverless: Creating remote copy of s-variables-production-uswest2.json...  
+Serverless: Done  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is the first step in setting yourself up for development on multiple system.&lt;/p&gt;
+
+&lt;h2 id=&#34;setup-a-project-after-git-clone:c45138b3e8031bde51353796bd1f4daf&#34;&gt;Setup a project after &lt;code&gt;git clone&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Now, I switch over to my iMac and clone the repo. You&amp;rsquo;d hope that you&amp;rsquo;d just be able to clone the
+repo, install packages, &lt;code&gt;sync&lt;/code&gt; the &lt;code&gt;_meta&lt;/code&gt; folder and you&amp;rsquo;d be done.  You&amp;rsquo;d be wrong.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;brianz@gold$ git clone https://github.com/brianz/serverless-demo.git
+brianz@gold$ cd serverless-demo/
+brianz@gold(master=)$ ls -l
+total 32
+-rw-r--r--  1 brianz  staff   182 May 19 09:53 Dockerfile
+-rw-r--r--  1 brianz  staff  1081 May 19 09:53 LICENSE
+-rwxr-xr-x  1 brianz  staff   174 May 19 09:53 Makefile
+-rw-r--r--  1 brianz  staff   411 May 19 09:53 README.md
+-rw-r--r--  1 brianz  staff    39 May 31 20:24 config
+drwxr-xr-x  7 brianz  staff   238 May 31 20:17 serverless-demo/
+brianz@gold(master=)$ cd serverless-demo/
+brianz@gold(master=)$ ls -l
+total 24
+-rw-r--r--  1 brianz  staff   328 May 19 09:53 package.json
+-rw-r--r--  1 brianz  staff   190 May 19 09:53 s-project.json
+-rw-r--r--  1 brianz  staff  1527 May 19 09:53 s-resources-cf.json
+drwxr-xr-x  3 brianz  staff   102 May 19 09:53 src
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;OK&amp;hellip;this is what we expect.  There isn&amp;rsquo;t a &lt;code&gt;_meta&lt;/code&gt; folder. Let&amp;rsquo;s start getting set up and see
+what happens (as a reminder I&amp;rsquo;m in a Docker container when running &lt;code&gt;sls&lt;/code&gt; aka &lt;code&gt;serverless&lt;/code&gt;):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;root@bcdeb57d5754:/code# sls meta sync  
+/usr/local/lib/node_modules/serverless/node_modules/bluebird/js/release/async.js:61
+        fn = function () { throw arg; };
+                           ^
+
+ServerlessError: This plugin could not be found: serverless-meta-sync
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Doh!  We need to install the plugin which makes sense. Since we (or our colleague who setup the
+project, aka me on my MBPro) performed an &lt;code&gt;npm install --save&lt;/code&gt; of the plugin it&amp;rsquo;ll be in our &lt;code&gt;package.json&lt;/code&gt;. As with
+any node/npm system all we&amp;rsquo;ll need to do is &lt;code&gt;npm install&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;root@bcdeb57d5754:/code#  npm install
+# snip...lots of output
+npm info ok 
+root@bcdeb57d5754:/code# 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now that we have met all our requirements let&amp;rsquo;s try to sync again:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;root@bcdeb57d5754:/code# sls meta sync 
+/usr/local/lib/node_modules/serverless/node_modules/bluebird/js/release/async.js:61
+        fn = function () { throw arg; };
+                           ^
+
+ServerlessError: No existing stages in the project
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hrmmm&amp;hellip;.it&amp;rsquo;s really not that simple. The root cause here is that Serverless still knows nothing of
+our project.  Since Serverless works by keeping track of several files in the &lt;code&gt;_meta&lt;/code&gt; directory it
+doesn&amp;rsquo;t even know what your project is about&amp;hellip;what resource it needs, nada.  &lt;strong&gt;Serverless should
+really make this easier and more intuitive.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;After cloning a repo you will need to perform one or more &lt;code&gt;sls project init&lt;/code&gt; commands&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;While the meta-sync plugin will sync your variables files, there are some other files in the
+&lt;code&gt;_meta&lt;/code&gt; directory which aren&amp;rsquo;t synced. In order to get that directory and some other non-variable
+files bootstrapped and created you&amp;rsquo;ll need to use &lt;code&gt;sls project init&lt;/code&gt;. This can be confusing since
+that same command is exactly what you&amp;rsquo;d use to setup a brand new project. Here, because we&amp;rsquo;re
+issuing the command in and &lt;em&gt;existing&lt;/em&gt; project, Serverless will setup your &lt;code&gt;_meta&lt;/code&gt; directory and
+recreate a few files.&lt;/p&gt;
+
+&lt;p&gt;So let&amp;rsquo;s do it.  Note, you can also pass command line arguments to
+speed this up as needed.  Doing a &lt;code&gt;sls project init --help&lt;/code&gt; will show you all of the options you
+can use.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;root@bcdeb57d5754:/code# sls project init
+ _______                             __
+|   _   .-----.----.--.--.-----.----|  .-----.-----.-----.
+|   |___|  -__|   _|  |  |  -__|   _|  |  -__|__ --|__ --|
+|____   |_____|__|  \___/|_____|__| |__|_____|_____|_____|
+|   |   |             The Serverless Application Framework
+|       |                           serverless.com, v0.5.5
+`-------&#39;
+
+Serverless: Initializing Serverless Project...  
+Serverless: Enter a new stage name for this project:  (dev) 
+Serverless: For the &amp;quot;dev&amp;quot; stage, do you want to use an existing Amazon Web Services profile or
+create a new one?
+  &amp;gt; Existing Profile
+    Create A New Profile
+Serverless: Select a profile for your project: 
+  &amp;gt; default
+Serverless: Creating stage &amp;quot;dev&amp;quot;...  
+Serverless: Select a new region for your stage: 
+    us-east-1
+  &amp;gt; us-west-2
+    eu-west-1
+    eu-central-1
+    ap-northeast-1
+Serverless: Creating region &amp;quot;us-west-2&amp;quot; in stage &amp;quot;dev&amp;quot;...  
+Serverless: Deploying resources to stage &amp;quot;dev&amp;quot; in region &amp;quot;us-west-2&amp;quot; via Cloudformation (~3
+minutes)...  
+Serverless: No resource updates are to be performed.  
+Serverless: Successfully created region &amp;quot;us-west-2&amp;quot; within stage &amp;quot;dev&amp;quot;  
+Serverless: Successfully created stage &amp;quot;dev&amp;quot;  
+Serverless: Successfully initialized project &amp;quot;serverless-demo&amp;quot;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;brianz@gold(master=)$ l
+total 32
+drwxr-xr-x   4 brianz  staff   136 Jun 28 16:58 _meta/
+-rw-r--r--   1 brianz  staff    23 Jun 28 16:58 admin.env
+drwxr-xr-x  20 brianz  staff   680 Jun 28 16:56 node_modules/
+-rw-r--r--   1 brianz  staff   327 Jun 28 16:58 package.json
+-rw-r--r--   1 brianz  staff   189 Jun 28 16:58 s-project.json
+-rw-r--r--   1 brianz  staff  1527 Jun 28 16:58 s-resources-cf.json
+drwxr-xr-x   3 brianz  staff   102 May 19 09:53 src/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Voila!  Our &lt;code&gt;_meta&lt;/code&gt; directory is now available.&lt;/p&gt;
+
+&lt;p&gt;At this point, if you inspect any of the &lt;code&gt;variables&lt;/code&gt; files inside &lt;code&gt;_meta/&lt;/code&gt; you&amp;rsquo;ll see that they&amp;rsquo;re
+empty.  We&amp;rsquo;re finally at the point where we can pull down our secret variables and config which we
+previously synced using meta-sync.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;root@bcdeb57d5754:/code# sls meta sync 
+Serverless: WARNING: This variable is not defined: magicVariable  
+Serverless: WARNING: This variable is not defined: region  
+Serverless: WARNING: This variable is not defined: region  
+Serverless: Going to sync &amp;quot;s-variables-dev.json&amp;quot;... 
+  
+ {
++  MY_MAGIC_VARIABLE: &amp;quot;dev&amp;quot;
+ }
+
+Serverless: How should these differences be handled?
+    Review these changes one by one
+  &amp;gt; Apply these changes to the local version
+    Discard these changes and sync the remote version with the local one
+    Cancel
+Serverless: Done 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Excellent&amp;hellip;it finally worked.  At this point we&amp;rsquo;re all set to use the &lt;code&gt;dev&lt;/code&gt; stage.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;root@bcdeb57d5754:/code# ls -l _meta/variables/
+total 12
+-rw-r--r-- 1 1000 staff 34 Jun 28 22:58 s-variables-common.json
+-rw-r--r-- 1 1000 staff 27 Jun 28 22:58 s-variables-dev-uswest2.json
+-rw-r--r-- 1 1000 staff 50 Jun 28 23:08 s-variables-dev.json
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;What&amp;rsquo;s missing? Remember, we have a &amp;ldquo;production&amp;rdquo; stage with it&amp;rsquo;s own variables. That stage&amp;rsquo;s
+variables file hasn&amp;rsquo;t been pulled down after our &lt;code&gt;sync&lt;/code&gt;.  &lt;strong&gt;We
+need to issue multiple &lt;code&gt;project init&lt;/code&gt; and sync commands for different stages/regions!&lt;/strong&gt; This is
+clunky, but at least we only need to do it once per stage:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;root@bcdeb57d5754:/code# sls project init -s production
+Serverless: Initializing Serverless Project...  
+Serverless: For the &amp;quot;production&amp;quot; stage, do you want to use an existing Amazon Web Services profile
+or create a new one?
+  &amp;gt; Existing Profile
+    Create A New Profile
+Serverless: Select a profile for your project: 
+  &amp;gt; default
+Serverless: Creating stage &amp;quot;production&amp;quot;...  
+Serverless: Select a new region for your stage: 
+    us-east-1
+  &amp;gt; us-west-2
+    eu-west-1
+    eu-central-1
+    ap-northeast-1
+Serverless: Creating region &amp;quot;us-west-2&amp;quot; in stage &amp;quot;production&amp;quot;...  
+Serverless: Deploying resources to stage &amp;quot;production&amp;quot; in region &amp;quot;us-west-2&amp;quot; via Cloudformation (~3
+minutes)...  
+Serverless: No resource updates are to be performed.  
+Serverless: Successfully created region &amp;quot;us-west-2&amp;quot; within stage &amp;quot;production&amp;quot;  
+Serverless: Successfully created stage &amp;quot;production&amp;quot;  
+Serverless: Successfully initialized project &amp;quot;serverless-demo&amp;quot;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now that we&amp;rsquo;ve &lt;code&gt;init&#39;ed&lt;/code&gt; the production stage we can finally sync it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;root@bcdeb57d5754:/code# sls meta sync -s production
+Serverless: WARNING: This variable is not defined: magicVariable  
+Serverless: WARNING: This variable is not defined: region  
+Serverless: WARNING: This variable is not defined: region  
+Serverless: Going to sync &amp;quot;s-variables-production.json&amp;quot;... 
+  
+ {
++  magicVariable: &amp;quot;Magic production thingie&amp;quot;
+ }
+
+Serverless: How should these differences be handled?
+    Review these changes one by one
+  &amp;gt; Apply these changes to the local version
+    Discard these changes and sync the remote version with the local one
+    Cancel
+Serverless: Done  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Phew. In my opinion that&amp;rsquo;s a lot of work to do just to get the project in a state where you can
+start working on. I expect and hope this flow to get much easier in Serverless v1.0.&lt;/p&gt;
+
+&lt;h2 id=&#34;creating-a-new-api-endpoint:c45138b3e8031bde51353796bd1f4daf&#34;&gt;Creating a new API endpoint&lt;/h2&gt;
+
+&lt;p&gt;Now that we&amp;rsquo;re set up on a new system let&amp;rsquo;s start the process of creating a new function. A simple
+&lt;code&gt;Hello world!&lt;/code&gt; example is quite boring, so what I&amp;rsquo;ll do is create a new endpoint which accepts a
+&lt;code&gt;jwt&lt;/code&gt; token in a &lt;code&gt;json&lt;/code&gt; payload validates that it&amp;rsquo;s correct.  To do this, we&amp;rsquo;ll use a 3rd party
+Python library and some of our own Python code. This will demonstrate a few things:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;how to package requirements&lt;/li&gt;
+&lt;li&gt;how to deal with POST data&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;First we&amp;rsquo;ll create the function and endpoint&amp;hellip;this is a Python 2.7 function:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;root@bcdeb57d5754:/code# sls function create src/authenticate -r python2.7
+Serverless: For this new Function, would you like to create an Endpoint, Event, or just the
+Function?
+  &amp;gt; Create Endpoint
+    Create Event
+    Just the Function...
+Serverless: Successfully created function: &amp;quot;src/authenticate&amp;quot;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now that the function and API endpoint are set up we&amp;rsquo;ll actually need to write some some. Crack
+open the &lt;code&gt;src/authenticate/handler.py&lt;/code&gt; function if you&amp;rsquo;re following along. You can also &lt;a href=&#34;https://github.com/brianz/serverless-demo/blob/part-iiii/serverless-demo/src/authenticate/handler.py&#34; target=&#34;_blank&#34;&gt;look at
+the final version on
+Github&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;There are a few things to note in order to get non-trivial functions like this one working:&lt;/p&gt;
+
+&lt;h3 id=&#34;installing-libraries:c45138b3e8031bde51353796bd1f4daf&#34;&gt;Installing libraries&lt;/h3&gt;
+
+&lt;p&gt;Since we&amp;rsquo;re relying on a &lt;code&gt;jwt&lt;/code&gt; library from a 3rd party we need to send that up to Lambda with our
+own function. Serverless does the work of creating a zip file of your code and any supporting
+code/libraries and uploading that to Lambda. With Python, we can &amp;ldquo;install&amp;rdquo; any supporting libraries
+in a folder next to our application code.  In this example I&amp;rsquo;ll use the &lt;code&gt;lib&lt;/code&gt; directory. &lt;a href=&#34;https://github.com/brianz/serverless-demo/tree/master/serverless-demo/src&#34; target=&#34;_blank&#34;&gt;If you
+look at this repo on
+Github&lt;/a&gt; you&amp;rsquo;ll see a
+&lt;code&gt;requirements.txt&lt;/code&gt; file along with a little helper script to create and populate the &lt;code&gt;lib/&lt;/code&gt;
+directory.  Running this script will get the &lt;code&gt;lib/&lt;/code&gt; directory bootstrapped&amp;hellip;only after that is
+done will you be able to move on to the next step.  &lt;em&gt;Without&lt;/em&gt; the supporting libraries installed
+and uploaded your function will throw an &lt;code&gt;ImportError&lt;/code&gt; and not execute successfully.&lt;/p&gt;
+
+&lt;h3 id=&#34;path-hacking:c45138b3e8031bde51353796bd1f4daf&#34;&gt;Path hacking&lt;/h3&gt;
+
+&lt;p&gt;With our &lt;code&gt;lib/&lt;/code&gt; directory successfully populated and uploaded with our application code we need
+to make our application code/Lambda function aware that it exists.  Remember, this is just an
+arbitrary directory with Python packages that we&amp;rsquo;re uploading with our main Lambda function&amp;hellip;our
+Lambda function/handler has no way of knowing that it should look in this directory for any of its
+dependencies.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Before&lt;/strong&gt; any imports to 3rd party packages we need to hack the system path ourselves:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;cwd = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.join(cwd, &amp;quot;../lib&amp;quot;))
+
+# now you can import jwt or anything else you install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Pretty simple&amp;hellip;if you decide to change the name of your directory which holds your dependencies
+you&amp;rsquo;ll of course need to change your functions to reference that location.  Also, if you create a
+function which is nested any deeper in the package structure you&amp;rsquo;ll have to adjust the
+&lt;code&gt;os.path.join&lt;/code&gt; call&amp;hellip;for example if you create a function in &lt;code&gt;authenticate/users/handler.py&lt;/code&gt; that
+function would then need to use &lt;code&gt;&amp;quot;../..lib&amp;quot; since it&#39;s two directories away from&lt;/code&gt;lib/`.&lt;/p&gt;
+
+&lt;h3 id=&#34;packaging-lib:c45138b3e8031bde51353796bd1f4daf&#34;&gt;Packaging &lt;code&gt;lib/&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;The last thing we need to take care of is instructing Serverless to package up our &lt;code&gt;lib/&lt;/code&gt; directory
+with our handler function. This is done by mangling the &lt;code&gt;handler&lt;/code&gt; value in &lt;code&gt;s-function.json&lt;/code&gt;. In
+short, all you do it change the path to the handler which you&amp;rsquo;re using. Originally the &lt;code&gt;handler&lt;/code&gt;
+value is a simple string, pointing to your handlerfile.handlerfunction like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;    &amp;quot;handler&amp;quot;: &amp;quot;handler.handler&amp;quot;,
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Our change will add in one level to the path to that handler file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;    &amp;quot;handler&amp;quot;: &amp;quot;authenticate/handler.handler&amp;quot;,
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Serverless will notice this and then package up everything which sits alongside the &lt;code&gt;authenticate&lt;/code&gt;
+directory:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;brianz@gold(master=)$ ls -l
+total 16
+drwxr-xr-x  5 brianz  staff  170 Jul  1 11:18 authenticate/
+-rwxr-xr-x  1 brianz  staff   94 Jun 28 20:46 build-requirements.sh*
+drwxr-xr-x  5 brianz  staff  170 Jun 20 16:18 hello/
+drwxr-xr-x  4 brianz  staff  136 Jun 28 20:45 lib/
+-rw-r--r--  1 brianz  staff   13 Jun 28 20:41 requirements.txt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Everything you see here will wind up in our final zip file.&lt;/p&gt;
+
+&lt;h3 id=&#34;extracting-post-body:c45138b3e8031bde51353796bd1f4daf&#34;&gt;Extracting POST body&lt;/h3&gt;
+
+&lt;p&gt;Finally, there&amp;rsquo;s the work of extracting content from the actual &lt;code&gt;POST&lt;/code&gt; body and sending it over to
+the Lambda function.  This is handled by API Gateway.  Here&amp;rsquo;s the change/addition in
+&lt;code&gt;s-function.json&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;  &amp;quot;requestTemplates&amp;quot;: {
+    &amp;quot;application/json&amp;quot;: {
+      &amp;quot;token&amp;quot;: &amp;quot;$input.json(&#39;$.token&#39;)&amp;quot;
+    }   
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is one of the most confusing parts of API Gateway IMO. This ends up injecting a &lt;code&gt;token&lt;/code&gt; field
+into your Lambda &lt;code&gt;event&lt;/code&gt; by extracting the &lt;code&gt;token&lt;/code&gt; field from the expected json payload in the
+&lt;code&gt;POST&lt;/code&gt;.  Our Python function can then reference this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    token = event.get(&#39;token&#39;, &#39;&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Phew! Let&amp;rsquo;s try this out. Our JWT secret for signing our tokens is simply the string &lt;code&gt;&amp;quot;secret&amp;quot;&lt;/code&gt;.
+You can visit &lt;a href=&#34;https://jwt.io&#34; target=&#34;_blank&#34;&gt;https://jwt.io&lt;/a&gt; and generate a new token and try it for yourself. My Lambda function
+will simply decode the token and return the results if it&amp;rsquo;s valid. If it&amp;rsquo;s &lt;em&gt;not&lt;/em&gt; valid the Lambda
+function will raise an exception which will be returned to you:&lt;/p&gt;
+
+&lt;p&gt;Here&amp;rsquo;s a valid token:&lt;/p&gt;
+
+&lt;p&gt;```bash curl -s -d &amp;lsquo;{&amp;ldquo;token&amp;rdquo;: &amp;ldquo;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJyaWFueiIsIm9yaWdfaWF0IjoxNDY3MTMyMTgzLCJleHAiOjE3ODI3NTIzNzIsImVtYWlsIjoiYnJpYW56QGdtYWlsLmNvbSIsInNjb3BlcyI6WyJkZXZlbG9wZXIiLCJzZXJ2ZXJsZXNzLWZhbiJdfQ.tmbOyytr0vbNdaFL0wc31SIpWw8E_xqUIDoWsXYM2do&amp;rdquo;}&amp;rsquo; &lt;a href=&#34;https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate&#34; target=&#34;_blank&#34;&gt;https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate&lt;/a&gt; | python -mjson.tool
+{
+    &amp;ldquo;email&amp;rdquo;: &amp;ldquo;brianz@gmail.com&amp;rdquo;,
+    &amp;ldquo;exp&amp;rdquo;: 1782752372,
+    &amp;ldquo;orig_iat&amp;rdquo;: 1467132183,
+    &amp;ldquo;scopes&amp;rdquo;: [
+        &amp;ldquo;developer&amp;rdquo;,
+        &amp;ldquo;serverless-fan&amp;rdquo;
+    ],
+    &amp;ldquo;username&amp;rdquo;: &amp;ldquo;brianz&amp;rdquo;
+}&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+Neat! Generated this token by plugging in some arbitrary data at the https://jwt.io playground. Note
+that I pushed the `exp` (expires) field far in the future.
+
+Let&#39;s try an invalid signature where the `exp` field is in the past:
+
+```bash
+curl -s -d &#39;{&amp;quot;token&amp;quot;: &amp;quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJyaWFueiIsIm9yaWdfaWF0IjoxNDY3MTMyMTgzLCJleHAiOjE0NjcyMTk2OTMsImVtYWlsIjoiYnJpYW56QGdtYWlsLmNvbSIsInNjb3BlcyI6WyJkZXZlbG9wZXIiLCJzZXJ2ZXJsZXNzLWZhbiJdfQ.A1UJOKcSfpUSuAgZoBO9g0oBtGdkrl71VtNt4F5eJZg&amp;quot;}&#39; https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
+{
+    &amp;quot;errorMessage&amp;quot;: &amp;quot;Signature has expired&amp;quot;,
+    &amp;quot;errorType&amp;quot;: &amp;quot;ExpiredSignatureError&amp;quot;,
+    &amp;quot;stackTrace&amp;quot;: [
+        [
+            &amp;quot;/var/task/authenticate/handler.py&amp;quot;,
+            30,
+            &amp;quot;handler&amp;quot;,
+            &amp;quot;decoded = jwt_decode_handler(token)&amp;quot;
+        ],
+        [
+            &amp;quot;/var/task/authenticate/handler.py&amp;quot;,
+            21,
+            &amp;quot;jwt_decode_handler&amp;quot;,
+            &amp;quot;return jwt.decode(token, JWT_SECRET_KEY)&amp;quot;
+        ],
+        [
+            &amp;quot;/var/task/authenticate/../lib/jwt/api_jwt.py&amp;quot;,
+            75,
+            &amp;quot;decode&amp;quot;,
+            &amp;quot;self._validate_claims(payload, merged_options, **kwargs)&amp;quot;
+        ],
+        [
+            &amp;quot;/var/task/authenticate/../lib/jwt/api_jwt.py&amp;quot;,
+            104,
+            &amp;quot;_validate_claims&amp;quot;,
+            &amp;quot;self._validate_exp(payload, now, leeway)&amp;quot;
+        ],
+        [
+            &amp;quot;/var/task/authenticate/../lib/jwt/api_jwt.py&amp;quot;,
+            149,
+            &amp;quot;_validate_exp&amp;quot;,
+            &amp;quot;raise ExpiredSignatureError(&#39;Signature has expired&#39;)&amp;quot;
+        ]
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Pretty cool. And how about a missing token?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;curl -s -X POST https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
+{
+    &amp;quot;errorMessage&amp;quot;: &amp;quot;Mission token&amp;quot;,
+    &amp;quot;errorType&amp;quot;: &amp;quot;Exception&amp;quot;,
+    &amp;quot;stackTrace&amp;quot;: [
+        [
+            &amp;quot;/var/task/authenticate/handler.py&amp;quot;,
+            27,
+            &amp;quot;handler&amp;quot;,
+            &amp;quot;raise Exception(&#39;Mission token&#39;)&amp;quot;
+        ]
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you were doing this for real you&amp;rsquo;d want to handle failures more gracefully.  With API Gateway
+you can match on certain responses to control HTTP return codes. Of course, you&amp;rsquo;d also want to hide
+the details of the stack blowing up and instead return some nicer error messages.&lt;/p&gt;
+
+&lt;p&gt;That was a big post&amp;hellip;hopefully this gives  you some idea on how to use Serverless for a &lt;em&gt;real&lt;/em&gt;
+application. I&amp;rsquo;ll continue developing this series and I&amp;rsquo;m sure there will be updates as Serverless
+v1.0 evolves!&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Serverless part III</title>

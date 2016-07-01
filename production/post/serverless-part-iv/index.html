@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.15" />
+
+  <title>Serverless part IV &middot; Brian Z</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://blog.brianz.bzimg/favicon.ico" type="image/x-icon" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://blog.brianz.bz/">brianz</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/brianzambrano" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/brian.zambrano" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://instagram.com/bzambrano" target="_blank"><i class="fa fa-instagram fa-fw"></i>Instagram</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/brianzambrano" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://news.ycombinator.com/user?id=brianz" target="_blank"><i class="fa fa-hacker-news fa-fw"></i>Hacker News</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/brianz" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://stackoverflow.com/users/87858" target="_blank"><i class="fa fa-stack-overflow fa-fw"></i>Stack Overflow</a>
+    </li>
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Serverless part IV</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>01 Jul 2016, 11:55</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/aws">aws</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/architecture">architecture</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/serverless">serverless</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>Welcome to part four in my series about <a href="http://serverless.com" target="_blank">Serverless</a>. As a reminder, there
+are now three other parts you can read if you aren&rsquo;t coming here from those posts already:</p>
+
+<ul>
+<li><a href="http://blog.brianz.bz/post/serverless-part-i/" target="_blank">Serverless Part I</a></li>
+<li><a href="http://blog.brianz.bz/post/serverless-part-ii/" target="_blank">Serverless Part II</a></li>
+<li><a href="http://blog.brianz.bz/post/serverless-part-iii/" target="_blank">Serverless Part III</a></li>
+</ul>
+
+<p>In the previous posts I worked through some of the basics of Serverless and stood up an API
+endpoint which returned HTML.  Now I&rsquo;d like to start working through some more real-world examples
+and talk through some warts I&rsquo;ve found with Serverless.  Of course, no project is
+perfect&hellip;Serverless is still quite new and the team behind it is making great progress.  As of
+this writing there are a few stumbling blocks which can be solved but are not quite as easy as they
+could be. I think the Serverless team is aware of the shortcomings since they&rsquo;ve openly discussed
+these in their push towards v1.0. Only a few days ago <a href="http://blog.serverless.com/serverless-v1-0-alpha1-announcement/" target="_blank">they announce a beta version of
+1.0</a> which I have yet to try out.</p>
+
+<p>In any case, as long as you&rsquo;re aware of the issues in v0.5.5 which is what is currently stable you
+should have no trouble working around them. With v1.0 being not too far away I suspect very soon
+I&rsquo;ll start writing about that system since it appears to be much improved and fundamentally
+different in the way it organizing things.</p>
+
+<p>So, what we&rsquo;ll discuss here is:</p>
+
+<ul>
+<li>Syncing sensitive AWS data with the <code>meta sync</code> plugin</li>
+<li>Working on an existing project after a <code>git clone</code></li>
+<li>Creating a new API endpoint and function</li>
+</ul>
+
+<h2 id="syncing-with-the-meta-sync-plugin:c45138b3e8031bde51353796bd1f4daf">Syncing with the <code>meta sync</code> plugin</h2>
+
+<p>One issue you will quickly run in to when either working on a project with someone else <em>or</em>
+working on your own project on different computers is that of the <code>_meta</code> directory. If you <a href="https://github.com/brianz/serverless-demo" target="_blank">look at
+the repository for this demo project</a>
+you&rsquo;ll notice there isn&rsquo;t a <code>_meta</code> directory. The reason is
+that this directory stores (potentially) sensitive information about your project such as private keys, etc.
+By default, Serverless will <a href="https://github.com/brianz/serverless-demo/blob/part-ii/serverless-demo/.gitignore#L43" target="_blank">add <code>_meta</code> to the <code>.gitignore</code> of your
+project</a>.
+Not only that, different &ldquo;environments&rdquo; (or &ldquo;stages&rdquo; in the world of Lambda) will undoubtedly have
+different configuration settings at some point. Imagine an endpoint which needs to talk to DynamoDB
+or an SNS topic. Serverless allows us to reference things like this with environment variables
+which are injected at deploy time through some <code>_meta</code> files
+(see <a href="http://blog.brianz.bz/post/serverless-part-iii/" target="_blank">part III</a> to learn about variables).</p>
+
+<p>What this means is that when you <code>git clone</code> a repository Serverless won&rsquo;t have a clue what to do
+with it.  Any <code>sls</code> command you issue will result in an error since Serverless doesn&rsquo;t know what
+resources to work with.  <strong>This is one area where Serverless needs to improve.</strong>  I find this part
+quite clunky since there are multiple hoops to jump through in order to get a project running
+after a simple <code>git clone</code>.</p>
+
+<p>To start, you&rsquo;ll want to use a plugin which will sync your <code>_meta</code> folder to S3. All this does is give
+you a way to (in effect) copy and paste the contents of <code>_meta</code> between computers in a secure
+manner.  The caveat being that users or systems using this will both need to have read/write access
+to the designated S3 bucket.  How you manage your AWS keys between systems is an entirely
+different discussion which we won&rsquo;t talk about now (and is a question which I&rsquo;m working out myself).</p>
+
+<p>Setting up <code>meta sync</code> is pretty simple&hellip;the Github page gives you all the details you&rsquo;ll need:
+<a href="https://github.com/serverless/serverless-meta-sync" target="_blank">https://github.com/serverless/serverless-meta-sync</a></p>
+
+<p>Someone will need to initially set this up to actually put the <code>_meta</code> directory up in S3.  If
+you&rsquo;re working between different systems and you&rsquo;re the sole developer it&rsquo;ll be pretty easy&hellip;if
+you&rsquo;re working on a team the same instructions apply as long as your colleagues have access to the
+S3 bucket.</p>
+
+<p>Let&rsquo;s setup <code>meta sync</code>. To be crystal clear, this setup only needs to be performed <em>once</em> by the
+original author of the project. After all, the <code>_meta</code> directory will be created when the project
+is first brought to life, so it&rsquo;ll be the responsibility of that first developer to set this up:</p>
+
+<pre><code>root@1035dd7cffb6:/code# npm install serverless-meta-sync --save
+</code></pre>
+
+<p>Now that the plugin is installed I just need to update the <code>s-project.json</code> file:</p>
+
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;serverless-demo&quot;,
+  &quot;custom&quot;: {
+    &quot;meta&quot;: {
+      &quot;name&quot;: &quot;brianz-cco-serverless-test&quot;,
+      &quot;region&quot;: &quot;us-west-2&quot;
+    }
+  },
+  &quot;plugins&quot;: [
+    &quot;serverless-meta-sync&quot;
+  ]
+}
+</code></pre>
+
+<p>All I&rsquo;m doing is telling the plugin to sync the <code>_meta</code> directory to an S3 bucket named
+<code>brianz-cco-serverless-test</code> in <code>us-west-2</code>.  Now that that&rsquo;s done, I issue the sync command&hellip;the
+trick here is ensuring you <em>sync for all of your stages and regions</em>. That&rsquo;s easy to gloss over but
+I&rsquo;ll pause here to reemphasize</p>
+
+<blockquote>
+<p><strong>If you have multiple stages for your project you&rsquo;ll need to issue multiple <code>sls
+meta sync</code> commands.</strong></p>
+</blockquote>
+
+<p>From part iii of this series I created two stages&hellip;<code>dev</code> and
+<code>production</code>. I authored that project on my laptop so I&rsquo;ll be doing the following on that computer:</p>
+
+<pre><code class="language-bash">root@5457e51bf687:/code# sls meta sync -s dev -r us-west-2
+Serverless: Going to sync &quot;s-variables-dev-uswest2.json&quot;... 
+Serverless: Creating remote copy of s-variables-dev-uswest2.json...  
+Serverless: Done  
+root@5457e51bf687:/code# sls meta sync -s production -r us-west-2
+Serverless: Creating remote copy of s-variables-production-uswest2.json...  
+Serverless: Done  
+</code></pre>
+
+<p>This is the first step in setting yourself up for development on multiple system.</p>
+
+<h2 id="setup-a-project-after-git-clone:c45138b3e8031bde51353796bd1f4daf">Setup a project after <code>git clone</code></h2>
+
+<p>Now, I switch over to my iMac and clone the repo. You&rsquo;d hope that you&rsquo;d just be able to clone the
+repo, install packages, <code>sync</code> the <code>_meta</code> folder and you&rsquo;d be done.  You&rsquo;d be wrong.</p>
+
+<pre><code>brianz@gold$ git clone https://github.com/brianz/serverless-demo.git
+brianz@gold$ cd serverless-demo/
+brianz@gold(master=)$ ls -l
+total 32
+-rw-r--r--  1 brianz  staff   182 May 19 09:53 Dockerfile
+-rw-r--r--  1 brianz  staff  1081 May 19 09:53 LICENSE
+-rwxr-xr-x  1 brianz  staff   174 May 19 09:53 Makefile
+-rw-r--r--  1 brianz  staff   411 May 19 09:53 README.md
+-rw-r--r--  1 brianz  staff    39 May 31 20:24 config
+drwxr-xr-x  7 brianz  staff   238 May 31 20:17 serverless-demo/
+brianz@gold(master=)$ cd serverless-demo/
+brianz@gold(master=)$ ls -l
+total 24
+-rw-r--r--  1 brianz  staff   328 May 19 09:53 package.json
+-rw-r--r--  1 brianz  staff   190 May 19 09:53 s-project.json
+-rw-r--r--  1 brianz  staff  1527 May 19 09:53 s-resources-cf.json
+drwxr-xr-x  3 brianz  staff   102 May 19 09:53 src
+</code></pre>
+
+<p>OK&hellip;this is what we expect.  There isn&rsquo;t a <code>_meta</code> folder. Let&rsquo;s start getting set up and see
+what happens (as a reminder I&rsquo;m in a Docker container when running <code>sls</code> aka <code>serverless</code>):</p>
+
+<pre><code>root@bcdeb57d5754:/code# sls meta sync  
+/usr/local/lib/node_modules/serverless/node_modules/bluebird/js/release/async.js:61
+        fn = function () { throw arg; };
+                           ^
+
+ServerlessError: This plugin could not be found: serverless-meta-sync
+</code></pre>
+
+<p>Doh!  We need to install the plugin which makes sense. Since we (or our colleague who setup the
+project, aka me on my MBPro) performed an <code>npm install --save</code> of the plugin it&rsquo;ll be in our <code>package.json</code>. As with
+any node/npm system all we&rsquo;ll need to do is <code>npm install</code>:</p>
+
+<pre><code>root@bcdeb57d5754:/code#  npm install
+# snip...lots of output
+npm info ok 
+root@bcdeb57d5754:/code# 
+</code></pre>
+
+<p>Now that we have met all our requirements let&rsquo;s try to sync again:</p>
+
+<pre><code>root@bcdeb57d5754:/code# sls meta sync 
+/usr/local/lib/node_modules/serverless/node_modules/bluebird/js/release/async.js:61
+        fn = function () { throw arg; };
+                           ^
+
+ServerlessError: No existing stages in the project
+</code></pre>
+
+<p>Hrmmm&hellip;.it&rsquo;s really not that simple. The root cause here is that Serverless still knows nothing of
+our project.  Since Serverless works by keeping track of several files in the <code>_meta</code> directory it
+doesn&rsquo;t even know what your project is about&hellip;what resource it needs, nada.  <strong>Serverless should
+really make this easier and more intuitive.</strong></p>
+
+<blockquote>
+<p><strong>After cloning a repo you will need to perform one or more <code>sls project init</code> commands</strong></p>
+</blockquote>
+
+<p>While the meta-sync plugin will sync your variables files, there are some other files in the
+<code>_meta</code> directory which aren&rsquo;t synced. In order to get that directory and some other non-variable
+files bootstrapped and created you&rsquo;ll need to use <code>sls project init</code>. This can be confusing since
+that same command is exactly what you&rsquo;d use to setup a brand new project. Here, because we&rsquo;re
+issuing the command in and <em>existing</em> project, Serverless will setup your <code>_meta</code> directory and
+recreate a few files.</p>
+
+<p>So let&rsquo;s do it.  Note, you can also pass command line arguments to
+speed this up as needed.  Doing a <code>sls project init --help</code> will show you all of the options you
+can use.</p>
+
+<pre><code>root@bcdeb57d5754:/code# sls project init
+ _______                             __
+|   _   .-----.----.--.--.-----.----|  .-----.-----.-----.
+|   |___|  -__|   _|  |  |  -__|   _|  |  -__|__ --|__ --|
+|____   |_____|__|  \___/|_____|__| |__|_____|_____|_____|
+|   |   |             The Serverless Application Framework
+|       |                           serverless.com, v0.5.5
+`-------'
+
+Serverless: Initializing Serverless Project...  
+Serverless: Enter a new stage name for this project:  (dev) 
+Serverless: For the &quot;dev&quot; stage, do you want to use an existing Amazon Web Services profile or
+create a new one?
+  &gt; Existing Profile
+    Create A New Profile
+Serverless: Select a profile for your project: 
+  &gt; default
+Serverless: Creating stage &quot;dev&quot;...  
+Serverless: Select a new region for your stage: 
+    us-east-1
+  &gt; us-west-2
+    eu-west-1
+    eu-central-1
+    ap-northeast-1
+Serverless: Creating region &quot;us-west-2&quot; in stage &quot;dev&quot;...  
+Serverless: Deploying resources to stage &quot;dev&quot; in region &quot;us-west-2&quot; via Cloudformation (~3
+minutes)...  
+Serverless: No resource updates are to be performed.  
+Serverless: Successfully created region &quot;us-west-2&quot; within stage &quot;dev&quot;  
+Serverless: Successfully created stage &quot;dev&quot;  
+Serverless: Successfully initialized project &quot;serverless-demo&quot;  
+</code></pre>
+
+<pre><code class="language-bash">brianz@gold(master=)$ l
+total 32
+drwxr-xr-x   4 brianz  staff   136 Jun 28 16:58 _meta/
+-rw-r--r--   1 brianz  staff    23 Jun 28 16:58 admin.env
+drwxr-xr-x  20 brianz  staff   680 Jun 28 16:56 node_modules/
+-rw-r--r--   1 brianz  staff   327 Jun 28 16:58 package.json
+-rw-r--r--   1 brianz  staff   189 Jun 28 16:58 s-project.json
+-rw-r--r--   1 brianz  staff  1527 Jun 28 16:58 s-resources-cf.json
+drwxr-xr-x   3 brianz  staff   102 May 19 09:53 src/
+</code></pre>
+
+<p>Voila!  Our <code>_meta</code> directory is now available.</p>
+
+<p>At this point, if you inspect any of the <code>variables</code> files inside <code>_meta/</code> you&rsquo;ll see that they&rsquo;re
+empty.  We&rsquo;re finally at the point where we can pull down our secret variables and config which we
+previously synced using meta-sync.</p>
+
+<pre><code>root@bcdeb57d5754:/code# sls meta sync 
+Serverless: WARNING: This variable is not defined: magicVariable  
+Serverless: WARNING: This variable is not defined: region  
+Serverless: WARNING: This variable is not defined: region  
+Serverless: Going to sync &quot;s-variables-dev.json&quot;... 
+  
+ {
++  MY_MAGIC_VARIABLE: &quot;dev&quot;
+ }
+
+Serverless: How should these differences be handled?
+    Review these changes one by one
+  &gt; Apply these changes to the local version
+    Discard these changes and sync the remote version with the local one
+    Cancel
+Serverless: Done 
+</code></pre>
+
+<p>Excellent&hellip;it finally worked.  At this point we&rsquo;re all set to use the <code>dev</code> stage.</p>
+
+<pre><code>root@bcdeb57d5754:/code# ls -l _meta/variables/
+total 12
+-rw-r--r-- 1 1000 staff 34 Jun 28 22:58 s-variables-common.json
+-rw-r--r-- 1 1000 staff 27 Jun 28 22:58 s-variables-dev-uswest2.json
+-rw-r--r-- 1 1000 staff 50 Jun 28 23:08 s-variables-dev.json
+</code></pre>
+
+<p>What&rsquo;s missing? Remember, we have a &ldquo;production&rdquo; stage with it&rsquo;s own variables. That stage&rsquo;s
+variables file hasn&rsquo;t been pulled down after our <code>sync</code>.  <strong>We
+need to issue multiple <code>project init</code> and sync commands for different stages/regions!</strong> This is
+clunky, but at least we only need to do it once per stage:</p>
+
+<pre><code>root@bcdeb57d5754:/code# sls project init -s production
+Serverless: Initializing Serverless Project...  
+Serverless: For the &quot;production&quot; stage, do you want to use an existing Amazon Web Services profile
+or create a new one?
+  &gt; Existing Profile
+    Create A New Profile
+Serverless: Select a profile for your project: 
+  &gt; default
+Serverless: Creating stage &quot;production&quot;...  
+Serverless: Select a new region for your stage: 
+    us-east-1
+  &gt; us-west-2
+    eu-west-1
+    eu-central-1
+    ap-northeast-1
+Serverless: Creating region &quot;us-west-2&quot; in stage &quot;production&quot;...  
+Serverless: Deploying resources to stage &quot;production&quot; in region &quot;us-west-2&quot; via Cloudformation (~3
+minutes)...  
+Serverless: No resource updates are to be performed.  
+Serverless: Successfully created region &quot;us-west-2&quot; within stage &quot;production&quot;  
+Serverless: Successfully created stage &quot;production&quot;  
+Serverless: Successfully initialized project &quot;serverless-demo&quot;  
+</code></pre>
+
+<p>Now that we&rsquo;ve <code>init'ed</code> the production stage we can finally sync it:</p>
+
+<pre><code>root@bcdeb57d5754:/code# sls meta sync -s production
+Serverless: WARNING: This variable is not defined: magicVariable  
+Serverless: WARNING: This variable is not defined: region  
+Serverless: WARNING: This variable is not defined: region  
+Serverless: Going to sync &quot;s-variables-production.json&quot;... 
+  
+ {
++  magicVariable: &quot;Magic production thingie&quot;
+ }
+
+Serverless: How should these differences be handled?
+    Review these changes one by one
+  &gt; Apply these changes to the local version
+    Discard these changes and sync the remote version with the local one
+    Cancel
+Serverless: Done  
+</code></pre>
+
+<p>Phew. In my opinion that&rsquo;s a lot of work to do just to get the project in a state where you can
+start working on. I expect and hope this flow to get much easier in Serverless v1.0.</p>
+
+<h2 id="creating-a-new-api-endpoint:c45138b3e8031bde51353796bd1f4daf">Creating a new API endpoint</h2>
+
+<p>Now that we&rsquo;re set up on a new system let&rsquo;s start the process of creating a new function. A simple
+<code>Hello world!</code> example is quite boring, so what I&rsquo;ll do is create a new endpoint which accepts a
+<code>jwt</code> token in a <code>json</code> payload validates that it&rsquo;s correct.  To do this, we&rsquo;ll use a 3rd party
+Python library and some of our own Python code. This will demonstrate a few things:</p>
+
+<ul>
+<li>how to package requirements</li>
+<li>how to deal with POST data</li>
+</ul>
+
+<p>First we&rsquo;ll create the function and endpoint&hellip;this is a Python 2.7 function:</p>
+
+<pre><code>root@bcdeb57d5754:/code# sls function create src/authenticate -r python2.7
+Serverless: For this new Function, would you like to create an Endpoint, Event, or just the
+Function?
+  &gt; Create Endpoint
+    Create Event
+    Just the Function...
+Serverless: Successfully created function: &quot;src/authenticate&quot;  
+</code></pre>
+
+<p>Now that the function and API endpoint are set up we&rsquo;ll actually need to write some some. Crack
+open the <code>src/authenticate/handler.py</code> function if you&rsquo;re following along. You can also <a href="https://github.com/brianz/serverless-demo/blob/part-iiii/serverless-demo/src/authenticate/handler.py" target="_blank">look at
+the final version on
+Github</a>.</p>
+
+<p>There are a few things to note in order to get non-trivial functions like this one working:</p>
+
+<h3 id="installing-libraries:c45138b3e8031bde51353796bd1f4daf">Installing libraries</h3>
+
+<p>Since we&rsquo;re relying on a <code>jwt</code> library from a 3rd party we need to send that up to Lambda with our
+own function. Serverless does the work of creating a zip file of your code and any supporting
+code/libraries and uploading that to Lambda. With Python, we can &ldquo;install&rdquo; any supporting libraries
+in a folder next to our application code.  In this example I&rsquo;ll use the <code>lib</code> directory. <a href="https://github.com/brianz/serverless-demo/tree/master/serverless-demo/src" target="_blank">If you
+look at this repo on
+Github</a> you&rsquo;ll see a
+<code>requirements.txt</code> file along with a little helper script to create and populate the <code>lib/</code>
+directory.  Running this script will get the <code>lib/</code> directory bootstrapped&hellip;only after that is
+done will you be able to move on to the next step.  <em>Without</em> the supporting libraries installed
+and uploaded your function will throw an <code>ImportError</code> and not execute successfully.</p>
+
+<h3 id="path-hacking:c45138b3e8031bde51353796bd1f4daf">Path hacking</h3>
+
+<p>With our <code>lib/</code> directory successfully populated and uploaded with our application code we need
+to make our application code/Lambda function aware that it exists.  Remember, this is just an
+arbitrary directory with Python packages that we&rsquo;re uploading with our main Lambda function&hellip;our
+Lambda function/handler has no way of knowing that it should look in this directory for any of its
+dependencies.</p>
+
+<p><strong>Before</strong> any imports to 3rd party packages we need to hack the system path ourselves:</p>
+
+<pre><code class="language-python">cwd = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.join(cwd, &quot;../lib&quot;))
+
+# now you can import jwt or anything else you install
+</code></pre>
+
+<p>Pretty simple&hellip;if you decide to change the name of your directory which holds your dependencies
+you&rsquo;ll of course need to change your functions to reference that location.  Also, if you create a
+function which is nested any deeper in the package structure you&rsquo;ll have to adjust the
+<code>os.path.join</code> call&hellip;for example if you create a function in <code>authenticate/users/handler.py</code> that
+function would then need to use <code>&quot;../..lib&quot; since it's two directories away from</code>lib/`.</p>
+
+<h3 id="packaging-lib:c45138b3e8031bde51353796bd1f4daf">Packaging <code>lib/</code></h3>
+
+<p>The last thing we need to take care of is instructing Serverless to package up our <code>lib/</code> directory
+with our handler function. This is done by mangling the <code>handler</code> value in <code>s-function.json</code>. In
+short, all you do it change the path to the handler which you&rsquo;re using. Originally the <code>handler</code>
+value is a simple string, pointing to your handlerfile.handlerfunction like this:</p>
+
+<pre><code class="language-json">    &quot;handler&quot;: &quot;handler.handler&quot;,
+</code></pre>
+
+<p>Our change will add in one level to the path to that handler file:</p>
+
+<pre><code class="language-json">    &quot;handler&quot;: &quot;authenticate/handler.handler&quot;,
+</code></pre>
+
+<p>Serverless will notice this and then package up everything which sits alongside the <code>authenticate</code>
+directory:</p>
+
+<pre><code class="language-bash">brianz@gold(master=)$ ls -l
+total 16
+drwxr-xr-x  5 brianz  staff  170 Jul  1 11:18 authenticate/
+-rwxr-xr-x  1 brianz  staff   94 Jun 28 20:46 build-requirements.sh*
+drwxr-xr-x  5 brianz  staff  170 Jun 20 16:18 hello/
+drwxr-xr-x  4 brianz  staff  136 Jun 28 20:45 lib/
+-rw-r--r--  1 brianz  staff   13 Jun 28 20:41 requirements.txt
+</code></pre>
+
+<p>Everything you see here will wind up in our final zip file.</p>
+
+<h3 id="extracting-post-body:c45138b3e8031bde51353796bd1f4daf">Extracting POST body</h3>
+
+<p>Finally, there&rsquo;s the work of extracting content from the actual <code>POST</code> body and sending it over to
+the Lambda function.  This is handled by API Gateway.  Here&rsquo;s the change/addition in
+<code>s-function.json</code>:</p>
+
+<pre><code class="language-json">  &quot;requestTemplates&quot;: {
+    &quot;application/json&quot;: {
+      &quot;token&quot;: &quot;$input.json('$.token')&quot;
+    }   
+  }
+</code></pre>
+
+<p>This is one of the most confusing parts of API Gateway IMO. This ends up injecting a <code>token</code> field
+into your Lambda <code>event</code> by extracting the <code>token</code> field from the expected json payload in the
+<code>POST</code>.  Our Python function can then reference this:</p>
+
+<pre><code class="language-python">    token = event.get('token', '')
+</code></pre>
+
+<p>Phew! Let&rsquo;s try this out. Our JWT secret for signing our tokens is simply the string <code>&quot;secret&quot;</code>.
+You can visit <a href="https://jwt.io" target="_blank">https://jwt.io</a> and generate a new token and try it for yourself. My Lambda function
+will simply decode the token and return the results if it&rsquo;s valid. If it&rsquo;s <em>not</em> valid the Lambda
+function will raise an exception which will be returned to you:</p>
+
+<p>Here&rsquo;s a valid token:</p>
+
+<p>```bash curl -s -d &lsquo;{&ldquo;token&rdquo;: &ldquo;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJyaWFueiIsIm9yaWdfaWF0IjoxNDY3MTMyMTgzLCJleHAiOjE3ODI3NTIzNzIsImVtYWlsIjoiYnJpYW56QGdtYWlsLmNvbSIsInNjb3BlcyI6WyJkZXZlbG9wZXIiLCJzZXJ2ZXJsZXNzLWZhbiJdfQ.tmbOyytr0vbNdaFL0wc31SIpWw8E_xqUIDoWsXYM2do&rdquo;}&rsquo; <a href="https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate" target="_blank">https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate</a> | python -mjson.tool
+{
+    &ldquo;email&rdquo;: &ldquo;brianz@gmail.com&rdquo;,
+    &ldquo;exp&rdquo;: 1782752372,
+    &ldquo;orig_iat&rdquo;: 1467132183,
+    &ldquo;scopes&rdquo;: [
+        &ldquo;developer&rdquo;,
+        &ldquo;serverless-fan&rdquo;
+    ],
+    &ldquo;username&rdquo;: &ldquo;brianz&rdquo;
+}</p>
+
+<pre><code>
+Neat! Generated this token by plugging in some arbitrary data at the https://jwt.io playground. Note
+that I pushed the `exp` (expires) field far in the future.
+
+Let's try an invalid signature where the `exp` field is in the past:
+
+```bash
+curl -s -d '{&quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJyaWFueiIsIm9yaWdfaWF0IjoxNDY3MTMyMTgzLCJleHAiOjE0NjcyMTk2OTMsImVtYWlsIjoiYnJpYW56QGdtYWlsLmNvbSIsInNjb3BlcyI6WyJkZXZlbG9wZXIiLCJzZXJ2ZXJsZXNzLWZhbiJdfQ.A1UJOKcSfpUSuAgZoBO9g0oBtGdkrl71VtNt4F5eJZg&quot;}' https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
+{
+    &quot;errorMessage&quot;: &quot;Signature has expired&quot;,
+    &quot;errorType&quot;: &quot;ExpiredSignatureError&quot;,
+    &quot;stackTrace&quot;: [
+        [
+            &quot;/var/task/authenticate/handler.py&quot;,
+            30,
+            &quot;handler&quot;,
+            &quot;decoded = jwt_decode_handler(token)&quot;
+        ],
+        [
+            &quot;/var/task/authenticate/handler.py&quot;,
+            21,
+            &quot;jwt_decode_handler&quot;,
+            &quot;return jwt.decode(token, JWT_SECRET_KEY)&quot;
+        ],
+        [
+            &quot;/var/task/authenticate/../lib/jwt/api_jwt.py&quot;,
+            75,
+            &quot;decode&quot;,
+            &quot;self._validate_claims(payload, merged_options, **kwargs)&quot;
+        ],
+        [
+            &quot;/var/task/authenticate/../lib/jwt/api_jwt.py&quot;,
+            104,
+            &quot;_validate_claims&quot;,
+            &quot;self._validate_exp(payload, now, leeway)&quot;
+        ],
+        [
+            &quot;/var/task/authenticate/../lib/jwt/api_jwt.py&quot;,
+            149,
+            &quot;_validate_exp&quot;,
+            &quot;raise ExpiredSignatureError('Signature has expired')&quot;
+        ]
+    ]
+}
+</code></pre>
+
+<p>Pretty cool. And how about a missing token?</p>
+
+<pre><code class="language-bash">curl -s -X POST https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
+{
+    &quot;errorMessage&quot;: &quot;Mission token&quot;,
+    &quot;errorType&quot;: &quot;Exception&quot;,
+    &quot;stackTrace&quot;: [
+        [
+            &quot;/var/task/authenticate/handler.py&quot;,
+            27,
+            &quot;handler&quot;,
+            &quot;raise Exception('Mission token')&quot;
+        ]
+    ]
+}
+</code></pre>
+
+<p>If you were doing this for real you&rsquo;d want to handle failures more gracefully.  With API Gateway
+you can match on certain responses to control HTTP return codes. Of course, you&rsquo;d also want to hide
+the details of the stack blowing up and instead return some nicer error messages.</p>
+
+<p>That was a big post&hellip;hopefully this gives  you some idea on how to use Serverless for a <em>real</em>
+application. I&rsquo;ll continue developing this series and I&rsquo;m sure there will be updates as Serverless
+v1.0 evolves!</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://blog.brianz.bz/post/serverless-part-iii/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://blog.brianz.bz/post/serverless-part-iii/">Serverless part III</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'brianz';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://blog.brianz.bzjs/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75475240-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+

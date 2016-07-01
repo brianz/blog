@@ -1,6 +1,6 @@
 +++
-date = "2016-06-29T16:27:48-06:00"
-draft = true
+date = "2016-07-01T11:55:51-06:00"
+draft = false
 title = "Serverless part IV"
 tags = [
     'aws',
