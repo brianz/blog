@@ -5,6 +5,7 @@
     <link>http://blog.brianz.bz/</link>
     <description>Recent content on Brian Z</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
     <copyright>&amp;copy; 2016. All rights reserved.</copyright>
     <lastBuildDate>Thu, 02 Jun 2016 17:01:36 -0600</lastBuildDate>
     <atom:link href="http://blog.brianz.bz/index.xml" rel="self" type="application/rss+xml" />
@@ -59,7 +60,7 @@ stage which we&amp;rsquo;ll call &lt;code&gt;production&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Remember, I&amp;rsquo;m using a Docker container to execute all of my Serverless commands.  You can follow
 along by &lt;a href=&#34;https://github.com/brianz/serverless-demo/tree/part-iii&#34; target=&#34;_blank&#34;&gt;checking out the repository&lt;/a&gt;.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;brianz@gold(master=)$ make shell
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;brianz@gold(master=)$ make shell
 docker run --rm -it \
         -v `pwd`:/code \
         --name=slsdemo &amp;quot;bz/serverless&amp;quot; bash

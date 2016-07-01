@@ -29,9 +29,9 @@ these in their push towards v1.0. Only a few days ago [they announce a beta vers
 In any case, as long as you're aware of the issues in v0.5.5 which is what is currently stable you
 should have no trouble working around them. With v1.0 being not too far away I suspect very soon
 I'll start writing about that system since it appears to be much improved and fundamentally
-differeint in the way it organizing things.
+different in the way it organizing things.
 
-So, what we'll disuss here is:
+So, what we'll discuss here is:
 
 - Syncing sensitive AWS data with the `meta sync` plugin
 - Working on an existing project after a `git clone`
@@ -55,7 +55,7 @@ which are injected at deploy time through some `_meta` files
 What this means is that when you `git clone` a repository Serverless won't have a clue what to do
 with it.  Any `sls` command you issue will result in an error since Serverless doesn't know what
 resources to work with.  **This is one area where Serverless needs to improve.**  I find this part
-quite clunkly since there are multiple hoops to jump through in order to get a project running
+quite clunky since there are multiple hoops to jump through in order to get a project running
 after a simple `git clone`.
 
 To start, you'll want to use a plugin which will sync your `_meta` folder to S3. All this does is give
@@ -64,7 +64,7 @@ manner.  The caveat being that users or systems using this will both need to hav
 to the designated S3 bucket.  How you manage your AWS keys between systems is an entirely
 different discussion which we won't talk about now (and is a question which I'm working out myself).
 
-Setting up `meta sync` is pretty simple...the github page gives you all the details you'll need:
+Setting up `meta sync` is pretty simple...the Github page gives you all the details you'll need:
 https://github.com/serverless/serverless-meta-sync
 
 Someone will need to initially set this up to actually put the `_meta` directory up in S3.  If
@@ -146,7 +146,7 @@ total 24
 drwxr-xr-x  3 brianz  staff   102 May 19 09:53 src
 ```
 
-Ok...this is what we expect.  There isn't a `_meta` folder. Let's start getting set up and see
+OK...this is what we expect.  There isn't a `_meta` folder. Let's start getting set up and see
 what happens (as a reminder I'm in a Docker container when running `sls` aka `serverless`):
 
 ```
@@ -158,7 +158,7 @@ root@bcdeb57d5754:/code# sls meta sync
 ServerlessError: This plugin could not be found: serverless-meta-sync
 ```
 
-Doh!  We need to install the plugin which makes sense. Since we (or our colleauge who setup the
+Doh!  We need to install the plugin which makes sense. Since we (or our colleague who setup the
 project, aka me on my MBPro) performed an `npm install --save` of the plugin it'll be in our `package.json`. As with
 any node/npm system all we'll need to do is `npm install`:
 
@@ -367,7 +367,7 @@ There are a few things to note in order to get non-trivial functions like this o
 
 Since we're relying on a `jwt` library from a 3rd party we need to send that up to Lambda with our
 own function. Serverless does the work of creating a zip file of your code and any supporting
-code/libaries and uploading that to Lambda. With Python, we can "install" any supporting libraries
+code/libraries and uploading that to Lambda. With Python, we can "install" any supporting libraries
 in a folder next to our application code.  In this example I'll use the `lib` directory. [If you
 look at this repo on
 Github](https://github.com/brianz/serverless-demo/tree/master/serverless-demo/src) you'll see a
@@ -403,7 +403,7 @@ function would then need to use `"../..lib" since it's two directories away from
 
 The last thing we need to take care of is instructing Serverless to package up our `lib/` directory
 with our handler function. This is done by mangling the `handler` value in `s-function.json`. In
-short, all you do it change the path to the handler which you're using. Originally the `hander`
+short, all you do it change the path to the handler which you're using. Originally the `handler`
 value is a simple string, pointing to your handlerfile.handlerfunction like this:
 
 ```json
@@ -475,7 +475,7 @@ Here's a valid token:
 }
 ```
 
-Neat! Generated this token by plugging in some arbirary data at the https://jwt.io playground. Note
+Neat! Generated this token by plugging in some arbitrary data at the https://jwt.io playground. Note
 that I pushed the `exp` (expires) field far in the future.
 
 Let's try an invalid signature where the `exp` field is in the past:

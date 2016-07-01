@@ -101,6 +101,8 @@
     
 
     
+
+    
     <li class="pure-menu-item">
       <a class="pure-menu-link" href="https://facebook.com/brian.zambrano" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
     </li>
@@ -164,6 +166,10 @@
     <li class="pure-menu-item">
       <a class="pure-menu-link" href="https://stackoverflow.com/users/87858" target="_blank"><i class="fa fa-stack-overflow fa-fw"></i>Stack Overflow</a>
     </li>
+    
+
+    
+
     
 
   </ul>
@@ -265,7 +271,7 @@ stage which we&rsquo;ll call <code>production</code>.</p>
 <p>Remember, I&rsquo;m using a Docker container to execute all of my Serverless commands.  You can follow
 along by <a href="https://github.com/brianz/serverless-demo/tree/part-iii" target="_blank">checking out the repository</a>.</p>
 
-<pre><code>brianz@gold(master=)$ make shell
+<pre><code class="language-bash">brianz@gold(master=)$ make shell
 docker run --rm -it \
         -v `pwd`:/code \
         --name=slsdemo &quot;bz/serverless&quot; bash
