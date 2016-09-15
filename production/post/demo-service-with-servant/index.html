@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.15" />
+
+  <title>Demo service with Servant &middot; Brian Z</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://blog.brianz.bzimg/favicon.ico" type="image/x-icon" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://blog.brianz.bz/">brianz</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/brianzambrano" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/brian.zambrano" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://instagram.com/bzambrano" target="_blank"><i class="fa fa-instagram fa-fw"></i>Instagram</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/brianzambrano" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://news.ycombinator.com/user?id=brianz" target="_blank"><i class="fa fa-hacker-news fa-fw"></i>Hacker News</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/brianz" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://stackoverflow.com/users/87858" target="_blank"><i class="fa fa-stack-overflow fa-fw"></i>Stack Overflow</a>
+    </li>
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Demo service with Servant</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>15 Sep 2016, 17:41</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/python">python</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/architecture">architecture</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/microservices">microservices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/servant">servant</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>In a <a href="No page found with path or logical name "introducing-servant.md".
+">previous post</a> I introduced and discussed
+about an open source library I authored called Servant. Servant is a framework for building
+RPC-style services with Python. Servant is to services as Django or Rails is to web
+applications&hellip;it&rsquo;s framework you&rsquo;d use when you need to build a service in Python.</p>
+
+<p>I&rsquo;ll go a bit deeper in this post and show what it&rsquo;s like to actually author and use a service.
+Let&rsquo;s first start by writing the service.  To save some time we&rsquo;ll take a look at the <a
+href="https://github.com/brianz/servant/tree/master/examples/calculator_service"><code>calculator_service</code></a>
+which is in the <code>examples</code> directory in the Servant repository.</p>
+
+<h2 id="writing-the-service:ce7670bcf55e51c26ab5dc928711bf57">Writing the service</h2>
+
+<h3 id="boilerplate:ce7670bcf55e51c26ab5dc928711bf57">Boilerplate</h3>
+
+<p>There are a few requirements to write a service.  I&rsquo;ll start with the boring parts which is mostly
+boilerplate to get your service setup as an install-able Python package. I also suggest looking at
+the directory structure for the demo <code>calculator_service</code> on Github:</p>
+
+<p><a href="https://github.com/brianz/servant/tree/master/examples/calculator_service" target="_blank">https://github.com/brianz/servant/tree/master/examples/calculator_service</a></p>
+
+<p>At a bare minimum you&rsquo;ll need a <code>setup.py</code> file and a directory with the correct name.  In this
+example, the name is <code>calculator_service</code>.</p>
+
+<script src="//gist.github.com/brianz/eab945699d396a5656e355e8f1264562.js"></script>
+
+<p>From there you&rsquo;ll also need a directory where your source code will live.</p>
+
+<h3 id="service:ce7670bcf55e51c26ab5dc928711bf57">Service</h3>
+
+<p>Every Servant service needs an entry-point to device the endpoints which will be exposed. This is
+pretty simple&hellip;create a file names <code>service.py</code> which contains a class that subclasses
+<code>servant.service.base.Service</code></p>
+
+<script src="//gist.github.com/brianz/7addb2cf37a6cadda3d15fd6c623bf21.js"></script>
+
+<p>Your service class will only need a few things:</p>
+
+<ul>
+<li><code>name</code> attribute</li>
+<li><code>version</code> attribute (use <code>1</code> when getting started)</li>
+<li><code>action_map</code> which is a dictionary mapping endpoint name to an <code>Action</code> class</li>
+</ul>
+
+<p>That&rsquo;s really it&hellip;of course there are more things you can do in your service class to handle
+configuration, etc. However, this is the minimum amount of work you&rsquo;ll need to do in order to get
+started.</p>
+
+<p>In our example you can see our <code>calculator_service</code> exposed three calculate endpoints&hellip;<code>add</code>,
+<code>subtract</code> and <code>divide</code>.  These will do what you&rsquo;d expect.</p>
+
+<h3 id="actions:ce7670bcf55e51c26ab5dc928711bf57">Actions</h3>
+
+<p>An <code>Action</code> is really the meat and potatoes for a particular endpoint. You can organize your
+actions however you like&hellip;one action per file, multiple actions per file, etc.  Since we&rsquo;re
+writing a pretty simple service and only have three actions, we&rsquo;ll put them all in <code>actions.py</code>.</p>
+
+<script src="//gist.github.com/brianz/91b2a58709d569443aab5b98aaa38e0b.js"></script>
+
+<p>Let&rsquo;s walk through what it takes to implement a single action (or, an &ldquo;endpoint&rdquo; from the client&rsquo;s
+perspective).  Looking at <code>AddAction</code> we can see that there are two required inputs&hellip;<code>number1</code> and
+<code>number2</code>. I liken the structure of a servant <code>Action</code> to a Django, SQLAlchemy or other type of
+model.  You&rsquo;ll need to subclass <code>servant.service.actions.Action</code> and usually define one or more
+inputs as class attributes which are servant <code>field</code> types.</p>
+
+<p>In <code>AddAction</code> we ensure that the client passes us <code>number1</code> and <code>number2</code> by adding
+<code>required=True</code> to the field&rsquo;s kwargs. This instructs servant to return an error in the case that
+the client doesn&rsquo;t pass either of these. Out of the box we get some error checking for free which
+is quite nice.  From there it&rsquo;s also your responsibility as the developer to device the return type
+which the client will get back after a successful call.  Here, we&rsquo;ll return a single integer using
+an <code>IntField</code> field type which is named <code>result</code>.</p>
+
+<p>Your entry point into an action is the <code>run</code> method.  You can see above what it does&hellip;it&rsquo;s simple
+one-liner.  By the time your <code>run</code> method is being executed the basic error checking has completed
+and all of the required and optional fields will be available to you as class attributes.  So, our
+<code>run</code> method simple sets the result using the two inputs we received from the client:</p>
+
+<pre><code>def run(self, **kwargs):
+    self.result = self.number1 + self.number2
+</code></pre>
+
+<p>The <code>run</code> method doesn&rsquo;t need to return anything&hellip;all return data is handled via the field
+attributes.</p>
+
+<p>If you read the rest of the gist above you can see how the subtract and divide actions are
+implemented. Being a calculator, there really isn&rsquo;t much to it.  You&rsquo;ll notice that the subtract
+action subclassed the add action and just overrides the <code>run</code> method.  The <code>divide</code> action mostly
+just changes the names of the inputs and output.</p>
+
+<h2 id="using-the-service:ce7670bcf55e51c26ab5dc928711bf57">Using the service</h2>
+
+<p>One neat feature of Servant is the ability to run your service as a locally installed Python
+library.</p>
+
+<p>Let&rsquo;s install both Servant and the calculator service into a new virtualenv:</p>
+
+<pre><code>$ cd path/to/servant
+$ mkvirtualenv calculator_service
+$ pip install -e .
+$ cd examples/calculator_service
+$ pip install -e .
+</code></pre>
+
+<p>Now that we have these installed, we can actually test our service!</p>
+
+<pre><code>import servant.client
+
+client = servant.client.Client('calculator_service', version=1)
+
+response = client.add(number1=10, number2=15)
+
+if response.is_error():
+    print response.errors, response.field_errors
+else:
+    print response.result
+</code></pre>
+
+<p>When we run this, we get our expected result of <code>25</code>.</p>
+
+<p>Now, how do we run this on a separate host so that we&rsquo;re actually a stand-alone service?  Quite
+easy&hellip;first we&rsquo;ll setup a <code>wsgi</code> server using <code>uwsgi</code>. We need two files&hellip;one is a 3-line python
+file which is the entry-point for the service.  The other is a very short <code>uwsgi</code> config file.
+Servant has built-in support for running as a wsgi server so <code>wsgi_handler.py</code> is quite short:</p>
+
+<script src="//gist.github.com/brianz/f74825460c85c5b5f59255d644a2576a.js"></script>
+
+<p>Now, fire up uwsgi: <code>uwsgi uwsgi.ini</code></p>
+
+<p>uwsgi is now ready to serve requests on port 8888&hellip;we can run the <em>exact</em> same client code as
+above.  You&rsquo;ll note that the client code above <em>only</em> depends on the <code>servant</code> library. Really, the
+only reference to the <code>calculator_service</code> is when we instantiate the <code>Client</code> class.  There is
+only one change we need to make to the client code above to hit a remote system:</p>
+
+<pre><code>client.configure('http', host='192.168.88.100', port=8888)
+</code></pre>
+
+<p>We&rsquo;re configuring our client to connect via <code>http</code> to the given host and port.  Once that single
+line is added we can run the client and get the exact same results.</p>
+
+<p>I believe the power of being able to develop a service and run it locally like this and deploy it
+remotely with only a single line changing for the client is immensely powerful. Admittedly, when
+using Docker standing up a server is pretty easy, but being able to run service code without
+depending on a server is still quite valuable. Another big advantage is that it&rsquo;s possible to
+actually pip install your service package with your client application and not depend on a remote
+system staying up. The advantage is by pip installing a service is that you&rsquo;re able to deploy a
+service much faster and iterate simply by pip installing&hellip;when it&rsquo;s time to migrate it&rsquo;s just a
+matter of a minor change to your client code to point to the remote host.</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://blog.brianz.bz/post/serverless-part-iv/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://blog.brianz.bz/post/serverless-part-iv/">Serverless part IV</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'brianz';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://blog.brianz.bzjs/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75475240-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+

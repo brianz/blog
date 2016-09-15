@@ -1,6 +1,6 @@
 +++
-date = "2016-08-08T16:14:32-06:00"
-draft = true
+date = "2016-09-15T17:41:39-04:00"
+draft = false
 tags = [
     "python",
     "architecture",

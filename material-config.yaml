@@ -1,0 +1,95 @@
+baseurl: http://blog.brianz.bz
+title: Brian Z
+author: Brian Zambrano
+#theme: blackburn
+theme: hugo-material-docs
+languageCode: en-us
+
+# Shown in the side menu
+copyright: "&copy; 2016. All rights reserved."
+canonifyurls: true
+paginate: 10
+
+#metadataformat = "yaml"
+#canonifyurls = true
+# Enable Google Analytics by entering your tracking id
+#googleAnalytics = ""
+
+blackfriday:
+  hrefTargetBlank: true
+#smartypants	= true
+#fractions = true
+#smartDashes = true
+#plainIDAnchors = true
+
+indexes:
+  tag: tags
+  topic: topics
+
+params:
+  # Shown in the home page
+  author: Brian Zambrano
+  subtitle: A SAAS application architecture blog
+  description: A SAAS application architecture blog
+  copyright: "&copy; 2016. All rights reserved."
+  brand: brianz
+  googleAnalytics: UA-75475240-1
+  disqus: brianz
+  # CSS name for highlight.js
+  highlightjs: androidstudio
+  dateFormat: 02 Jan 2006, 15:04
+
+  #permalink: "#"
+
+  # Custom assets
+#  custom_css = []
+#  custom_js  = []
+
+  # Syntax highlighting theme
+#  highlight_css  = ""
+
+  palette:
+    primary: "red"
+    accent: "light green"
+
+  font:
+    text: "Noto Sans"
+    code: "Ubuntu Mono"
+
+# Shown in the side menu.
+menu:
+  main:
+    - name: Home
+      pre: <i class='fa fa-home fa-fw'></i>
+      weight: 0
+      identifier: home
+      url: /
+    - name: About
+      pre: <i class='fa fa-user fa-fw'></i>
+      weight: 2
+      identifier: about
+      url: /about/
+    - name: Posts
+      pre: <i class='fa fa-list fa-fw'></i>
+      weight: 2
+      identifier: post
+      url: /post/
+
+social:
+  # Link your social networking accouns to the side menu
+  # by entering your username or ID.
+
+  # SNS microblogging
+  twitter: brianzambrano
+  facebook: brian.zambrano
+
+  # SNS photo/video sharing
+  instagram: bzambrano
+
+  linkedin: brianzambrano
+
+  hackernews: brianz
+
+  github: brianz
+  stackoverflow: 87858
+

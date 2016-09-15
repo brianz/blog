@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Servant on Brian Z</title>
+    <link>http://blog.brianz.bz/tags/servant/</link>
+    <description>Recent content in Servant on Brian Z</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2016. All rights reserved.</copyright>
+    <lastBuildDate>Thu, 15 Sep 2016 17:41:39 -0400</lastBuildDate>
+    <atom:link href="http://blog.brianz.bz/tags/servant/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Demo service with Servant</title>
+      <link>http://blog.brianz.bz/post/demo-service-with-servant/</link>
+      <pubDate>Thu, 15 Sep 2016 17:41:39 -0400</pubDate>
+      
+      <guid>http://blog.brianz.bz/post/demo-service-with-servant/</guid>
+      <description>
+
+&lt;p&gt;In a &lt;a href=&#34;No page found with path or logical name &#34;introducing-servant.md&#34;.
+&#34;&gt;previous post&lt;/a&gt; I introduced and discussed
+about an open source library I authored called Servant. Servant is a framework for building
+RPC-style services with Python. Servant is to services as Django or Rails is to web
+applications&amp;hellip;it&amp;rsquo;s framework you&amp;rsquo;d use when you need to build a service in Python.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ll go a bit deeper in this post and show what it&amp;rsquo;s like to actually author and use a service.
+Let&amp;rsquo;s first start by writing the service.  To save some time we&amp;rsquo;ll take a look at the &lt;a
+href=&#34;https://github.com/brianz/servant/tree/master/examples/calculator_service&#34;&gt;&lt;code&gt;calculator_service&lt;/code&gt;&lt;/a&gt;
+which is in the &lt;code&gt;examples&lt;/code&gt; directory in the Servant repository.&lt;/p&gt;
+
+&lt;h2 id=&#34;writing-the-service:ce7670bcf55e51c26ab5dc928711bf57&#34;&gt;Writing the service&lt;/h2&gt;
+
+&lt;h3 id=&#34;boilerplate:ce7670bcf55e51c26ab5dc928711bf57&#34;&gt;Boilerplate&lt;/h3&gt;
+
+&lt;p&gt;There are a few requirements to write a service.  I&amp;rsquo;ll start with the boring parts which is mostly
+boilerplate to get your service setup as an install-able Python package. I also suggest looking at
+the directory structure for the demo &lt;code&gt;calculator_service&lt;/code&gt; on Github:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/brianz/servant/tree/master/examples/calculator_service&#34; target=&#34;_blank&#34;&gt;https://github.com/brianz/servant/tree/master/examples/calculator_service&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;At a bare minimum you&amp;rsquo;ll need a &lt;code&gt;setup.py&lt;/code&gt; file and a directory with the correct name.  In this
+example, the name is &lt;code&gt;calculator_service&lt;/code&gt;.&lt;/p&gt;
+
+&lt;script src=&#34;//gist.github.com/brianz/eab945699d396a5656e355e8f1264562.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;From there you&amp;rsquo;ll also need a directory where your source code will live.&lt;/p&gt;
+
+&lt;h3 id=&#34;service:ce7670bcf55e51c26ab5dc928711bf57&#34;&gt;Service&lt;/h3&gt;
+
+&lt;p&gt;Every Servant service needs an entry-point to device the endpoints which will be exposed. This is
+pretty simple&amp;hellip;create a file names &lt;code&gt;service.py&lt;/code&gt; which contains a class that subclasses
+&lt;code&gt;servant.service.base.Service&lt;/code&gt;&lt;/p&gt;
+
+&lt;script src=&#34;//gist.github.com/brianz/7addb2cf37a6cadda3d15fd6c623bf21.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;Your service class will only need a few things:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;name&lt;/code&gt; attribute&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;version&lt;/code&gt; attribute (use &lt;code&gt;1&lt;/code&gt; when getting started)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;action_map&lt;/code&gt; which is a dictionary mapping endpoint name to an &lt;code&gt;Action&lt;/code&gt; class&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That&amp;rsquo;s really it&amp;hellip;of course there are more things you can do in your service class to handle
+configuration, etc. However, this is the minimum amount of work you&amp;rsquo;ll need to do in order to get
+started.&lt;/p&gt;
+
+&lt;p&gt;In our example you can see our &lt;code&gt;calculator_service&lt;/code&gt; exposed three calculate endpoints&amp;hellip;&lt;code&gt;add&lt;/code&gt;,
+&lt;code&gt;subtract&lt;/code&gt; and &lt;code&gt;divide&lt;/code&gt;.  These will do what you&amp;rsquo;d expect.&lt;/p&gt;
+
+&lt;h3 id=&#34;actions:ce7670bcf55e51c26ab5dc928711bf57&#34;&gt;Actions&lt;/h3&gt;
+
+&lt;p&gt;An &lt;code&gt;Action&lt;/code&gt; is really the meat and potatoes for a particular endpoint. You can organize your
+actions however you like&amp;hellip;one action per file, multiple actions per file, etc.  Since we&amp;rsquo;re
+writing a pretty simple service and only have three actions, we&amp;rsquo;ll put them all in &lt;code&gt;actions.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;script src=&#34;//gist.github.com/brianz/91b2a58709d569443aab5b98aaa38e0b.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;Let&amp;rsquo;s walk through what it takes to implement a single action (or, an &amp;ldquo;endpoint&amp;rdquo; from the client&amp;rsquo;s
+perspective).  Looking at &lt;code&gt;AddAction&lt;/code&gt; we can see that there are two required inputs&amp;hellip;&lt;code&gt;number1&lt;/code&gt; and
+&lt;code&gt;number2&lt;/code&gt;. I liken the structure of a servant &lt;code&gt;Action&lt;/code&gt; to a Django, SQLAlchemy or other type of
+model.  You&amp;rsquo;ll need to subclass &lt;code&gt;servant.service.actions.Action&lt;/code&gt; and usually define one or more
+inputs as class attributes which are servant &lt;code&gt;field&lt;/code&gt; types.&lt;/p&gt;
+
+&lt;p&gt;In &lt;code&gt;AddAction&lt;/code&gt; we ensure that the client passes us &lt;code&gt;number1&lt;/code&gt; and &lt;code&gt;number2&lt;/code&gt; by adding
+&lt;code&gt;required=True&lt;/code&gt; to the field&amp;rsquo;s kwargs. This instructs servant to return an error in the case that
+the client doesn&amp;rsquo;t pass either of these. Out of the box we get some error checking for free which
+is quite nice.  From there it&amp;rsquo;s also your responsibility as the developer to device the return type
+which the client will get back after a successful call.  Here, we&amp;rsquo;ll return a single integer using
+an &lt;code&gt;IntField&lt;/code&gt; field type which is named &lt;code&gt;result&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Your entry point into an action is the &lt;code&gt;run&lt;/code&gt; method.  You can see above what it does&amp;hellip;it&amp;rsquo;s simple
+one-liner.  By the time your &lt;code&gt;run&lt;/code&gt; method is being executed the basic error checking has completed
+and all of the required and optional fields will be available to you as class attributes.  So, our
+&lt;code&gt;run&lt;/code&gt; method simple sets the result using the two inputs we received from the client:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def run(self, **kwargs):
+    self.result = self.number1 + self.number2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;run&lt;/code&gt; method doesn&amp;rsquo;t need to return anything&amp;hellip;all return data is handled via the field
+attributes.&lt;/p&gt;
+
+&lt;p&gt;If you read the rest of the gist above you can see how the subtract and divide actions are
+implemented. Being a calculator, there really isn&amp;rsquo;t much to it.  You&amp;rsquo;ll notice that the subtract
+action subclassed the add action and just overrides the &lt;code&gt;run&lt;/code&gt; method.  The &lt;code&gt;divide&lt;/code&gt; action mostly
+just changes the names of the inputs and output.&lt;/p&gt;
+
+&lt;h2 id=&#34;using-the-service:ce7670bcf55e51c26ab5dc928711bf57&#34;&gt;Using the service&lt;/h2&gt;
+
+&lt;p&gt;One neat feature of Servant is the ability to run your service as a locally installed Python
+library.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s install both Servant and the calculator service into a new virtualenv:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd path/to/servant
+$ mkvirtualenv calculator_service
+$ pip install -e .
+$ cd examples/calculator_service
+$ pip install -e .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now that we have these installed, we can actually test our service!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import servant.client
+
+client = servant.client.Client(&#39;calculator_service&#39;, version=1)
+
+response = client.add(number1=10, number2=15)
+
+if response.is_error():
+    print response.errors, response.field_errors
+else:
+    print response.result
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When we run this, we get our expected result of &lt;code&gt;25&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now, how do we run this on a separate host so that we&amp;rsquo;re actually a stand-alone service?  Quite
+easy&amp;hellip;first we&amp;rsquo;ll setup a &lt;code&gt;wsgi&lt;/code&gt; server using &lt;code&gt;uwsgi&lt;/code&gt;. We need two files&amp;hellip;one is a 3-line python
+file which is the entry-point for the service.  The other is a very short &lt;code&gt;uwsgi&lt;/code&gt; config file.
+Servant has built-in support for running as a wsgi server so &lt;code&gt;wsgi_handler.py&lt;/code&gt; is quite short:&lt;/p&gt;
+
+&lt;script src=&#34;//gist.github.com/brianz/f74825460c85c5b5f59255d644a2576a.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;Now, fire up uwsgi: &lt;code&gt;uwsgi uwsgi.ini&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;uwsgi is now ready to serve requests on port 8888&amp;hellip;we can run the &lt;em&gt;exact&lt;/em&gt; same client code as
+above.  You&amp;rsquo;ll note that the client code above &lt;em&gt;only&lt;/em&gt; depends on the &lt;code&gt;servant&lt;/code&gt; library. Really, the
+only reference to the &lt;code&gt;calculator_service&lt;/code&gt; is when we instantiate the &lt;code&gt;Client&lt;/code&gt; class.  There is
+only one change we need to make to the client code above to hit a remote system:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;client.configure(&#39;http&#39;, host=&#39;192.168.88.100&#39;, port=8888)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We&amp;rsquo;re configuring our client to connect via &lt;code&gt;http&lt;/code&gt; to the given host and port.  Once that single
+line is added we can run the client and get the exact same results.&lt;/p&gt;
+
+&lt;p&gt;I believe the power of being able to develop a service and run it locally like this and deploy it
+remotely with only a single line changing for the client is immensely powerful. Admittedly, when
+using Docker standing up a server is pretty easy, but being able to run service code without
+depending on a server is still quite valuable. Another big advantage is that it&amp;rsquo;s possible to
+actually pip install your service package with your client application and not depend on a remote
+system staying up. The advantage is by pip installing a service is that you&amp;rsquo;re able to deploy a
+service much faster and iterate simply by pip installing&amp;hellip;when it&amp;rsquo;s time to migrate it&amp;rsquo;s just a
+matter of a minor change to your client code to point to the remote host.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
