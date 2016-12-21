@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.15" />
+
+  <title>Serverless 1.x &middot; Brian Z</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://blog.brianz.bz/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://blog.brianz.bzimg/favicon.ico" type="image/x-icon" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://blog.brianz.bz/">brianz</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://blog.brianz.bz/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/brianzambrano" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/brian.zambrano" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://instagram.com/bzambrano" target="_blank"><i class="fa fa-instagram fa-fw"></i>Instagram</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/brianzambrano" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://news.ycombinator.com/user?id=brianz" target="_blank"><i class="fa fa-hacker-news fa-fw"></i>Hacker News</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/brianz" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://stackoverflow.com/users/87858" target="_blank"><i class="fa fa-stack-overflow fa-fw"></i>Stack Overflow</a>
+    </li>
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2016. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Serverless 1.x</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>21 Dec 2016, 12:04</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/aws">aws</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/architecture">architecture</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://blog.brianz.bztags/serverless">serverless</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>Since my last posts on <a href="https://serverless.com" target="_blank">Serverless</a>, Serverless has gone 1.0. In fact, as
+of this writing Serverless is at version 1.3.  I&rsquo;ve had the luck of taking 1.3 for a spin with my
+new job by implementing an application for the Amazon Alexa platform. Alexa has a really nice
+integration with Lambda and we&rsquo;ve been using Serverless to do our Lambda development. Our
+development pace has been insanely high and much of that can be attributed to Serverless.</p>
+
+<p>The 1.x versions of Serverless is drastically different than the 0.x versions I previously wrote
+about. In fact, I believe it was a total or near-total rewrite of the library itself. With such a
+drastic change I&rsquo;d like to do another walk-through starting from scratch and ending up with a
+working application. In addition to changes in the Serverless library comes with changes and <em>huge</em>
+improvements in API Gateway and Lambda themselves. The great news is that authoring a service with
+these tools is getting even easier.</p>
+
+<h1 id="setup:e88a0069bdbe5b045acd10455439b616">Setup</h1>
+
+<p>To get started, I like to run Serverless inside of a Docker container  Why? Because I &hearts;
+Docker and it makes switching versions <em>trivial</em> without mucking with your local system. Since I
+use Python I usually install a few base Python packages while I&rsquo;m at it:</p>
+
+<script src="//gist.github.com/brianz/e08a480d772051b1b64e99cfeee6315e.js"></script>
+
+<p>Of course, before you get started you&rsquo;ll need to have AWS credentials available which allow you to
+create resources. If you do any amount of AWS work changes are you&rsquo;ll have <code>AWS_ACCESS_KEY_ID</code> and
+<code>AWS_ACCESS_SECRET_KEY</code> on your local system. What I do is simply copy these into a file called
+<code>.env</code></p>
+
+<pre><code>env | grep AWS &gt;&gt; .env
+</code></pre>
+
+<p>Now, I can easily inject these into my Docker container using <code>--env-file .env</code>. If you are
+running on your local system you&rsquo;ll need to have these two <code>AWS</code> variables set. See the <a href="https://serverless.com/framework/docs/providers/aws/guide/credentials/" target="_blank">Serverless
+docs on credentials</a> for
+more details on AWS credentials if you need it.</p>
+
+<p><strong>NOTE:</strong> Code snippets will be running inside my Docker container</p>
+
+<h1 id="create-a-serverless-project:e88a0069bdbe5b045acd10455439b616">Create a Serverless project</h1>
+
+<p>Let&rsquo;s create a really simple Slack plugin. What we&rsquo;ll do is create an HTTP API which will reply
+with a URL to a Dilbert comic.  For example: <a href="http://dilbert.com/strip/2016-11-28" target="_blank">http://dilbert.com/strip/2016-11-28</a></p>
+
+<p>You can see that the date is embedded directly into the URL so it should be pretty easy to generate
+a URL for &ldquo;today&rdquo; or on a specific date.  Let&rsquo;s define our Slack Slash Command language as the
+following:</p>
+
+<ul>
+<li><code>/dilbert</code> &rarr; Reply with today&rsquo;s comic</li>
+<li><code>/dilbert random</code> &rarr; Reply with a random comic from the past year</li>
+<li><code>/dilbert yesterday</code> &rarr; Reply with yesterday&rsquo;s comic</li>
+<li><code>/dilbert $N days ago</code> &rarr; Reply with a comic from <code>$N</code> days ago where <code>$N</code> can be numeric or
+                            plain English</li>
+<li><code>/dilbert $DATE</code> &rarr; Reply with a comic from a specific date with multiple formats</li>
+</ul>
+
+<p>I&rsquo;ll leave the Slack setup to you&hellip;but the long and short of it is that you&rsquo;ll need to add a new
+&ldquo;Slash Command&rdquo; and plug in the API Gateway URL once we have it.</p>
+
+<p>Now, on to the Serverless!</p>
+
+<p>Let&rsquo;s create a new project. As usual, we&rsquo;ll be using Python to implement our application code:</p>
+
+<pre><code># serverless create --template aws-python --path dilbert --name dilbert                                                                                                               
+Serverless: Generating boilerplate...
+Serverless: Generating boilerplate in &quot;/code/dilbert&quot;
+ _______                             __
+|   _   .-----.----.--.--.-----.----|  .-----.-----.-----.
+|   |___|  -__|   _|  |  |  -__|   _|  |  -__|__ --|__ --|
+|____   |_____|__|  \___/|_____|__| |__|_____|_____|_____|
+|   |   |             The Serverless Application Framework
+|       |                           serverless.com, v1.2.0
+ -------'
+
+Serverless: Successfully generated boilerplate for template: &quot;aws-python&quot;
+</code></pre>
+
+<p>Let&rsquo;s <code>cd dilbert</code> and take a look at the files which were generated:</p>
+
+<pre><code>$ tree dilbert/
+dilbert/
+├── event.json
+├── handler.py
+└── serverless.yml
+</code></pre>
+
+<p>This is very similar to previous versions of Serverless and much different at the same time.
+Previously we would have received a higher level <code>s-project.json</code> and <code>s-resources-cf.json</code> files.</p>
+
+<h1 id="setup-api-gateway:e88a0069bdbe5b045acd10455439b616">Setup API Gateway</h1>
+
+<p>Crack open <code>serverless.yml</code> and you&rsquo;ll see the details on how your function and endpoint(s) are
+configured.  First, let&rsquo;s tune back the memory and timeout&hellip;we&rsquo;re running a very small Lambda
+function so we can tune these both back to some pretty small values.</p>
+
+<pre><code>service: dilbert
+
+provider:
+  name: aws 
+  runtime: python2.7
+  stage: dev 
+  region: us-west-2
+  memorySize: 256 
+  timeout: 6
+</code></pre>
+
+<p>In order to wire something up to our Lambda functions we use the <code>functions</code> block. What is nice
+here is that we can now define multiple functions inside of a given &ldquo;service&rdquo;.
+In prior Serverless versions a single function was a bit more self-contained and it was
+hard or unclear how to define a &ldquo;service&rdquo; vs a &ldquo;function&rdquo;.  Now, it&rsquo;s much more clear&hellip;we have
+created a Serverless &ldquo;service&rdquo; which can be made up of one or more &ldquo;functions&rdquo;, all sharing the
+same resources (which we&rsquo;ll get to later).</p>
+
+<pre><code>functions:
+  hello:
+    handler: handler.hello
+</code></pre>
+
+<p>It&rsquo;s important to note here the <code>handler</code> is really just pointing to <code>handler.py</code>.
+<code>handler.hello</code> then is just telling Serverless to setup a Lambda function which invokes the
+<code>hello</code> function in your <code>handler.py</code> file.</p>
+
+<p>For a Slash commands we want to setup an API endpoint which response to <code>GET</code> requests. Under the
+same <code>function</code> block let&rsquo;s add an HTTP <code>GET</code> event as a trigger to our Lambda function. Serverless
+will pick this up and setup our API Gateway entry-point and wire it together with our Lambda
+function/handler:</p>
+
+<pre><code>functions:
+  hello:
+    handler: handler.hello
+    events:
+     - http:
+         path: /
+         method: get 
+</code></pre>
+
+<p>Again, quite simple. Serverless is going to take this and create an API Gateway endpoint which
+responds to <code>GET</code> requests at the root.</p>
+
+<h1 id="deployment:e88a0069bdbe5b045acd10455439b616">Deployment</h1>
+
+<p>Now, let&rsquo;s deploy this and watch Serverless work its magic:</p>
+
+<pre><code>root@ae95b29ae049:/code/dilbert# sls deploy 
+Serverless: Packaging service...
+Serverless: Uploading CloudFormation file to S3...
+Serverless: Uploading service .zip file to S3 (2.19 KB)...
+Serverless: Updating Stack...
+Serverless: Checking Stack update progress...
+........................
+Serverless: Stack update finished...
+
+Service Information
+service: dilbert
+stage: dev
+region: us-west-2
+api keys:
+  None
+endpoints:
+  GET - https://cjkxszhmwi.execute-api.us-west-2.amazonaws.com/dev/
+functions:
+  dilbert-dev-hello: arn:aws:lambda:us-west-2:420819310858:function:dilbert-dev-hello
+</code></pre>
+
+<p>Great&hellip;let&rsquo;s hit our endpoint:</p>
+
+<pre><code>curl -s ps://cjkxszhmwi.execute-api.us-west-2.amazonaws.com/dev/ | python -mjson.tool 
+{
+    &quot;input&quot;: {
+        &quot;body&quot;: null,
+        &quot;headers&quot;: {
+            &quot;Accept&quot;: &quot;*/*&quot;,
+            &quot;CloudFront-Forwarded-Proto&quot;: &quot;https&quot;,
+            &quot;CloudFront-Is-Desktop-Viewer&quot;: &quot;true&quot;,
+            &quot;CloudFront-Is-Mobile-Viewer&quot;: &quot;false&quot;,
+            &quot;CloudFront-Is-SmartTV-Viewer&quot;: &quot;false&quot;,
+            &quot;CloudFront-Is-Tablet-Viewer&quot;: &quot;false&quot;,
+            &quot;CloudFront-Viewer-Country&quot;: &quot;US&quot;,
+            &quot;Host&quot;: &quot;cjkxszhmwi.execute-api.us-west-2.amazonaws.com&quot;,
+            &quot;User-Agent&quot;: &quot;curl/7.43.0&quot;,
+            &quot;Via&quot;: &quot;1.1 d3faf01897d35b8f07de2d81452478f1.cloudfront.net (CloudFront)&quot;,
+            &quot;X-Amz-Cf-Id&quot;: &quot;yXNYMvCXFNa7Wc5DYIo5mBSd_DrzDFEll-2-b8dZN8qneqf4rnxX2A==&quot;,
+            &quot;X-Forwarded-For&quot;: &quot;174.29.177.16, 216.137.38.83&quot;,
+            &quot;X-Forwarded-Port&quot;: &quot;443&quot;,
+            &quot;X-Forwarded-Proto&quot;: &quot;https&quot;
+        },
+        &quot;httpMethod&quot;: &quot;GET&quot;,
+        &quot;isBase64Encoded&quot;: false,
+        &quot;path&quot;: &quot;/&quot;,
+        &quot;pathParameters&quot;: null,
+        &quot;queryStringParameters&quot;: null,
+        &quot;requestContext&quot;: {
+            &quot;accountId&quot;: &quot;444444444444&quot;,
+            &quot;apiId&quot;: &quot;cjkxszhmwi&quot;,
+            &quot;httpMethod&quot;: &quot;GET&quot;,
+            &quot;identity&quot;: {
+                &quot;accessKey&quot;: null,
+                &quot;accountId&quot;: null,
+                &quot;apiKey&quot;: null,
+                &quot;caller&quot;: null,
+                &quot;cognitoAuthenticationProvider&quot;: null,
+                &quot;cognitoAuthenticationType&quot;: null,
+                &quot;cognitoIdentityId&quot;: null,
+                &quot;cognitoIdentityPoolId&quot;: null,
+                &quot;sourceIp&quot;: &quot;174.29.177.16&quot;,
+                &quot;user&quot;: null,
+                &quot;userAgent&quot;: &quot;curl/7.43.0&quot;,
+                &quot;userArn&quot;: null
+            },
+            &quot;requestId&quot;: &quot;f5096723-b5de-11e6-abfe-bdf276cfb36a&quot;,
+            &quot;resourceId&quot;: &quot;96p3xs47w7&quot;,
+            &quot;resourcePath&quot;: &quot;/&quot;,
+            &quot;stage&quot;: &quot;dev&quot;
+        },
+        &quot;resource&quot;: &quot;/&quot;,
+        &quot;stageVariables&quot;: null
+    },
+    &quot;message&quot;: &quot;Go Serverless v1.0! Your function executed successfully!&quot;
+}
+</code></pre>
+
+<p>One <em>really</em> nice thing is a change to the Lambda/API Gateway integration from the AWS team. There
+is something now called a &ldquo;Lambda-Proxy&rdquo; integration with Gateway. This makes the integration and
+passing of data between Lambda and Gateway super simple. You should use it. Notice above there is a
+field called <code>queryStringParameters</code>. Let&rsquo;s make another request and send some <code>GET</code> arguments:</p>
+
+<pre><code>curl -s https://cjkxszhmwi.execute-api.us-west-2.amazonaws.com/dev/ -G --data-urlencode &quot;date=two days ago&quot; | python -mjson.tool
+</code></pre>
+
+<p>In the response, it should be no surprise that we get:</p>
+
+<pre><code>&quot;queryStringParameters&quot;: {
+    &quot;date&quot;: &quot;two days ago&quot;
+},
+</code></pre>
+
+<p>This is fantastic. Previously getting query parameters from Gateway into Lambda was quite tedious
+and much more complicated than it should have been. Now, we get this out of the box which is really
+what we should all expect.</p>
+
+<h1 id="building-our-application:e88a0069bdbe5b045acd10455439b616">Building our application</h1>
+
+<p>Now that we have the boilerplate (mostly) out of the way we can focus on our actual Dilbert
+application. I won&rsquo;t cover the details of it, but instead show the finished product based on our
+little spec above for the Slash commands.</p>
+
+<p>You can see the final results here: <a href="https://github.com/brianz/dilbert-slack-bot" target="_blank">https://github.com/brianz/dilbert-slack-bot</a></p>
+
+<p>Here are some highlights of how this is implemented.</p>
+
+<p>For this project, let&rsquo;s rename the function from <code>hello</code> to <code>dilbert</code> in <code>serverless.yml</code>:</p>
+
+<pre><code>functions:
+  dilbert:
+    handler: handler.dilbert
+</code></pre>
+
+<p>In our <code>handler.py</code> file we&rsquo;ll now implement a function called <code>dilbert</code> which will accept the same
+two parameters as the <code>hello</code> function, the http event/request and the request context. This
+function will contain all of the logic to parse the request text from Slack and figure out what to
+respond with.  The details on how to do this are really details around Slack, not details about
+Serverless. If you&rsquo;re curious about the details you can simply <a href="https://github.com/brianz/dilbert-slack-bot/blob/master/dilbert/handler.py" target="_blank">read the handler.py
+source</a>.</p>
+
+<p>In order to reply with a nice Slack message we&rsquo;d like to embed the comic&rsquo;s image in the Slack
+response. This requires parsing the dilbert.com page for a given day and extracting the image&rsquo;s
+URL. For performance reason&rsquo;s, it&rsquo;d be nice to cache this value&hellip;so let&rsquo;s put the image&rsquo;s URL in
+DynamoDB!</p>
+
+<h2 id="building-arbitrary-resources:e88a0069bdbe5b045acd10455439b616">Building arbitrary resources</h2>
+
+<p>Because Serverless uses CloudFormation to create your service it&rsquo;s possible to create and manage
+arbitrary AWS resources such as DynamoDB. For our purposes, we&rsquo;d like to create a DynamoDB table to
+cache image urls when we create our stack.</p>
+
+<pre><code>resources:
+  Resources:
+    dynamoUsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: devDilbert
+        AttributeDefinitions:
+          - AttributeName: postDay
+            AttributeType: S
+        KeySchema:
+          - AttributeName: postDay
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+</code></pre>
+
+<p>This is very cool. During any <code>sls deploy</code> command Serverless will manage this DynamoDB table for
+us, whether that be creating it on the initial <code>sls deploy</code> or updating it if we change any of its
+attributes.</p>
+
+<p>One &ldquo;gotcha&rdquo; with this is that we need an IAM policy so that our Lambda function (ie, our
+application code in <code>handler.py</code>) has access.  To add the IAM policy we put this block under our
+<code>provider</code> block in <code>serverless.yml</code>:</p>
+
+<pre><code>provider:
+  ...
+  iamRoleStatements:
+    - Effect: &quot;Allow&quot;
+      Action:
+        - &quot;dynamodb:*&quot;
+      Resource: &quot;arn:aws:dynamodb:${self:provider.region}:*:table/devDilbert&quot;
+</code></pre>
+
+<h2 id="deploying-and-iterations:e88a0069bdbe5b045acd10455439b616">Deploying and iterations</h2>
+
+<p>Once this is all setup we can now do another <code>sls deploy</code>. Serverless will set up our DynamoDB
+table and update our Lambda function appropriately.</p>
+
+<p>During development it&rsquo;s very common to deploy your code, test it, find a bug and then redeploy.
+For me this cycle consists of the following (after the initial deployment):</p>
+
+<ul>
+<li>test</li>
+<li>look in AWS Cloudwatch for any errors or debugging output</li>
+<li>fix bugs</li>
+<li>redeploy <em>just the function</em> with <code>sls deploy function -f function-name</code></li>
+</ul>
+
+<p>The redeployment goes much quicker if you only deploy the actual function/application code to
+Lambda.  A full <code>sls deploy</code> will manage the entire stack/service through Cloudformation which can
+take a few seconds. On the other hand, <code>sls deploy function -f dilbert</code> will simply upload the
+current version of <code>handler.py</code> and supporting files to Lambda. This takes just a few seconds at
+most.</p>
+
+<h1 id="results:e88a0069bdbe5b045acd10455439b616">Results</h1>
+
+<p>After deployment and getting Slack configured here&rsquo;s the end result:</p>
+
+<p><img src="http://blog.brianz.bz/images/dilbert/dilbert.png" alt="Dilbert in Slack" style="width: 680px;"/></p>
+
+<p><img src="http://blog.brianz.bz/images/dilbert/dilbert-random.png" alt="Dilbert random in Slack" style="width: 680px;"/></p>
+
+<h1 id="summary:e88a0069bdbe5b045acd10455439b616">Summary</h1>
+
+<p>Serverless 1.X is much improved over the 0.X versions. I have found it to be much easier to use
+especially when collaborating with other developers. The notion of a &ldquo;service&rdquo; makes a lot of
+sense and allows for better organization and sharing of resources. Finally, the ability to create
+and manage arbitrary AWS resources allows us to quickly and easily deploy a real stand-alone
+microservice.</p>
+
+<p>This post didn&rsquo;t talk at all about Serverless &ldquo;stages&rdquo;, but using &ldquo;stages&rdquo; in effect let&rsquo;s us
+manage different stacks for &ldquo;production&rdquo;, &ldquo;dev&rdquo;, &ldquo;staging&rdquo;, etc. This is the equivalent of having a
+staging server vs production server in a typical web application deployment.</p>
+
+<p>Serverless continues to make huge strides forward and I&rsquo;ve already been able to move quickly on a
+few different projects.  I&rsquo;m excited to see what&rsquo;s coming next in Serverless to make application
+and microservice development even easier.</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://blog.brianz.bz/post/demo-service-with-servant/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://blog.brianz.bz/post/demo-service-with-servant/">Demo service with Servant</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'brianz';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="http://blog.brianz.bzjs/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75475240-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+
