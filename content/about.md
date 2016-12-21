@@ -24,7 +24,8 @@ in computer science from [San Francisco State](http://cs.sfsu.edu).
 I taught myself Python around 2001 and have been using continually since then and professionally
 since 2005. In addition to Python my current areas of interest are:
 
-- Docker &larr; *probably better described as my current love interest* &hearts; 
+- Docker
+- Elixir and its ecosystem (Phoenix, Erlang)
 - Microservice design and architecture
 - Amazon web services
 - Scaling development teams and platforms
@@ -32,8 +33,8 @@ since 2005. In addition to Python my current areas of interest are:
 
 Of course, I have **many** more interests but those are the highlights.
 
-I'm currently the lead architect at [Clearcare](http://clearcareonline.com) building a SAAS
-platform for in-home health care agencies.
+I'm currently employed at [Spartan](http://joinspartan.com) building awesome things for our
+clients.
 
 ## RoastLog
 
