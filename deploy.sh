@@ -17,3 +17,5 @@ git commit -m "$msg"
 git push
 
 cd ..
+
+git commit -am "$msg"
