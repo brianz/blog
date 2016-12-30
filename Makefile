@@ -1,8 +1,4 @@
-all : clean
-	hugo
-
-clean:
-	rm -rf public
+all : prod
 
 prod :
 	hugo -d production

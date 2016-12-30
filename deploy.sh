@@ -4,14 +4,14 @@ echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
 
 make prod
 
-# Add changes to git.
-git add -A
+cd production
 
 # Commit changes.
 msg="rebuilding site `date`"
 if [ $# -eq 1 ]; then
     msg="$1"
 fi
-git commit -m "$msg"
+git commit -am "$msg"
+git push
 
-make release
+cd ..

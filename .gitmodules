@@ -1,0 +1,4 @@
+[submodule "production"]
+	path = production
+	url = git@github.com:brianz/brianz.github.io.git
+	branch = master
