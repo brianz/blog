@@ -85,7 +85,7 @@ one-liner.  By the time your `run` method is being executed the basic error chec
 and all of the required and optional fields will be available to you as class attributes.  So, our
 `run` method simple sets the result using the two inputs we received from the client:
 
-```
+```python
 def run(self, **kwargs):
     self.result = self.number1 + self.number2
 ```
@@ -105,7 +105,7 @@ library.
 
 Let's install both Servant and the calculator service into a new virtualenv:
 
-```
+```bash
 $ cd path/to/servant
 $ mkvirtualenv calculator_service
 $ pip install -e .
@@ -115,7 +115,7 @@ $ pip install -e .
 
 Now that we have these installed, we can actually test our service!
 
-```
+```python
 import servant.client
 
 client = servant.client.Client('calculator_service', version=1)
@@ -144,7 +144,7 @@ above.  You'll note that the client code above *only* depends on the `servant` l
 only reference to the `calculator_service` is when we instantiate the `Client` class.  There is
 only one change we need to make to the client code above to hit a remote system:
 
-```
+```python
 client.configure('http', host='192.168.88.100', port=8888)
 ```
 

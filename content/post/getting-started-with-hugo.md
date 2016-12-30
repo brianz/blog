@@ -27,24 +27,30 @@ it's written in Go (I usually hate dealing with Ruby gems and dependencies).
 Here's the TL;DR of what I did to go from zero to blogging *(this is from memory so it may not be
 100% correct)*:
 
-    $ brew install hugo
-    $ mkdir bz-blog && cd bz-blog
-    $ hugo new site brianz
+```bash
+$ brew install hugo
+$ mkdir bz-blog && cd bz-blog
+$ hugo new site brianz
+```
 
 To find a theme I liked went to the [Hugo themes](http://themes.gohugo.io) site and picked
 [greyshade](http://themes.gohugo.io/greyshade/). Hugo themes are *really* easy to use:
 
-    $ cd brianz/themes
-    $ git clone https://github.com/cxfksword/greyshade.git
+```bash
+$ cd brianz/themes
+$ git clone https://github.com/cxfksword/greyshade.git
+```
 
 I don't especially like the `.toml` syntax which is what you get by default for the config file. I
 change `config.toml` into `config.yaml`. The main thing is that I don't like needed to add quotes
 around everything in the `toml` files. With yaml, I can just write stuff like this>
 
-    baseurl: http://brianz.bz/
-    languageCode: en-us
-    title: Brian Z
-    theme: greyshade
+```
+baseurl: http://brianz.bz/
+languageCode: en-us
+title: Brian Z
+theme: greyshade
+```
 
 I wanted syntax highlighting, so installed `pygments` inside a virtual environment. Also, there are
 different "themes" for syntax highlighting which can be looked up directly from pygments:
@@ -66,7 +72,7 @@ I ended up using the `lovelace` theme by setting `pygmentsstyle: lovelace` in `c
 creating a new post. To fix this simply create a file at `archetypes/default.md` with the following
 contents (or customize as you see fit):
 
-```
+``` markdown
 +++
 
 draft=true

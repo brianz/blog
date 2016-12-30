@@ -36,7 +36,9 @@ create resources. If you do any amount of AWS work changes are you'll have `AWS_
 `AWS_ACCESS_SECRET_KEY` on your local system. What I do is simply copy these into a file called
 `.env`
 
-    env | grep AWS >> .env
+```bash
+$ env | grep AWS >> .env
+```
 
 Now, I can easily inject these into my Docker container using `--env-file .env`. If you are
 running on your local system you'll need to have these two `AWS` variables set. See the [Serverless
@@ -68,26 +70,30 @@ Now, on to the Serverless!
 
 Let's create a new project. As usual, we'll be using Python to implement our application code:
 
-    # serverless create --template aws-python --path dilbert --name dilbert                                                                                                               
-    Serverless: Generating boilerplate...
-    Serverless: Generating boilerplate in "/code/dilbert"
-     _______                             __
-    |   _   .-----.----.--.--.-----.----|  .-----.-----.-----.
-    |   |___|  -__|   _|  |  |  -__|   _|  |  -__|__ --|__ --|
-    |____   |_____|__|  \___/|_____|__| |__|_____|_____|_____|
-    |   |   |             The Serverless Application Framework
-    |       |                           serverless.com, v1.2.0
-     -------'
+```bash
+$ serverless create --template aws-python --path dilbert --name dilbert
+Serverless: Generating boilerplate...
+Serverless: Generating boilerplate in "/code/dilbert"
+ _______                             __
+|   _   .-----.----.--.--.-----.----|  .-----.-----.-----.
+|   |___|  -__|   _|  |  |  -__|   _|  |  -__|__ --|__ --|
+|____   |_____|__|  \___/|_____|__| |__|_____|_____|_____|
+|   |   |             The Serverless Application Framework
+|       |                           serverless.com, v1.2.0
+ -------'
 
-    Serverless: Successfully generated boilerplate for template: "aws-python"
+Serverless: Successfully generated boilerplate for template: "aws-python"
+```
 
 Let's `cd dilbert` and take a look at the files which were generated:
 
-    $ tree dilbert/
-    dilbert/
-    ├── event.json
-    ├── handler.py
-    └── serverless.yml
+```bash
+$ tree dilbert/
+dilbert/
+├── event.json
+├── handler.py
+└── serverless.yml
+```
 
 This is very similar to previous versions of Serverless and much different at the same time.
 Previously we would have received a higher level `s-project.json` and `s-resources-cf.json` files.
@@ -99,15 +105,17 @@ Crack open `serverless.yml` and you'll see the details on how your function and 
 configured.  First, let's tune back the memory and timeout...we're running a very small Lambda
 function so we can tune these both back to some pretty small values.
 
-    service: dilbert
+```yaml
+service: dilbert
 
-    provider:
-      name: aws 
-      runtime: python2.7
-      stage: dev 
-      region: us-west-2
-      memorySize: 256 
-      timeout: 6
+provider:
+  name: aws 
+  runtime: python2.7
+  stage: dev 
+  region: us-west-2
+  memorySize: 256 
+  timeout: 6
+```
 
 In order to wire something up to our Lambda functions we use the `functions` block. What is nice
 here is that we can now define multiple functions inside of a given "service". 
@@ -116,9 +124,11 @@ hard or unclear how to define a "service" vs a "function".  Now, it's much more 
 created a Serverless "service" which can be made up of one or more "functions", all sharing the
 same resources (which we'll get to later).
 
-    functions:
-      hello:
-        handler: handler.hello
+```yaml
+functions:
+  hello:
+    handler: handler.hello
+```
 
 It's important to note here the `handler` is really just pointing to `handler.py`.
 `handler.hello` then is just telling Serverless to setup a Lambda function which invokes the
@@ -129,13 +139,15 @@ same `function` block let's add an HTTP `GET` event as a trigger to our Lambda f
 will pick this up and setup our API Gateway entry-point and wire it together with our Lambda
 function/handler:
 
-    functions:
-      hello:
-        handler: handler.hello
-        events:
-         - http:
-             path: /
-             method: get 
+```yaml
+functions:
+  hello:
+    handler: handler.hello
+    events:
+     - http:
+         path: /
+         method: get 
+```
 
 Again, quite simple. Serverless is going to take this and create an API Gateway endpoint which
 responds to `GET` requests at the root.
@@ -144,81 +156,88 @@ responds to `GET` requests at the root.
 
 Now, let's deploy this and watch Serverless work its magic:
 
-    root@ae95b29ae049:/code/dilbert# sls deploy 
-    Serverless: Packaging service...
-    Serverless: Uploading CloudFormation file to S3...
-    Serverless: Uploading service .zip file to S3 (2.19 KB)...
-    Serverless: Updating Stack...
-    Serverless: Checking Stack update progress...
-    ........................
-    Serverless: Stack update finished...
+```bash
+root@ae95b29ae049:/code/dilbert$ sls deploy 
+Serverless: Packaging service...
+Serverless: Uploading CloudFormation file to S3...
+Serverless: Uploading service .zip file to S3 (2.19 KB)...
+Serverless: Updating Stack...
+Serverless: Checking Stack update progress...
+........................
+Serverless: Stack update finished...
 
-    Service Information
-    service: dilbert
-    stage: dev
-    region: us-west-2
-    api keys:
-      None
-    endpoints:
-      GET - https://cjkxszhmwi.execute-api.us-west-2.amazonaws.com/dev/
-    functions:
-      dilbert-dev-hello: arn:aws:lambda:us-west-2:420819310858:function:dilbert-dev-hello
+Service Information
+service: dilbert
+stage: dev
+region: us-west-2
+api keys:
+  None
+endpoints:
+  GET - https://cjkxszhmwi.execute-api.us-west-2.amazonaws.com/dev/
+functions:
+  dilbert-dev-hello: arn:aws:lambda:us-west-2:420819310858:function:dilbert-dev-hello
+```
 
 Great...let's hit our endpoint:
 
-    curl -s ps://cjkxszhmwi.execute-api.us-west-2.amazonaws.com/dev/ | python -mjson.tool 
-    {
-        "input": {
-            "body": null,
-            "headers": {
-                "Accept": "*/*",
-                "CloudFront-Forwarded-Proto": "https",
-                "CloudFront-Is-Desktop-Viewer": "true",
-                "CloudFront-Is-Mobile-Viewer": "false",
-                "CloudFront-Is-SmartTV-Viewer": "false",
-                "CloudFront-Is-Tablet-Viewer": "false",
-                "CloudFront-Viewer-Country": "US",
-                "Host": "cjkxszhmwi.execute-api.us-west-2.amazonaws.com",
-                "User-Agent": "curl/7.43.0",
-                "Via": "1.1 d3faf01897d35b8f07de2d81452478f1.cloudfront.net (CloudFront)",
-                "X-Amz-Cf-Id": "yXNYMvCXFNa7Wc5DYIo5mBSd_DrzDFEll-2-b8dZN8qneqf4rnxX2A==",
-                "X-Forwarded-For": "174.29.177.16, 216.137.38.83",
-                "X-Forwarded-Port": "443",
-                "X-Forwarded-Proto": "https"
-            },
-            "httpMethod": "GET",
-            "isBase64Encoded": false,
-            "path": "/",
-            "pathParameters": null,
-            "queryStringParameters": null,
-            "requestContext": {
-                "accountId": "444444444444",
-                "apiId": "cjkxszhmwi",
-                "httpMethod": "GET",
-                "identity": {
-                    "accessKey": null,
-                    "accountId": null,
-                    "apiKey": null,
-                    "caller": null,
-                    "cognitoAuthenticationProvider": null,
-                    "cognitoAuthenticationType": null,
-                    "cognitoIdentityId": null,
-                    "cognitoIdentityPoolId": null,
-                    "sourceIp": "174.29.177.16",
-                    "user": null,
-                    "userAgent": "curl/7.43.0",
-                    "userArn": null
-                },
-                "requestId": "f5096723-b5de-11e6-abfe-bdf276cfb36a",
-                "resourceId": "96p3xs47w7",
-                "resourcePath": "/",
-                "stage": "dev"
-            },
-            "resource": "/",
-            "stageVariables": null
+```bash
+$ curl -s ps://cjkxszhmwi.execute-api.us-west-2.amazonaws.com/dev/ | python -mjson.tool 
+```
+
+```
+{
+    "input": {
+        "body": null,
+        "headers": {
+            "Accept": "*/*",
+            "CloudFront-Forwarded-Proto": "https",
+            "CloudFront-Is-Desktop-Viewer": "true",
+            "CloudFront-Is-Mobile-Viewer": "false",
+            "CloudFront-Is-SmartTV-Viewer": "false",
+            "CloudFront-Is-Tablet-Viewer": "false",
+            "CloudFront-Viewer-Country": "US",
+            "Host": "cjkxszhmwi.execute-api.us-west-2.amazonaws.com",
+            "User-Agent": "curl/7.43.0",
+            "Via": "1.1 d3faf01897d35b8f07de2d81452478f1.cloudfront.net (CloudFront)",
+            "X-Amz-Cf-Id": "yXNYMvCXFNa7Wc5DYIo5mBSd_DrzDFEll-2-b8dZN8qneqf4rnxX2A==",
+            "X-Forwarded-For": "174.29.177.16, 216.137.38.83",
+            "X-Forwarded-Port": "443",
+            "X-Forwarded-Proto": "https"
         },
-        "message": "Go Serverless v1.0! Your function executed successfully!"
-    }
+        "httpMethod": "GET",
+        "isBase64Encoded": false,
+        "path": "/",
+        "pathParameters": null,
+        "queryStringParameters": null,
+        "requestContext": {
+            "accountId": "444444444444",
+            "apiId": "cjkxszhmwi",
+            "httpMethod": "GET",
+            "identity": {
+                "accessKey": null,
+                "accountId": null,
+                "apiKey": null,
+                "caller": null,
+                "cognitoAuthenticationProvider": null,
+                "cognitoAuthenticationType": null,
+                "cognitoIdentityId": null,
+                "cognitoIdentityPoolId": null,
+                "sourceIp": "174.29.177.16",
+                "user": null,
+                "userAgent": "curl/7.43.0",
+                "userArn": null
+            },
+            "requestId": "f5096723-b5de-11e6-abfe-bdf276cfb36a",
+            "resourceId": "96p3xs47w7",
+            "resourcePath": "/",
+            "stage": "dev"
+        },
+        "resource": "/",
+        "stageVariables": null
+    },
+    "message": "Go Serverless v1.0! Your function executed successfully!"
+}
+```
 
 One *really* nice thing is a change to the Lambda/API Gateway integration from the AWS team. There
 is something now called a "Lambda-Proxy" integration with Gateway. This makes the integration and
@@ -249,9 +268,11 @@ Here are some highlights of how this is implemented.
 
 For this project, let's rename the function from `hello` to `dilbert` in `serverless.yml`:
 
-    functions:
-      dilbert:
-        handler: handler.dilbert
+```yaml
+functions:
+  dilbert:
+    handler: handler.dilbert
+```
 
 In our `handler.py` file we'll now implement a function called `dilbert` which will accept the same
 two parameters as the `hello` function, the http event/request and the request context. This
@@ -271,21 +292,23 @@ Because Serverless uses CloudFormation to create your service it's possible to c
 arbitrary AWS resources such as DynamoDB. For our purposes, we'd like to create a DynamoDB table to
 cache image urls when we create our stack. 
 
-    resources:
-      Resources:
-        dynamoUsersTable:
-          Type: AWS::DynamoDB::Table
-          Properties:
-            TableName: devDilbert
-            AttributeDefinitions:
-              - AttributeName: postDay
-                AttributeType: S
-            KeySchema:
-              - AttributeName: postDay
-                KeyType: HASH
-            ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
+```yaml
+resources:
+  Resources:
+    dynamoUsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: devDilbert
+        AttributeDefinitions:
+          - AttributeName: postDay
+            AttributeType: S
+        KeySchema:
+          - AttributeName: postDay
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+```
 
 This is very cool. During any `sls deploy` command Serverless will manage this DynamoDB table for
 us, whether that be creating it on the initial `sls deploy` or updating it if we change any of its
@@ -295,13 +318,15 @@ One "gotcha" with this is that we need an IAM policy so that our Lambda function
 application code in `handler.py`) has access.  To add the IAM policy we put this block under our
 `provider` block in `serverless.yml`:
 
-    provider:
-      ...
-      iamRoleStatements:
-        - Effect: "Allow"
-          Action:
-            - "dynamodb:*"
-          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/devDilbert"
+```yaml
+provider:
+  ...
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:*"
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/devDilbert"
+```
 
 ## Deploying and iterations
 
@@ -345,4 +370,3 @@ staging server vs production server in a typical web application deployment.
 Serverless continues to make huge strides forward and I've already been able to move quickly on a
 few different projects.  I'm excited to see what's coming next in Serverless to make application
 and microservice development even easier.
-

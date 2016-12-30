@@ -58,14 +58,14 @@ output=json
 With that out of the way, fire up your container and let's take this for a spin. To build the
 container just type `make`. 
 
-```
+```bash
 brianz@bz-cconline(master)$ make
 brianz@bz-cconline(master)$ # lots of output
 ```
 
 After that you can start the container with `make shell`.
 
-```
+```bash
 brianz@bz-cconline(master)$ make shell
 docker run --rm -it \
         -v `pwd`:/code \
@@ -92,8 +92,8 @@ affect your commands have on those services.
 
 The first thing we'll do is create a new project which will bootstrap the entire project.
 
-```
-root@48f5e89483ac:/code# serverless project create
+```bash
+root@48f5e89483ac:/code$ serverless project create
  _______                             __
 |   _   .-----.----.--.--.-----.----|  .-----.-----.-----.
 |   |___|  -__|   _|  |  |  -__|   _|  |  -__|__ --|__ --|
@@ -134,8 +134,8 @@ selecting `Create A New Profile`. This will save your AWS credentials in a filed
 Setting up profiles the `admin.env` file instead references your named profile stored in your home
 directory.
 
-```
-root@48f5e89483ac:/code/serverless-demo# cat admin.env 
+```bash
+root@48f5e89483ac:/code/serverless-demo$ cat admin.env 
 AWS_DEV_PROFILE=defaultroot
 ```
 
@@ -144,8 +144,8 @@ name of your project. From now on you'll need to be in this directory when execu
 `serverless` commands (or the alias, `sls`). Let's have a look inside:
 
 ```
-root@c477313ae84f:/code# cd serverless-demo/
-root@c477313ae84f:/code/serverless-demo# ls -l
+root@c477313ae84f:/code$ cd serverless-demo/
+root@c477313ae84f:/code/serverless-demo$ ls -l
 total 16
 drwxr-xr-x 1 1000 staff  136 Apr 18 22:46 _meta
 -rw-r--r-- 1 1000 staff   35 Apr 18 22:46 admin.env
@@ -174,13 +174,13 @@ any library dependencies (which we'll use later) and a `src` directory which is 
 own source code.
 
 ```
-root@c477313ae84f:/code/serverless-demo# mkdir lib src
+root@c477313ae84f:/code/serverless-demo$ mkdir lib src
 ```
 
 Now, we're ready to create our own Lambda function which will be a Python 2.7 function.
 
 ```
-root@c477313ae84f:/code/serverless-demo# sls function create src/hello
+root@c477313ae84f:/code/serverless-demo$ sls function create src/hello
 Serverless: Please, select a runtime for this new Function
     nodejs4.3
   > python2.7
@@ -204,7 +204,7 @@ The last question isn't quite intuitive. What exactly is serverless asking you?
 Now, we have some Python code:
 
 ```
-root@c477313ae84f:/code/serverless-demo# ls -l src/hello/
+root@c477313ae84f:/code/serverless-demo$ ls -l src/hello/
 total 12
 -rw-r--r-- 1 1000 staff    2 Apr 18 22:53 event.json
 -rw-r--r-- 1 1000 staff  226 Apr 18 22:53 handler.py
@@ -237,8 +237,8 @@ If you're unfamiliar with Lambda just know that you:
 This function is a bit boring...let's change the return value to be more fun:
 
 ```
-    # stuff
-    return {'message': 'Serverless is the future!'}
+# stuff
+return {'message': 'Serverless is the future!'}
 ```
 
 Now, for the curious browse over to the AWS Lambda page in the AWS Console.  Note, **your new hello
@@ -254,8 +254,8 @@ and create us a new endpoint with API Gateway.  Sounds complicated and indeed, i
 hand there are several clicks and `zip` commands to take care of. Let's see how easy it is with
 Serverless.
 
-```
-root@3ce920c5854d:/code/serverless-demo# sls dash deploy
+```bash
+root@3ce920c5854d:/code/serverless-demo$ sls dash deploy
  _______                             __
 |   _   .-----.----.--.--.-----.----|  .-----.-----.-----.
 |   |___|  -__|   _|  |  |  -__|   _|  |  -__|__ --|__ --|
@@ -303,7 +303,7 @@ You can't see it in the syntax highlighting above, but it's important to deploy 
 
 With that we get a URL...let's test it out:
 
-```
+```bash
 brianz@bz-cconline(master)$ curl https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/hello && echo
 {"message": "Serverless is the future!"}
 ```
@@ -311,7 +311,7 @@ brianz@bz-cconline(master)$ curl https://4m98c4l3i1.execute-api.us-west-2.amazon
 Nice!  You can see that it just returns a our fun message, but hot damned, it worked! Let's add a
 `-v` to see the details from the request:o
 
-```
+```bash
 brianz@bz-cconline(master)$ curl -v https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/hello && echo
 *   Trying 54.192.137.191...
 * Connected to 4m98c4l3i1.execute-api.us-west-2.amazonaws.com (54.192.137.191) port 443 (#0)
@@ -347,7 +347,7 @@ API Gateway come into play.  Let's assume we wanted our API to return HTML...how
 
 With our goal of returning HTML, let's update our function. 
 
-```
+```python
 def handler(event, context):
     return """<html>
     <head></head>
@@ -368,8 +368,8 @@ out our code with one small command and it will take mere seconds:
 
 Note, some text removed for brevity:
 
-```
-root@3ce920c5854d:/code/serverless-demo# sls dash deploy
+```bash
+root@3ce920c5854d:/code/serverless-demo$ sls dash deploy
 Serverless: Select the assets you wish to deploy:
     hello
       > function - hello
@@ -386,7 +386,7 @@ be larger and uploads will take slightly longer.
 
 Let's load it in browser and see what we get now!
 
-```
+```bash
 "<html>\n    <head></head>\n    <body>\n        <h1>Hello from Serverless/API Gateway/Lambda</h1>\n
 <h2>Event:</h2>\n        <pre>\n            {}\n        </pre>\n        </body>\n    </html>"
 ```
@@ -395,7 +395,7 @@ Hrm. Not exactly what we were hoping for.
 
 Remember our `Content-Type` header? Let's see what it is now:
 
-```
+```bash
 brianz@bz-cconline(master)$ curl -v -s https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/hello 2>&1 | grep Content-Type
 < Content-Type: application/json;charset=UTF-8
 ```
@@ -408,7 +408,7 @@ need to tweak the mappings in API Gateway via the `s-function.json` file. I'm no
 the details for now mostly because I'm still figuring out exactly how these mapping work. For now,
 here are the lines you'll need to change:
 
-```
+```json
 "responses": {
     "400": {
     "statusCode": "400"

@@ -76,8 +76,8 @@ Let's setup `meta sync`. To be crystal clear, this setup only needs to be perfor
 original author of the project. After all, the `_meta` directory will be created when the project
 is first brought to life, so it'll be the responsibility of that first developer to set this up:
 
-```
-root@1035dd7cffb6:/code# npm install serverless-meta-sync --save
+```bash
+root@1035dd7cffb6:/code$ npm install serverless-meta-sync --save
 ```
 
 Now that the plugin is installed I just need to update the `s-project.json` file:
@@ -109,11 +109,11 @@ From part iii of this series I created two stages...`dev` and
 `production`. I authored that project on my laptop so I'll be doing the following on that computer:
 
 ```bash
-root@5457e51bf687:/code# sls meta sync -s dev -r us-west-2
+root@5457e51bf687:/code$ sls meta sync -s dev -r us-west-2
 Serverless: Going to sync "s-variables-dev-uswest2.json"... 
 Serverless: Creating remote copy of s-variables-dev-uswest2.json...  
 Serverless: Done  
-root@5457e51bf687:/code# sls meta sync -s production -r us-west-2
+root@5457e51bf687:/code$ sls meta sync -s production -r us-west-2
 Serverless: Creating remote copy of s-variables-production-uswest2.json...  
 Serverless: Done  
 ```
@@ -126,7 +126,7 @@ This is the first step in setting yourself up for development on multiple system
 Now, I switch over to my iMac and clone the repo. You'd hope that you'd just be able to clone the
 repo, install packages, `sync` the `_meta` folder and you'd be done.  You'd be wrong.
 
-```
+```bash
 brianz@gold$ git clone https://github.com/brianz/serverless-demo.git
 brianz@gold$ cd serverless-demo/
 brianz@gold(master=)$ ls -l
@@ -149,8 +149,8 @@ drwxr-xr-x  3 brianz  staff   102 May 19 09:53 src
 OK...this is what we expect.  There isn't a `_meta` folder. Let's start getting set up and see
 what happens (as a reminder I'm in a Docker container when running `sls` aka `serverless`):
 
-```
-root@bcdeb57d5754:/code# sls meta sync  
+```bash
+root@bcdeb57d5754:/code$ sls meta sync  
 /usr/local/lib/node_modules/serverless/node_modules/bluebird/js/release/async.js:61
         fn = function () { throw arg; };
                            ^
@@ -162,17 +162,17 @@ Doh!  We need to install the plugin which makes sense. Since we (or our colleagu
 project, aka me on my MBPro) performed an `npm install --save` of the plugin it'll be in our `package.json`. As with
 any node/npm system all we'll need to do is `npm install`:
 
-```
-root@bcdeb57d5754:/code#  npm install
+```bash
+root@bcdeb57d5754:/code$  npm install
 # snip...lots of output
 npm info ok 
-root@bcdeb57d5754:/code# 
+root@bcdeb57d5754:/code$ 
 ```
 
 Now that we have met all our requirements let's try to sync again:
 
-```
-root@bcdeb57d5754:/code# sls meta sync 
+```bash
+root@bcdeb57d5754:/code$ sls meta sync 
 /usr/local/lib/node_modules/serverless/node_modules/bluebird/js/release/async.js:61
         fn = function () { throw arg; };
                            ^
@@ -198,8 +198,8 @@ So let's do it.  Note, you can also pass command line arguments to
 speed this up as needed.  Doing a `sls project init --help` will show you all of the options you
 can use.
 
-```
-root@bcdeb57d5754:/code# sls project init
+```bash
+root@bcdeb57d5754:/code$ sls project init
  _______                             __
 |   _   .-----.----.--.--.-----.----|  .-----.-----.-----.
 |   |___|  -__|   _|  |  |  -__|   _|  |  -__|__ --|__ --|
@@ -250,8 +250,8 @@ At this point, if you inspect any of the `variables` files inside `_meta/` you'l
 empty.  We're finally at the point where we can pull down our secret variables and config which we
 previously synced using meta-sync.
 
-```
-root@bcdeb57d5754:/code# sls meta sync 
+```bash
+root@bcdeb57d5754:/code$ sls meta sync 
 Serverless: WARNING: This variable is not defined: magicVariable  
 Serverless: WARNING: This variable is not defined: region  
 Serverless: WARNING: This variable is not defined: region  
@@ -271,8 +271,8 @@ Serverless: Done
 
 Excellent...it finally worked.  At this point we're all set to use the `dev` stage.  
 
-```
-root@bcdeb57d5754:/code# ls -l _meta/variables/
+```bash
+root@bcdeb57d5754:/code$ ls -l _meta/variables/
 total 12
 -rw-r--r-- 1 1000 staff 34 Jun 28 22:58 s-variables-common.json
 -rw-r--r-- 1 1000 staff 27 Jun 28 22:58 s-variables-dev-uswest2.json
@@ -284,8 +284,8 @@ variables file hasn't been pulled down after our `sync`.  **We
 need to issue multiple `project init` and sync commands for different stages/regions!** This is
 clunky, but at least we only need to do it once per stage:
 
-```
-root@bcdeb57d5754:/code# sls project init -s production
+```bash
+root@bcdeb57d5754:/code$ sls project init -s production
 Serverless: Initializing Serverless Project...  
 Serverless: For the "production" stage, do you want to use an existing Amazon Web Services profile
 or create a new one?
@@ -312,7 +312,7 @@ Serverless: Successfully initialized project "serverless-demo"
 Now that we've `init'ed` the production stage we can finally sync it:
 
 ```
-root@bcdeb57d5754:/code# sls meta sync -s production
+root@bcdeb57d5754:/code$ sls meta sync -s production
 Serverless: WARNING: This variable is not defined: magicVariable  
 Serverless: WARNING: This variable is not defined: region  
 Serverless: WARNING: This variable is not defined: region  
@@ -346,8 +346,8 @@ Python library and some of our own Python code. This will demonstrate a few thin
 
 First we'll create the function and endpoint...this is a Python 2.7 function:
 
-```
-root@bcdeb57d5754:/code# sls function create src/authenticate -r python2.7
+```bash
+root@bcdeb57d5754:/code$ sls function create src/authenticate -r python2.7
 Serverless: For this new Function, would you like to create an Endpoint, Event, or just the
 Function?
   > Create Endpoint
@@ -438,11 +438,11 @@ the Lambda function.  This is handled by API Gateway.  Here's the change/additio
 `s-function.json`:
 
 ```json
-  "requestTemplates": {
-    "application/json": {
-      "token": "$input.json('$.token')"
-    }   
+"requestTemplates": {
+  "application/json": {
+    "token": "$input.json('$.token')"
   }
+}
 ```
 
 This is one of the most confusing parts of API Gateway IMO. This ends up injecting a `token` field
@@ -451,7 +451,7 @@ into your Lambda `event` by extracting the `token` field from the expected json 
 
 
 ```python
-    token = event.get('token', '')
+token = event.get('token', '')
 ```
 
 Phew! Let's try this out. Our JWT secret for signing our tokens is simply the string `"secret"`.
@@ -461,8 +461,12 @@ function will raise an exception which will be returned to you:
 
 Here's a valid token:
 
+```bash 
+$ curl -s -d '{"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJyaWFueiIsIm9yaWdfaWF0IjoxNDY3MTMyMTgzLCJleHAiOjE3ODI3NTIzNzIsImVtYWlsIjoiYnJpYW56QGdtYWlsLmNvbSIsInNjb3BlcyI6WyJkZXZlbG9wZXIiLCJzZXJ2ZXJsZXNzLWZhbiJdfQ.tmbOyytr0vbNdaFL0wc31SIpWw8E_xqUIDoWsXYM2do"}' \
+https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
+```
 
-```bash curl -s -d '{"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJyaWFueiIsIm9yaWdfaWF0IjoxNDY3MTMyMTgzLCJleHAiOjE3ODI3NTIzNzIsImVtYWlsIjoiYnJpYW56QGdtYWlsLmNvbSIsInNjb3BlcyI6WyJkZXZlbG9wZXIiLCJzZXJ2ZXJsZXNzLWZhbiJdfQ.tmbOyytr0vbNdaFL0wc31SIpWw8E_xqUIDoWsXYM2do"}' https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
+```
 {
     "email": "brianz@gmail.com",
     "exp": 1782752372,
@@ -481,7 +485,11 @@ that I pushed the `exp` (expires) field far in the future.
 Let's try an invalid signature where the `exp` field is in the past:
 
 ```bash
-curl -s -d '{"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJyaWFueiIsIm9yaWdfaWF0IjoxNDY3MTMyMTgzLCJleHAiOjE0NjcyMTk2OTMsImVtYWlsIjoiYnJpYW56QGdtYWlsLmNvbSIsInNjb3BlcyI6WyJkZXZlbG9wZXIiLCJzZXJ2ZXJsZXNzLWZhbiJdfQ.A1UJOKcSfpUSuAgZoBO9g0oBtGdkrl71VtNt4F5eJZg"}' https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
+curl -s -d '{"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJyaWFueiIsIm9yaWdfaWF0IjoxNDY3MTMyMTgzLCJleHAiOjE0NjcyMTk2OTMsImVtYWlsIjoiYnJpYW56QGdtYWlsLmNvbSIsInNjb3BlcyI6WyJkZXZlbG9wZXIiLCJzZXJ2ZXJsZXNzLWZhbiJdfQ.A1UJOKcSfpUSuAgZoBO9g0oBtGdkrl71VtNt4F5eJZg"}' \
+https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
+```
+
+```json
 {
     "errorMessage": "Signature has expired",
     "errorType": "ExpiredSignatureError",
@@ -524,7 +532,10 @@ Pretty cool. And how about a missing token?
 
 
 ```bash
-curl -s -X POST https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
+$ curl -s -X POST https://4m98c4l3i1.execute-api.us-west-2.amazonaws.com/dev/authenticate | python -mjson.tool
+```
+
+```json
 {
     "errorMessage": "Mission token",
     "errorType": "Exception",

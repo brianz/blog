@@ -57,7 +57,7 @@ docker run --rm -it \
         -v `pwd`:/code \
         --name=slsdemo "bz/serverless" bash
 root@8941047f877c:/code# 
-root@7c84db71d474:/code/serverless-demo# sls stage create   
+root@7c84db71d474:/code/serverless-demo$ sls stage create   
 Serverless: Enter a new stage name for this project:  (dev) production
 Serverless: For the "production" stage, do you want to use an existing Amazon Web Services profile
 or create a new one?
@@ -83,8 +83,8 @@ Great! Remembering back, creating this new stage is akin to creating a new proje
 actually have anything behind the scenes...we just have scaffolding in place so that we can deploy
 some stuff.  So, let's deploy our existing `hello` function and endpoint:
 
-```
-root@7c84db71d474:/code/serverless-demo# sls dash deploy
+```bash
+root@7c84db71d474:/code/serverless-demo$ sls dash deploy
 Serverless: Select the assets you wish to deploy:
     hello
       > function - hello
@@ -137,7 +137,7 @@ one to use specific settings.
 Crack open `s-function.json` and grep for `environment`...you'll see that Serverless is referencing
 three different environment variables:
 
-```
+```json
   "environment": {
     "SERVERLESS_PROJECT": "${project}",
     "SERVERLESS_STAGE": "${stage}",
@@ -150,7 +150,7 @@ deployment. Here, the "values" are being referenced by some magic serverless var
 `${thing}` syntax.  What is actually populating the values?  The answer lies in the `_meta`
 directory:
 
-```
+```bash
 brianz@gold(master=)$ ls -l
 total 40
 -rw-r--r--  1 brianz  staff   34 Jun  2 15:22 s-variables-common.json
@@ -164,7 +164,7 @@ You can see here that for each stage we have two different files. The files with
 contains some meta data about our deployments...for now, we're more interested in the
 `s-variables-production.json` file.
 
-```
+```bash
 brianz@gold(master=)$ grep stage *
 s-variables-dev.json:  "stage": "dev",
 s-variables-production.json:  "stage": "production"
@@ -188,7 +188,7 @@ Serverless actually gives us a *new* Lambda handler with the environment variabl
 .Getting access to the values is quite easy...it's just the stock Python way of getting stuff from
 the environment Here's the change we'll make to get the stage name and return it in the HTML message:
 
-```
+```python
 def handler(event, context):
     value = os.environ.get('SERVERLESS_STAGE', '')
     return """<html>
@@ -214,11 +214,11 @@ I think it's interesting to look behind the scenes to see how this actually happ
 download the zip file containing your code which backs your lambda function you'll see what your
 rewritten handler actually looks like:
 
-```
+```bash
 brianz@gold(master=)$ cat ~/Desktop/serverless-demo-hello-5b5a957b-4073-43fd-8b76-d315422fd269/_serverless_handler.py 
 ```
 
-```
+```python
 import os, sys
 os.environ['SERVERLESS_PROJECT'] = str('serverless-demo')
 os.environ['SERVERLESS_STAGE'] = str('dev')
@@ -233,14 +233,14 @@ do the work of adding some configuration of our own!
 
 I'm going to add another reference in `handler.py` to a new variable:
 
-```
+```python
 magic = os.environ.get('MAGIC_VARIABLE', '')
 ```
 
 The other small change is simply putting it in the HTML output string.  I also will need to inject
 this variable into the lambda function by adding it to `s-function.json`
 
-```
+```json
   "environment": {
     "MAGIC_VARIABLE": "${magicVariable}",
     // existing vars
@@ -253,7 +253,7 @@ configuration/variable files.  I'm going to add two different values...one for e
 deployments. Open up `s-variables-production.json` and `s-variables-dev.json`. The `dev` version
 turns into this:
 
-```
+```json
 {
   "magicVariable": "Not secret or important",
   "stage": "dev"

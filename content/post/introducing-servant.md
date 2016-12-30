@@ -71,7 +71,7 @@ As a client, the only dependencies is having the servant library installed. You 
 from a Django app, one-off script...wherever. Install servant from github. Here I install it into a
 virtualenv using virtualenvwrapper:
 
-```
+```bash
 brianz@gold$ mkvirtualenv test_servant
 
 (test_servant)brianz@gold$ pip install git+https://github.com/clearcare/servant.git@master
@@ -79,7 +79,7 @@ brianz@gold$ mkvirtualenv test_servant
 
 Now, I can write some client code:
 
-```
+```python
 # test_add.py
 import servant.client
 
@@ -98,13 +98,13 @@ That's about it for client code! Provided you have a service named `calculator_s
 this code will work and spit out the expected result of `25`. You can actually install
 `calculator_service` yourself and run this code.
 
-```
+```bash
 (test_servant)brianz@gold$ cd servant/examples/calculator_service/
 (test_servant)brianz@gold$ pip install .
 ```
 
 
-```
+```bash
 (test_servant)brianz@bz-cconline$ python test_calculator.py 
 25
 ```
@@ -121,7 +121,7 @@ to see a more thorough implemenation..but the below code will actually work.
 First, you need to define a single `service.py` file which defines your service and declares all
 its endpoints:
 
-```
+```python
 # service.py
 from servant.service.base import Service
 
@@ -145,7 +145,7 @@ names to actions is entirely up to you. We always have an `actions/` directory w
 actions broken up by area of responsibility. Again, for brevity we'll just show a single action for
 our calculator service.
 
-```
+```python
 # actions.py
 import servant.fields
 from servant.service.actions import Action
@@ -170,7 +170,7 @@ class AddAction(Action):
 If you ignore `setup.py` and any other packaging code or files, our actual service is only a few
 files:
 
-```
+```bash
 (test_servant)brianz@gold$ tree
 ├── __init__.py
 ├── actions.py
@@ -195,7 +195,7 @@ as if it were running on a remote system. The magic here is that the servant cli
 your service and executes it as a local library.  When you're ready to deploy your service
 somewhere else and point your clients to the *real* server, it's a one line change:
 
-```
+```python
 import servant.client
 
 client = servant.client.Client('calculator_service', version=1)

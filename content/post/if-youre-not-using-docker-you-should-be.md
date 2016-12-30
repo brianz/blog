@@ -37,7 +37,7 @@ install all of the packages you need.  Here's a two-line `Dockerfile` which will
 used to build documentation using the popular (Sphinx)[http://sphinx.pocoo.org] library...I'll
 install some extension just for fun:
 
-```
+```dockerfile
 # Dockerfile
 FROM python:2.7
 
@@ -46,8 +46,8 @@ RUN pip install sphinx sphinxcontrib-argdoc
 
 Now, let's build it:
 
-```
-docker build -t bz/sphinx .
+```bash
+$ docker build -t bz/sphinx .
 ```
 
 And now you have a little Docker image named `bz/sphinx` which you can use to build Sphinx documentation. Doing that
@@ -55,7 +55,7 @@ may not be as obvious as you'd think. If you create a container and write/build 
 everything will disappear once the container is killed. The trick is to mount a local folder on
 your host system as a volume in the Docker container.
 
-```
+```bash
 brianz@bz-cconline$ docker run --rm -it -v `pwd`:/code  bz/sphinx  bash
 root@675a26dba565:/# cd /code/
 root@675a26dba565:/code# sphinx-quickstart
@@ -112,7 +112,7 @@ much.  I was able to successfully:
 
 Here's the `Dockerfile`
 
-```
+```dockerfile
 # Dockerfile
 FROM kavolorn/opencv
 
@@ -126,14 +126,14 @@ RUN python3 -m pip install matplotlib
 
 Now, let's build it:
 
-```
-> docker build -t bz/opencv .
+```bash
+$ docker build -t bz/opencv .
 ```
 
 And the Python3 file to create the histogram...mostly [copied from
 here](http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_begins/py_histogram_begins.html)
 
-```
+```python
 # histo.py
 import cv2
 import numpy as np
@@ -152,9 +152,9 @@ The Python code above will be running inside the container. This line:
 `plt.savefig('histogram.png')` will write a new png file in the container...however, because we
 mounted this as a volume it will end up on our *local* system. Nice.
 
-```
+```bash
 # run the image
-> docker run --rm -it -v $(pwd):/code bz/opencv bash
+$ docker run --rm -it -v $(pwd):/code bz/opencv bash
 root@f278f7a7124e:/# 
 root@f278f7a7124e:/# cd /code
 root@f278f7a7124e:/code# python histo.py
@@ -162,7 +162,7 @@ root@f278f7a7124e:/code# python histo.py
 
 And with that, I get an image on my *local* system which I can open:
 
-```
+```bash
 brianz@gold$ pwd
 /Users/brianz/dev/opencv-test
 brianz@gold$ open histogram.png 
@@ -177,8 +177,8 @@ Docker image into an executable rather than a long-lived running system.
 A few tweaks to the python script could be made such that the command to create
 historgrams from images would look something like the following:
 
-```
-> docker run --rm \
+```bash
+$ docker run --rm \
     -v path/to/images:/images \
     bz/opencv \
     python3 histo.py --in-file=some-image.jpg --out-file=some-image-histogram.png
