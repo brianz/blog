@@ -1,6 +1,5 @@
 baseurl: http://blog.brianz.bz/
 title: Brian Z
-author: Brian Zambrano
 theme: "ghostwriter"
 languageCode: en-us
 googleAnalytics: UA-75475240-1
@@ -16,6 +15,9 @@ blackfriday:
 indexes:
   tag: tags
   topic: topics
+
+author: 
+  name: Brian Zambrano
 
 params:
   intro: true

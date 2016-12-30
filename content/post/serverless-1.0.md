@@ -1,6 +1,7 @@
 +++
 date = "2016-12-21T12:04:30-07:00"
 draft = false
+featured = true
 title = "Serverless 1.x"
 tags = [
     'aws',
