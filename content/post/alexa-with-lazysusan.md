@@ -25,7 +25,7 @@ Alexa is the voice platform behind the Amazon Echo, Dot and other Amazon speech 
 of the Amazon device you're interacting with via speech, it all goes through the "Alexa" platform
 (as far as I know).
 
-From a developer's prospective building Alexa apps is really really easy. Alexa apps send `json`
+From a developer's perspective building Alexa apps is really really easy. Alexa apps send `json`
 to a given endpoint and expect valid Alexa `json` in response. That's it. Of course, there are many
 nuances and details to understand, but from a high level this is it...`json` in and `json` out.
 
