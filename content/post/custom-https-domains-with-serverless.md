@@ -1,5 +1,5 @@
 +++
-date = "2017-02-14T12:05:22-07:00"
+date = "2017-02-16T21:21:10-07:00"
 title = "How to setup a free SSL certificate for use with Serverless APIs"
 tags = [
     "aws",
@@ -7,15 +7,15 @@ tags = [
     "certbot",
     "serverless"
 ]
-draft = true
+draft = false
 
 +++
 
 If you're reading this blog it will become very obvious I'm a big fan of the [Serverless
-framework](https://serverless.com) to power AWS Lambda and API Gateway integrations.
+framework](https://serverless.com) to power AWS Lambda and API Gateway integration.
 
 When building _real_ APIs that you'd like to deploy publicly one thing you'll run into eventually
-is that of setting up a custom domain name. API Gateway is fantasic and you can get up and running
+is that of setting up a custom domain name. API Gateway is fantastic and you can get up and running
 in a hurry, exposing a publicly facing API running over SSL. However, the chances of you actually
 wanting to use the AWS-provided URL is slim to nil. Do you really want to publish a public API with
 the format of: 
@@ -27,7 +27,7 @@ https://abcxszhmwi.execute-api.us-west-2.amazonaws.com/dev
 No. You don't.
 
 In this post I'll use my [Dilbert Slack plugin]({{< ref "post/serverless-1.0.md" >}}) which I built
-in a prior post (and which I'm stil running on a few different Slack channels). What we'll do is
+in a prior post (and which I'm still running on a few different Slack channels). What we'll do is
 set up a custom domain with SSL so that `https://dilbert.brianz.bz` works just the same as the
 default API Gateway URL.
 
@@ -35,7 +35,7 @@ What is even better...we'll do this for **FREE** using a completely legitimate c
 authority so that our certs don't raise any warnings for users.
 Because we're going to be doing this with open source 
 software there are a few hoops to jump through...but not that many.  If you feel like shelling out a few
-hunderd dollars to buy a domain from a certificate authority the process would be super
+hundred dollars to buy a domain from a certificate authority the process would be super
 simple...but that's no fun.  This process is simple enough that I don't know why anyone shells out
 the money for an SSL cert these days.
 
@@ -59,7 +59,7 @@ And the steps which I'll cover in detail:
 - Create a "Custom Domain" in API Gateway and Install certificate files 
 
 To be clear, there are definitely other ways to accomplish this. This is actually my second
-iteration of this process which is easier than my first implemenation.
+iteration of this process which is easier than my first implementation.
 For my purposes I've found this process to be quite easy and painless. One caveat with `certbot`
 certificates is that they expire after only three months. This process is so simple I don't think
 it's a big deal to do it four times a year.  Sure...if you're managing dozens of domains it could
@@ -124,7 +124,7 @@ system after the container has been removed.
 
 ## Creating the certificate
 
-`certbot` has tight integrations with Nginx, Apache and other webservers.  However, I have found these to be more
+`certbot` has tight integration with Nginx, Apache and other webservers.  However, I have found these to be more
 trouble than they are worth since they will actually attempt to write over your config files or
 expect your webserver to be able to serve static content from a path which looks like
 `/.well-known/acme-challenge/fhKqLc6FuM97zg3`. 
@@ -181,7 +181,7 @@ Route53 and this is what it looks like:
 
 ![Add TXT record](/images/api-gateway-ssl/route53-txt-record.png)
 
-It may take a bit for this record to propagate.  You can check that it's returing the correct value
+It may take a bit for this record to propagate.  You can check that it's returning the correct value
 using `dig`:
 
 ```bash
@@ -248,7 +248,7 @@ between `certbot` certificate files and API Gateway Custom Domain form fields is
 
 {{< figure src="/images/api-gateway-ssl/create-custom-domain-name.png" 
     alt="Creating custom domain" 
-    caption="Note, this screenshot is from when I set up a different Custom Domain Name mapping"
+    caption="Note, this screen-shot is from when I set up a different Custom Domain Name mapping"
 >}}
 
 Once you've clicked the Save button it's time to point this domain at a particular API and stage.
@@ -280,7 +280,7 @@ experienced wait times of several hours.
 
 However, after the wait is over and the Cloudfront distribution is created, we now have a perfectly
 valid SSL certificate which I can use for my API.  Hitting https://dilbert.brianz.bz from Slack
-works as epxected.
+works as expected.
 
 ## Summary
 
