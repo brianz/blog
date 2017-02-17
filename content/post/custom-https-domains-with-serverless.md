@@ -58,6 +58,7 @@ And the steps which I'll cover in detail:
 - Run `certbot` in container
 - Change DNS records as instructed by `certbot` to verify domain
 - Create a "Custom Domain" in API Gateway and Install certificate files 
+- Update your DNS records to point to your new Cloudfront distribution
 
 To be clear, there are definitely other ways to accomplish this. This is actually my second
 iteration of this process which is easier than my first implementation.
@@ -282,7 +283,12 @@ Once that is done, you'll be greeted with the following:
 This process really can take a long time.  While the message states "Up to 40 minutes" I've
 experienced wait times of several hours.
 
-However, after the wait is over and the Cloudfront distribution is created, we now have a perfectly
+While you're waiting on that to finishing there's one final thing to do: add a `CNAME` record in
+your `DNS` zone file to point your public subdomain (`dilbert.brianz.bz` in this example`) to the
+crazy Cloudfront URL created on your behalf. Note, your DNS will likely propagate faster than the
+Cloudfront distribution takes to actually set up.
+
+After the wait is over and the Cloudfront distribution is created, we now have a perfectly
 valid SSL certificate which I can use for my API.  Hitting https://dilbert.brianz.bz from Slack
 works as expected.
 
