@@ -274,7 +274,10 @@ different systems.
 
 Once that is done, you'll be greeted with the following:
 
-![Cloudfront creation](/images/api-gateway-ssl/cloudfront-distribution-creating.png)
+{{< figure src="/images/api-gateway-ssl/cloudfront-distribution-creating.png" 
+    alt="Cloudfront creat" 
+    caption="Again, note this screen-shot is from when I set up a different Custom Domain Name mapping"
+>}}
 
 This process really can take a long time.  While the message states "Up to 40 minutes" I've
 experienced wait times of several hours.
