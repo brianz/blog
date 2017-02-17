@@ -283,10 +283,15 @@ Once that is done, you'll be greeted with the following:
 This process really can take a long time.  While the message states "Up to 40 minutes" I've
 experienced wait times of several hours.
 
+## Point DNS at Cloudfront
+
 While you're waiting on that to finishing there's one final thing to do: add a `CNAME` record in
-your `DNS` zone file to point your public subdomain (`dilbert.brianz.bz` in this example`) to the
-crazy Cloudfront URL created on your behalf. Note, your DNS will likely propagate faster than the
-Cloudfront distribution takes to actually set up.
+your `DNS` zone file to point your public subdomain (`dilbert.brianz.bz` in this example) to the
+Cloudfront URL created on your behalf. 
+
+![Point domain at Cloudfront](/images/api-gateway-ssl/point-subdomain-at-cloudfront.png)
+
+Note, your DNS will likely propagate faster than the Cloudfront distribution takes to actually set up.
 
 After the wait is over and the Cloudfront distribution is created, we now have a perfectly
 valid SSL certificate which I can use for my API.  Hitting https://dilbert.brianz.bz from Slack
