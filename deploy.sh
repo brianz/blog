@@ -19,3 +19,4 @@ git push
 cd ..
 
 git commit -am "$msg"
+git push
