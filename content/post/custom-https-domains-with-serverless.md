@@ -1,37 +1,157 @@
 +++
 date = "2017-02-14T12:05:22-07:00"
-title = "custom https domains with serverless"
-tags = []
+title = "How to setup a free SSL certificate for use with Serverless APIs"
+tags = [
+    "aws",
+    "architecture",
+    "certbot",
+    "serverless"
+]
 draft = true
 
 +++
 
-brianz@utah$ docker run --rm -it bz/certbot bash
-root@cc90e67b78d3:/# certbot certonly --manual
+If you're reading this blog it will become very obvious I'm a big fan of the [Serverless
+framework](https://serverless.com) to power AWS Lambda and API Gateway integrations.
+
+When building _real_ APIs that you'd like to deploy publicly one thing you'll run into eventually
+is that of setting up a custom domain name. API Gateway is fantasic and you can get up and running
+in a hurry, exposing a publicly facing API running over SSL. However, the chances of you actually
+wanting to use the AWS-provided URL is slim to nil. Do you really want to publish a public API with
+the format of: 
+
+```
+https://abcxszhmwi.execute-api.us-west-2.amazonaws.com/dev
+```
+
+No. You don't.
+
+In this post I'll use my [Dilbert Slack plugin]({{< ref "post/serverless-1.0.md" >}}) which I built
+in a prior post (and which I'm stil running on a few different Slack channels). What we'll do is
+set up a custom domain with SSL so that `https://dilbert.brianz.bz` works just the same as the
+default API Gateway URL.
+
+What is even better...we'll do this for **FREE** using a completely legitimate certificate
+authority so that our certs don't raise any warnings for users.
+Because we're going to be doing this with open source 
+software there are a few hoops to jump through...but not that many.  If you feel like shelling out a few
+hunderd dollars to buy a domain from a certificate authority the process would be super
+simple...but that's no fun.  This process is simple enough that I don't know why anyone shells out
+the money for an SSL cert these days.
+
+## Overview
+
+Here is the overall process we'll use.  First, the tools which I use to accomplish this:
+
+- Docker (not required, but handy)
+- [`certbot`](https://certbot.eff.org)
+- DNS zone file
+
+The secret sauce in getting a free SSL certificate is `certbot` from the Electric Frontier
+Foundation.
+
+And the steps which I'll cover in detail:
+
+- Spin up Docker container using `python:2` image
+- Install `certbot` in container
+- Run `certbot` in container
+- Change DNS records as instructed by `certbot` to verify domain
+- Create a "Custom Domain" in API Gateway and Install certificate files 
+
+To be clear, there are definitely other ways to accomplish this. This is actually my second
+iteration of this process which is easier than my first implemenation.
+For my purposes I've found this process to be quite easy and painless. One caveat with `certbot`
+certificates is that they expire after only three months. This process is so simple I don't think
+it's a big deal to do it four times a year.  Sure...if you're managing dozens of domains it could
+get cumbersome, but for a handful of domains it's not a huge deal.
+
+## Getting started
+
+`certbot` has many different options and methods for validating that you own the domain for which you're
+requesting a domain. I have found that the easiest validation method is via DNS. Other challenge
+methods require running an HTTP server on some publicly accessible host. This *used* to be the
+method I used where I'd spin up a nano EC2 instance, run a simple `HTTPServer` via Python and have
+it serve a some file in response to the HTTP request from `certbot`. The DNS challenge is much
+simpler...all it requires is adding an `TXT` record without the need to run any additional systems
+or software.
+
+I'm using Docker for all this since it's so easy. `certbot` is installable via `pip`, however
+there are several system dependencies you'll need. Because it's so easy with Docker it's my
+suggested method for using `certbot`. Here's a two line `Dockerfile` which will work:
+
+```Dockerfile
+FROM python:2
+RUN pip install certbot
+```
+
+It's really that easy.
+
+My accompanying `Makefile`:
+
+```Makefile
+NAME="bz/certbot"
+
+.PHONY: all shell
+
+all :
+	docker build -t $(NAME) .
+
+shell :
+	docker run --rm -it \
+		-v `pwd`/letsencrypt:/etc/letsencrypt \
+		$(NAME) bash
+```
+
+So now I'll just:
+
+```bash
+$ make
+$ # lots of output
+Removing intermediate container 71cb0a9bbfb9
+Successfully built f93119d079ac
+$ mkdir letsencrypt
+$ make shell
+docker run --rm -it \
+                -v `pwd`/letsencrypt:/etc/letsencrypt \
+                "bz/certbot" bash
+root@ff55a6336d39:/#
+```
+
+__Note__: Here I'm creating a *local* directory names `letsencrypt` and mounting in into the
+container as `/etc/letsencrypt`. The reason for that is because `certbot` will place all of the
+created certificates into `/etc/letsencrypt`. We want any created files to persist on our local
+system after the container has been removed.
+
+## Creating the certificate
+
+`certbot` has tight integrations with Nginx, Apache and other webservers.  However, I have found these to be more
+trouble than they are worth since they will actually attempt to write over your config files or
+expect your webserver to be able to serve static content from a path which looks like
+`/.well-known/acme-challenge/fhKqLc6FuM97zg3`. 
+
+What I have found to be super easy is the `--manual` method which we'll use here.
+
+In the docker container:
+
+```
+# certbot certonly --manual -d dilbert.brianz.bz --preferred-challenge dns
+```
+
+What this is saying is:
+
+- `certonly` &rarr; Only get a certificate...don't try to install it for me
+- `--manual` &rarr; Use the interactive mode with prompts
+- `-d` &rarr; Request a cert for the domain `dilbert.brianz.bz`
+- `--preferred-challenges` &rarr; Use DNS for validation rather than a web server
+
+Here is the full output from my run:
+
+```bash
+root@271530c5cbad:/certs# certbot certonly --manual -d dilbert.brianz.bz --preferred-challenges dns
 Saving debug log to /var/log/letsencrypt/letsencrypt.log
-Enter email address (used for urgent renewal and security notices) (Enter 'c' to
-cancel):brianz@gmail.com
-
--------------------------------------------------------------------------------
-Please read the Terms of Service at
-https://letsencrypt.org/documents/LE-SA-v1.1.1-August-1-2016.pdf. You must agree
-in order to register with the ACME server at
-https://acme-v01.api.letsencrypt.org/directory
--------------------------------------------------------------------------------
-(A)gree/(C)ancel: A
-
--------------------------------------------------------------------------------
-Would you be willing to share your email address with the Electronic Frontier
-Foundation, a founding partner of the Let's Encrypt project and the non-profit
-organization that develops Certbot? We'd like to send you email about EFF and
-our work to encrypt the web, protect its users and defend digital rights.
--------------------------------------------------------------------------------
-(Y)es/(N)o: Y
-Please enter in your domain name(s) (comma and/or space separated)  (Enter 'c'
-to cancel):connector.brianz.bz
 Obtaining a new certificate
 Performing the following challenges:
-http-01 challenge for connector.brianz.bz
+dns-01 challenge for dilbert.brianz.bz
 
 -------------------------------------------------------------------------------
 NOTE: The IP of this machine will be publicly logged as having requested this
@@ -43,96 +163,133 @@ Are you OK with your IP being logged?
 (Y)es/(N)o: Y
 
 -------------------------------------------------------------------------------
-Make sure your web server displays the following content at
-http://connector.brianz.bz/.well-known/acme-challenge/fhKqLc6FuM97zg3Y7SAcJdeotnwtgjLqs0TkJT_h4Xs before continuing:
+Please deploy a DNS TXT record under the name
+_acme-challenge.dilbert.brianz.bz with the following value:
 
-fhKqLc6FuM97zg3Y7SAcJdeotnwtgjLqs0TkJT_h4Xs.cn-j1bwbdeTbrxZ88VCAX9ztMBlwHUP8rkPXeiOjIRU
+tBkgiRMxuIGSKH-WzJiJMTCi5uuEsZUUJJmg8FIBZ40
 
-If you don't have HTTP server configured, you can run the following
-command on the target server (as root):
-
-mkdir -p /tmp/certbot/public_html/.well-known/acme-challenge
-cd /tmp/certbot/public_html
-printf "%s" fhKqLc6FuM97zg3Y7SAcJdeotnwtgjLqs0TkJT_h4Xs.cn-j1bwbdeTbrxZ88VCAX9ztMBlwHUP8rkPXeiOjIRU > .well-known/acme-challenge/fhKqLc6FuM97zg3Y7SAcJdeotnwtgjLqs0TkJT_h4Xs
-# run only once per server:
-$(command -v python2 || command -v python2.7 || command -v python2.6) -c \
-"import BaseHTTPServer, SimpleHTTPServer; \
-s = BaseHTTPServer.HTTPServer(('', 80), SimpleHTTPServer.SimpleHTTPRequestHandler); \
-s.serve_forever()" 
+Once this is deployed,
 -------------------------------------------------------------------------------
 Press Enter to Continue
 Waiting for verification...
+```
+
+## Create TXT record
+
+This part is easy enough. Simply add a `TXT` record in your DNS zone file as instructed. I'm using
+Route53 and this is what it looks like:
+
+![Add TXT record](/images/api-gateway-ssl/route53-txt-record.png)
+
+It may take a bit for this record to propagate.  You can check that it's returing the correct value
+using `dig`:
+
+```bash
+$ dig -t TXT _acme-challenge.dilbert.brianz.bz
+```
+
+## Finishing off challenge
+
+Once your `TXT` record is working, simply hit enter back in the `certbot` prompt:
+
+```bash
 Cleaning up challenges
 Generating key (2048 bits): /etc/letsencrypt/keys/0000_key-certbot.pem
 Creating CSR: /etc/letsencrypt/csr/0000_csr-certbot.pem
 
 IMPORTANT NOTES:
  - Congratulations! Your certificate and chain have been saved at
-   /etc/letsencrypt/live/connector.brianz.bz/fullchain.pem. Your cert
-   will expire on 2017-05-15. To obtain a new or tweaked version of
-   this certificate in the future, simply run certbot again. To
+   /etc/letsencrypt/live/dilbert.brianz.bz/fullchain.pem. Your cert will
+   expire on 2017-05-18. To obtain a new or tweaked version of this
+   certificate in the future, simply run certbot again. To
    non-interactively renew *all* of your certificates, run "certbot
    renew"
- - If you lose your account credentials, you can recover through
-   e-mails sent to brianz@gmail.com.
- - Your account credentials have been saved in your Certbot
-   configuration directory at /etc/letsencrypt. You should make a
-   secure backup of this folder now. This configuration directory will
-   also contain certificates and private keys obtained by Certbot so
-   making regular backups of this folder is ideal.
  - If you like Certbot, please consider supporting our work by:
 
    Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
    Donating to EFF:                    https://eff.org/donate-le
+```
 
-root@cc90e67b78d3:/# cd /etc/letsencrypt/live/
-root@cc90e67b78d3:/etc/letsencrypt/live# ls -l
-total 4
-drwxr-xr-x 2 root root 4096 Feb 14 18:56 connector.brianz.bz
-root@cc90e67b78d3:/etc/letsencrypt/live# cd connector.brianz.bz/
-root@cc90e67b78d3:/etc/letsencrypt/live/connector.brianz.bz# ls -l
-total 4
--rw-r--r-- 1 root root 543 Feb 14 18:56 README
-lrwxrwxrwx 1 root root  43 Feb 14 18:56 cert.pem -> ../../archive/connector.brianz.bz/cert1.pem
-lrwxrwxrwx 1 root root  44 Feb 14 18:56 chain.pem -> ../../archive/connector.brianz.bz/chain1.pem
-lrwxrwxrwx 1 root root  48 Feb 14 18:56 fullchain.pem -> ../../archive/connector.brianz.bz/fullchain1.pem
-lrwxrwxrwx 1 root root  46 Feb 14 18:56 privkey.pem -> ../../archive/connector.brianz.bz/privkey1.pem
-root@cc90e67b78d3:/etc/letsencrypt/live/connector.brianz.bz# cd ../../archive/
-root@cc90e67b78d3:/etc/letsencrypt/archive# ls -l
-total 4
-drwxr-xr-x 2 root root 4096 Feb 14 18:56 connector.brianz.bz
-root@cc90e67b78d3:/etc/letsencrypt/archive# cd connector.brianz.bz/
-root@cc90e67b78d3:/etc/letsencrypt/archive/connector.brianz.bz# ls -l
-total 16
--rw-r--r-- 1 root root 1809 Feb 14 18:56 cert1.pem
--rw-r--r-- 1 root root 1647 Feb 14 18:56 chain1.pem
--rw-r--r-- 1 root root 3456 Feb 14 18:56 fullchain1.pem
--rw-r--r-- 1 root root 1704 Feb 14 18:56 privkey1.pem
-root@cc90e67b78d3:/etc/letsencrypt/archive/connector.brianz.bz# pwd
-/etc/letsencrypt/archive/connector.brianz.bz
-root@cc90e67b78d3:/etc/letsencrypt/archive/connector.brianz.bz# ls 
-cert1.pem  chain1.pem  fullchain1.pem  privkey1.pem
-root@cc90e67b78d3:/etc/letsencrypt/archive/connector.brianz.bz# exit
+Nice! Again, you'll notice that `certbot` put the keys in `/etc/letsencrypt`. If you're using
+Docker like I am these will now be sitting on your host system. It's now safe to kill the
+container.
 
+There are four certificate files created:
 
+```bash
+$ pwd
+/Users/brianz/dev/certbot/letsencrypt/live/dilbert.brianz.bz
+$ ls -l
+-rw-r--r--  1 brianz  staff  543 Feb 16 16:56 README
+lrwxr-xr-x  1 brianz  staff   38 Feb 16 16:56 cert.pem -> ../../archive/dilbert.brianz.bz/cert1.pem
+lrwxr-xr-x  1 brianz  staff   39 Feb 16 16:56 chain.pem -> ../../archive/dilbert.brianz.bz/chain1.pem
+lrwxr-xr-x  1 brianz  staff   43 Feb 16 16:56 fullchain.pem -> ../../archive/dilbert.brianz.bz/fullchain1.pem
+lrwxr-xr-x  1 brianz  staff   41 Feb 16 16:56 privkey.pem -> ../../archive/dilbert.brianz.bz/privkey1.pem
+```
 
-root@ip-172-31-43-60:/home/ubuntu# cat cert.sh 
-#!/bin/bash
-if [[ ! -d /tmp/certbot/public_html/.well-known/acme-challenge ]]; then
-  mkdir -p /tmp/certbot/public_html/.well-known/acme-challenge
-fi
-cd /tmp/certbot/public_html
-printf "%s" fhKqLc6FuM97zg3Y7SAcJdeotnwtgjLqs0TkJT_h4Xs.cn-j1bwbdeTbrxZ88VCAX9ztMBlwHUP8rkPXeiOjIRU > .well-known/acme-challenge/fhKqLc6FuM97zg3Y7SAcJdeotnwtgjLqs0TkJT_h4Xs
-# run only once per server:
-$(command -v python2 || command -v python2.7 || command -v python2.6) -c \
-"import BaseHTTPServer, SimpleHTTPServer; \
-s = BaseHTTPServer.HTTPServer(('', 80), SimpleHTTPServer.SimpleHTTPRequestHandler); \
-s.serve_forever()"
-root@ip-172-31-43-60:/home/ubuntu# ./cert.sh 
+## Setting up custom domain with API Gateway
 
+Now that we have our certificate files, it's time to set up a custom domain in API Gateway. How
+this will work is the following:
 
+- Create a custom domain in API Gateway and upload certificate files
+- Point the new custom domain at the desired API 
+- Wait for Cloudfront distribution to complete
 
+First up, navigate to the API Gateway console and click on "Custom Domain Names" followed by the
+"Create" button.
 
-ubuntu@ip-172-31-43-60:~$ sudo su
-root@ip-172-31-43-60:/home/ubuntu# ./cert.sh 
-66.133.109.36 - - [14/Feb/2017 18:56:34] "GET /.well-known/acme-challenge/fhKqLc6FuM97zg3Y7SAcJdeotnwtgjLqs0TkJT_h4Xs HTTP/1.1" 200 -
+Now, you'll need to copy and paste the correct files into the correct locations. The mapping
+between `certbot` certificate files and API Gateway Custom Domain form fields is the following:
+
+- `cert.pem` &rarr; Certificate body
+- `privkey.pem` &rarr; Certificate private key
+- `chain.pem` &rarr; Certificate chain
+
+{{< figure src="/images/api-gateway-ssl/create-custom-domain-name.png" 
+    alt="Creating custom domain" 
+    caption="Note, this screenshot is from when I set up a different Custom Domain Name mapping"
+>}}
+
+Once you've clicked the Save button it's time to point this domain at a particular API and stage.
+
+For this example it's going to be easy...I'll point the root domain (i.e., `dilbert.brianz.bz`) at
+my single `dev` stage for my API.  Click "Create API mapping" an put in:
+
+- Base path &rarr; Leave blank
+- API &rarr; Select your desired API distribution
+- State &rarr; Select your desired stage
+
+![](/images/api-gateway-ssl/custom-domain-mapping.png)
+
+If you have a more complicated setup, you could do something like the following:
+
+- point `dilbert.brianz.bz/api/dev` to the `dev` stage or `dilbert-dev` Serverless service.
+- point `dilbert.brianz.bz/api/qa` to the `qa` stage or `dilbert-qa` Serverless service.
+- point `dilbert.brianz.bz/api/` to the `production` stage or `dilbert-production` service.
+
+You get the idea...this is a way to create different environments by pointing URLs at completely
+different systems.
+
+Once that is done, you'll be greeted with the following:
+
+![Cloudfront creation](/images/api-gateway-ssl/cloudfront-distribution-creating.png)
+
+This process really can take a long time.  While the message states "Up to 40 minutes" I've
+experienced wait times of several hours.
+
+However, after the wait is over and the Cloudfront distribution is created, we now have a perfectly
+valid SSL certificate which I can use for my API.  Hitting https://dilbert.brianz.bz from Slack
+works as epxected.
+
+## Summary
+
+`certbot` is a great tool to create perfectly valid and completely free ssl certificates. Creating
+these certs with the `--manual` method and the `dns` validation method is a simple way to get certs
+for use with API Gateway's Custom Domain Name feature. Since these certs expire every three months
+you'll need to renew a bit more often than with a paid SSL certificate, however the process isn't
+that complicated and in my book the extra work is worth the price savings.
+
+Finally, I should note that `certbot` does not work with wildcard domains. If you have several
+subdomains you need certs for your only choice is to shell out the money for a wildcard domain from
+one of the commercial CAs.
