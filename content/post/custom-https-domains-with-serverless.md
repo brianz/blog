@@ -37,7 +37,8 @@ Because we're going to be doing this with open source
 software there are a few hoops to jump through...but not that many.  If you feel like shelling out a few
 hundred dollars to buy a domain from a certificate authority the process would be super
 simple...but that's no fun.  This process is simple enough that I don't know why anyone shells out
-the money for an SSL cert these days.
+the money for an SSL cert these days (unless you need a wildcard domain...more about that in 
+[at the end of this post]({{< relref "#summary" >}})).
 
 ## Overview
 
