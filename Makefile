@@ -1,8 +1,5 @@
-.PHONY : prod release post
+.PHONY : prod 
 
 
 prod :
 	hugo -d production
-
-post :
-	hugo new post/$(NAME).md
