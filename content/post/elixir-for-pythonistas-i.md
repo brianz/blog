@@ -34,9 +34,12 @@ which had these things in common:
 Where I landed many months ago was being unhappy and unsatisfied with Django and all of the
 wrong decisions which are easy to make when using it to build a web application. I don't think 
 this is necessarily a problem with Python or
-Django themselves, however I do feel that both Python and Django make it really easy to make the
-poor decisions when architecting a web application. If anything, Django is an enabler (and guilt by
-association, Python).  Node and JavaScript are probably even worse and more enabling at bad
+Django themselves, however I do feel that both Python and Django enable developers to make
+poor decisions when architecting a web application. Maybe to frame this in a more positive light,
+it's _hard_ to make _good_ decisions when writing a large Django application. 
+If anything, Django is an enabler (and guilt by association, Python).  
+
+Node and JavaScript are probably even worse and more enabling at bad
 patterns.  Rails and Ruby, yes...although with Rails there are such strong conventions around the
 "Rails way" that at least people don't have to look very far to figure out the "right" way of doing
 something (don't take this as an endorsement...I believe this creates a community which freaks out
@@ -46,7 +49,8 @@ Django makes it very easy to couple
 different parts of your application together, in spite of your best intentions.  I would venture
 to say that most of this comes down to the ORM.  Want to import some models from a completely 
 different part of your application and start firing off queries?  No problem.  Want to write a 
-triple nested loop over a queryset and fire off 1M+ DB statements? Sure! (Note, I _have_ seen 
+triple nested loop over a queryset and fire off 1M+ DB statements for related records? Sure!
+(Note, I _have_ seen 
 this done and spent weeks fixing it). Need some data in your template?  Just shove an `all()`
 queryset in your template and iterate to your hearts content.  This works *great* when you have 10
 rows in your table, not so much when you have 1M rows.
