@@ -82,11 +82,11 @@ developer.
 ## Elixir for Pythonistas
 
 I would rather not do a series on Elixir syntax, but it's inevitable that I'll need to cover some
-things.  There are plenty of resources online about Elixir syntax...the official docs are quite
+things.  There are plenty of resources online about the Elixir language itself...the official docs are quite
 good. I'll recommend the following if you'd like to start from zero:
 
 - http://elixir-lang.org/crash-course.html
-- My [Elixir Fundamentals talk from the Boulder Exile
+- My [Elixir Fundamentals talk from the Boulder Elixir
   Meetup](https://speakerdeck.com/brianz/elixir-fundamentals)
 - [Programming Elixir by Dave Thomas](https://pragprog.com/book/elixir/programming-elixir)
 
