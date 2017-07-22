@@ -1,6 +1,6 @@
 +++
-date = "2017-07-21T22:04:30-06:00"
-draft = true
+date = "2017-07-21T23:09:49-06:00"
+draft = false
 title = "Structuring Serverless Applications with Python"
 tags = [
     "docker",
