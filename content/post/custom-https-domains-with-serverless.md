@@ -11,6 +11,15 @@ draft = false
 
 +++
 
+**NOTE!!!**
+
+> As of March 2017 this post is no longer relevant. AWS has updated API Gateway so that you can get a 
+> [free certificate using AWS Certificate
+> Manager](https://aws.amazon.com/about-aws/whats-new/2017/03/amazon-api-gateway-integrates-with-aws-certificate-manager-acm/).
+> I'm leaving this up for historical purposes but if you need SSL for API Gateway on your own
+> domain please have a look at the Certificate Manager integration...it's quite easy!
+
+
 If you're reading this blog it will become very obvious I'm a big fan of the [Serverless
 framework](https://serverless.com) to power AWS Lambda and API Gateway integration.
 
