@@ -45,12 +45,12 @@ I'll walk through my setup and discuss how these problems are solved.
 ## The solutions
 
 1. Docker
-2. Add 4 lines of code at the top of `handler.py` to add a director to your `sys.path`
+2. Add 4 lines of code at the top of `handler.py` to add a directory to your `sys.path`
 
 
 ## Docker
 
-We're not using Docker for anything other than as a utility.  The Docker image
+In this setup, we're using Docker as a utility.  The Docker image
 I'm using is the official Python 2 image with the Serverless framework installed globally.  
 This image is [on Docker hub](https://hub.docker.com/r/verypossible/serverless/) and is maintained
 by me, updated whenever there is a new version of Serverless. You can see the
@@ -202,13 +202,16 @@ used to start over.
 ## handler.py
 
 Now that we have all of our libraries we need to tell our Python code how to find them.  At the top of 
-`handler.py`, I _always_ have these 4 lines:
+`handler.py`, I _always_ have these first four lines of code (two imports + two lines to deal with
+`sys.path`):
 
+    # begin magic four lines
     import os
     import sys
 
     CWD = os.path.dirname(os.path.realpath(__file__))
     sys.path.insert(0, os.path.join(CWD, "lib"))
+    # end magic four lines
 
     # now it's ok to import extra libraries
     import numpy as np
@@ -251,9 +254,12 @@ _without_ needing to alter the path again.
 
 ## Conclusion
 
-Lambda and Serverless make is extremely easy to become production and to iterate on your code.
-Still, there are a few gotchas which take a little time to learn and master.  This setup has saved
-me quite a bit of time and I can spin up a new project in a matter of a copule of minutes.
-Hopefully this will help you too.
+Docker along with this `Makefile` make is extremely easy to manage different deployments of your Serverless 
+stack and facilitate quickly iterating on your code.
+Still, there are a few gotchas which take a little time to learn and master.  Organizing my
+Serverless projects like this has saved
+me quite a bit of time. I can spin up a new project in a matter of minutes and deploy code changes
+within seconds, all while keeping my host system clean and free of any installations of the
+Serverless framework.  Changing versions of Serverless is a one-line change in the `Makefile`.
 
 If you try this out and it works or you see some improvments please let me know!
