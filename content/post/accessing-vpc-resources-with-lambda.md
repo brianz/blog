@@ -10,7 +10,8 @@ tags = [
 
 +++
 
-I'm currently working on a book for Packt publishing titled <strong>Serverless Design Patterns and Best Practices</strong>.  
+I'm currently working on a book for Packt publishing titled 
+<strong>Serverless Design Patterns and Best Practices</strong>.  
 While writing and whipping out tons of
 examples is quite a bit of work, and I sometimes curse myself for agreeing to this, I'm quite
 excited as I work through the chapters and as it comes together.
