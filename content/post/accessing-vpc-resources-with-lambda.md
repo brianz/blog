@@ -88,9 +88,9 @@ to the world, if you care about it. You've been warned.
 
 Creating one of these in CloudFormation/`serverless.yml` is pretty simple.  I pick three subnets in
 my VPC and set them as environment variables.  Using this technique makes it trivial to switch
-between projects, regions or AWS accounts.  If you haven't read 
-{{< ref "structuring-serverless-applications-with-python.md" >}} I encourage you to do so to 
-appreciate environment variables fully.
+between projects, regions or AWS accounts.  If you haven't read my 
+[Structuring Serverless Applications]({{< ref "structuring-serverless-applications-with-python.md" >}}) 
+I encourage you to do so to appreciate environment variables fully.
 
 ```
     RDSSubnetGroup:
