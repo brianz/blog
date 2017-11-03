@@ -249,8 +249,9 @@ lives inside of VPCs.  If you use ElastiCache or other systems in private VPC su
 to do the same dance.  Fortunately, it's the same pattern.
 
 What is craziest of all is that while we've allowed for network access to RDS, our Lamda functions
-now *cannot* access AWS resources which are _outside_ of this VPC.  For example, SNS cannot be used
-since it's a VPC-agnostic service.  S3 is another one.  This can be solved as well using NAT
+now *cannot* access AWS resources which are _outside_ of this VPC including the entire internet.  
+For example, SNS cannot be used since it's a VPC-agnostic service.  Also, if your Lambda function needed to speak
+to an external API on the public internet it would not work.  This can be solved as well using NAT
 Gateways, which will be a topic for another time.
 
 Happy VPC-ing!
