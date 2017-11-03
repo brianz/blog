@@ -64,14 +64,16 @@ Rather, this tip is for the OS X and Windows folks out there.
 
 I structure all my Serverless project as so:
 
-	├── Makefile
-	├── envs
-	│   └── dev
-	├── requirements.txt
-	└── serverless
-		├── handler.py
-		├── lib
-		└── serverless.yml
+```shell
+├── Makefile
+├── envs
+│   └── dev
+├── requirements.txt
+└── serverless
+    ├── handler.py
+    ├── lib
+    └── serverless.yml
+```
 
 The important bits:
 

@@ -5,7 +5,7 @@ title = "about"
 
 +++
 
-![brianz](/images/bz-horsetooth-peak.jpg)
+![brianz](/images/bz-mtb-selfie.jpg)
 
 My name is Brian Zambrano and this is my tiny corner of the internet where I (mostly) talk about
 software and related technology. I currently reside in Fort Collins, CO with my wife and twin boys.
@@ -24,16 +24,17 @@ in computer science from [San Francisco State](http://cs.sfsu.edu).
 I taught myself Python around 2001 and have been using continually since then and professionally
 since 2005. In addition to Python my current areas of interest are:
 
+- Blockchain development
+- Serverless applications and architecture
+- Microservice design and architecture
 - Docker
 - Elixir and its ecosystem (Phoenix, Erlang)
-- Microservice design and architecture
 - Amazon web services
 - Scaling development teams and platforms
-- Postgresql
 
 Of course, I have **many** more interests but those are the highlights.
 
-I'm currently employed at [Spartan](http://joinspartan.com) building awesome things for our
+I'm currently employed at [Very](http://verypossible.com) building awesome things for our
 clients.
 
 ## RoastLog

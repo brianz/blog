@@ -7,4 +7,4 @@ new() {
     hugo new post/$name.md
 }
 
-$@
+new $@
