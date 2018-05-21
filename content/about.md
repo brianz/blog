@@ -11,6 +11,11 @@ My name is Brian Zambrano and this is my tiny corner of the internet where I (mo
 software and related technology. I currently reside in Fort Collins, CO with my wife and twin boys.
 In addition to software I really like the outdoors, coffee and cycling.
 
+I recently wrote a book about [Serverless Design Patterns and Best
+Practices](https://www.packtpub.com/application-development/serverless-design-patterns-and-best-practices).
+There are plenty of good tips and tricks in there for anyone building serverless applications, and
+I'd encourage you to check it out.
+
 ## Background
 
 You can read more about my professional background on my LinkedIn profile to the
@@ -24,13 +29,13 @@ in computer science from [San Francisco State](http://cs.sfsu.edu).
 I taught myself Python around 2001 and have been using continually since then and professionally
 since 2005. In addition to Python my current areas of interest are:
 
-- Blockchain development
 - Serverless applications and architecture
+- Amazon web services
 - Microservice design and architecture
 - Docker
 - Elixir and its ecosystem (Phoenix, Erlang)
-- Amazon web services
 - Scaling development teams and platforms
+- Blockchain development
 
 Of course, I have **many** more interests but those are the highlights.
 
