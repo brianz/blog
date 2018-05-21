@@ -15,7 +15,7 @@ tags: [
 It's been quite some time since a blog post went up here. The reason for this is mainly due to my
 book with Packt Publishing,
 [Serverless Design Patterns and Best Practices](https://www.packtpub.com/application-development/serverless-design-patterns-and-best-practices).
-Happily I can say that it's published and I can turn my techincal attention to other things.
+Happily I can say that it's published and I can turn my technical attention to other things.
 
 In chapters [2](https://github.com/brianz/serverless-design-patterns/tree/master/ch2) and 
 [3](https://github.com/brianz/serverless-design-patterns/tree/master/ch2), I walk 
@@ -30,7 +30,7 @@ that post you'll learn how to allow inbound network access to an RDS Postgres in
 > not work. This can be solved as well using NAT Gateways, which will be a topic for another time.
 
 In this post I'd like to walk through an entire setup focused around VPC networking, private/public
-subnets and NAT Gateways. The focus will be using my previous scenario, where a Lamda function
+subnets and NAT Gateways. The focus will be using my previous scenario, where a Lambda function
 needs access to an RDS instance _as well as_ the public internet.
 At the end of all this you should have a good understanding of why all of
 this complexity exists and a template to set all of this up. There are tons of details I won't be
@@ -50,8 +50,8 @@ meaning if you create a virtual machine all port may be open to the entire inter
 Throw up some virtual machine, ssh into
 it, access a MySQL database, etc. When all ports are open and a machine is exposed to the public
 internet, development is easy. While this is very simple, it's also very dangerous from a security
-perspective. With a VM or other machine exposed to public internet, you're relying soley on
-credentials for protection and hoping there are no security vulnerabilites in the software which
+perspective. With a VM or other machine exposed to public internet, you're relying solely on
+credentials for protection and hoping there are no security vulnerabilities in the software which
 you're running.
 
 **Note:** _I haven't used other hosting providers in a long time, so this may or may not be true
@@ -72,15 +72,15 @@ deploy something for _real_, you can get into trouble. For example, it's a bad i
 production system using your default VPC, simply for the fact that any other resource you deployed
 would go into the same VPC and possibly interfere with your production system.
 
-Ok, so that still doesn't explain what a VPC is. A VPC is a virtual network which will
+OK, so that still doesn't explain what a VPC is. A VPC is a virtual network which will
 allocate private IP address for resources deployed in it, among other things. A VPC will allocate a
-private IP address to _every_ resouce inside of it. You can configure some resources in a VPC to
+private IP address to _every_ resource inside of it. You can configure some resources in a VPC to
 have _public_ IP addresses as well. There are several advantages to using VPCs. The most important
 for this discussion are:
 
 - Inter-VPC traffic can be routed on the private address space. Because traffic doesn't travel
   across the public Internet it's faster, more secure, and free.
-- You may deploy resources in a VPC such that they are comopletely isolated from the public
+- You may deploy resources in a VPC such that they are completely isolated from the public
   Internet. This is good for security reasons.
 
 A VPC requires a range of IP address from which it will allocate IPs to any system deployed within
@@ -102,7 +102,7 @@ be affected. That is the promise from AWS, at least. &#x1F601;
 
 ## Subnets, public vs. private
 
-Within a VPC, you may define subregions of the network. These are subnets. Subnets use CIDR ranges
+Within a VPC, you may define sub-regions of the network. These are subnets. Subnets use CIDR ranges
 to define the range of IP addresses which they will use to when something new is deployed within
 them. Using the example from above, a VPC with a CIDR of `10.0.0.0/16` would need subnets which have 
 the form:
@@ -113,12 +113,12 @@ the form:
 
 These are just examples...there are many may more examples. The mask at the end of a CIDR 
 (i.e., `/8`, `/16`, `/22`, `24`) determines the range of your
-subnet's IP addresses and ultimately how many resources may fit into a subenet. CIDRs are really 
+subnet's IP addresses and ultimately how many resources may fit into a subnet. CIDRs are really 
 just bit math, which I'll skip.
 
 There are two flavors of subnets, private and public. There isn't any thing special about the IP
-range and public vs. private...it's entirely up to you to configure thse. So, what exactly are 
-the differences? This defininition come straight from the [AWS docs about VPCs and
+range and public vs. private...it's entirely up to you to configure these. So, what exactly are 
+the differences? This definition come straight from the [AWS docs about VPCs and
 Subnets](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html#vpc-subnet-basics).
 
 > If a subnet's traffic is routed to an internet gateway, the subnet is known as a public subnet. 
@@ -146,7 +146,7 @@ Destination   | Target
 0.0.0.0/0     | igw-794bb61d
 
 One important thing to note here is that any resource in a public subnet can reach external
-resourced _provided they have a public ip address_. This is noted right alongside the [docs
+resourced _provided they have a public IP address_. This is noted right alongside the [docs
 referenced above](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html#vpc-subnet-basics):
 
 > If you want your instance in a public subnet to communicate with the internet over IPv4, it must have
@@ -175,14 +175,14 @@ get _in_, either. Worried about something hacking into your Postgres RDS instanc
 cluster? A best practice is to put systems like this in your private subnets. Now, you needn't worry
 (as much) about someone hacking into them from the outside. Placing resources into a private subnet means
 that there is practically no risk of someone hacking directly into your database from the outside
-world. From a networking perpsective, it's impossible to connect to private subnet systems from _outside_ 
+world. From a networking perspective, it's impossible to connect to private subnet systems from _outside_ 
 your VPC.
 
 So, given the case that we have an RDS instance on private subnets and a Lambda function which
 needs to communicate with it, what do we do? My 
 [previous post]({{< ref "accessing-vpc-resources-with-lambda.md" >}}) discusses how to set that up.
 But what do we do when our Lambda function needs to communicate with RDS _and_ the public internet?
-That's the whol point of this post.
+That's the whole point of this post.
 
 The answer is, change the Route Table to route outbound traffic through a 
 [NAT Gateway](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-nat-gateway.html).
@@ -202,18 +202,18 @@ Destination   | Target
 
 With this small change, anything in our Private Subnets can:
 
-- Communicate within our VPC's Private _or_ Public Subets resources on the local network using
+- Communicate within our VPC's Private _or_ Public Subnets resources on the local network using
   private IPs
 - Communicate with the outside world via the NAT Gateway
 
-Another interesting result of this change is that our Lambda functions will have a fixed _inboud_
+Another interesting result of this change is that our Lambda functions will have a fixed _inbound_
 IP address when connected to external resources. That IP address will be the IP of our NAT Gateway,
-which typicaly is an Elastic IP.  This has the added benefit
+which typically is an Elastic IP.  This has the added benefit
 of giving our Lambda functions (mostly) static IPs if you even face the situation where IPs need to
-be whitelisted.
+be white listed.
 
 **Note:** _I'm working on a project now where we need to talk to the Salesforce API. Every IP we connect
-from needs to be whitelisted. NAT Gateways is our solution to this when talking to Salesforce via
+from needs to be white listed. NAT Gateways is our solution to this when talking to Salesforce via
 Lambda functions._
 
 ## Lambda functions in a private subnet
