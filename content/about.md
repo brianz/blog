@@ -11,10 +11,20 @@ My name is Brian Zambrano and this is my tiny corner of the internet where I (mo
 software and related technology. I currently reside in Fort Collins, CO with my wife and twin boys.
 In addition to software I really like the outdoors, coffee and cycling.
 
+<a href="https://www.packtpub.com/application-development/serverless-design-patterns-and-best-practices" target="_blank">
+    <img src="/images/serverless-book-cover-md.jpg" alt="Serverless Design Patterns and Best Practices" height="480" 
+        style="float: right; margin: 0 0 0 15px;">
+</a>
+
 I recently wrote a book about [Serverless Design Patterns and Best
 Practices](https://www.packtpub.com/application-development/serverless-design-patterns-and-best-practices).
 There are plenty of good tips and tricks in there for anyone building serverless applications, and
 I'd encourage you to check it out.
+
+My book covers several general patterns for serverless applications which may be applied to most
+cloud providers. Each chapter has a real-world example of an application which explains a
+particular pattern. All of the code for the example can be found in this Github repository:
+[brianz/serverless-design-patterns](https://github.com/brianz/serverless-design-patterns)
 
 ## Background
 
