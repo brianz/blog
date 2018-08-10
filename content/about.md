@@ -7,17 +7,46 @@ title = "about"
 
 ![brianz](/images/bz-mtb-selfie.jpg)
 
+## Background
+
 My name is Brian Zambrano and this is my tiny corner of the internet where I (mostly) talk about
 software and related technology. I currently reside in Fort Collins, CO with my wife and twin boys.
 In addition to software I really like the outdoors, coffee and cycling.
+
+You can read more about my professional background on my [LinkedIn
+profile](https://www.linkedin.com/in/brianzambrano).
+In a nutshell, I grew up in Sunnyvale, CA and originally studied [Materials
+Engineering](http://mate.calpoly.edu) at Cal Poly, San Luis Obispo. I ended up back home in the
+middle of the first dot-com boom in 2000 and fell into software. Eventually I got a second degree
+in computer science from [San Francisco State University](http://cs.sfsu.edu).
+
+
+## Areas of interest
+
+I taught myself Python around 2001 and have been using continually since then.
+In addition to Python my current areas of interest are:
+
+- Serverless applications and architecture
+- Amazon web services
+- Microservice design and architecture
+- Docker
+- Elixir and its ecosystem (Phoenix, Erlang)
+- Scaling development teams and platforms
+
+Of course, I have **many** more interests but those are the highlights.
+
+I'm currently employed at [Very](http://verypossible.com) building awesome things for our
+clients.
+
+## Serverless
 
 <a href="https://www.packtpub.com/application-development/serverless-design-patterns-and-best-practices" target="_blank">
     <img src="/images/serverless-book-cover-md.jpg" alt="Serverless Design Patterns and Best Practices" height="480" 
         style="float: right; margin: 0 0 0 15px;">
 </a>
 
-I recently wrote a book about [Serverless Design Patterns and Best
-Practices](https://www.packtpub.com/application-development/serverless-design-patterns-and-best-practices).
+I am the author of the Packt Publishing book [Serverless Design Patterns and Best
+Practices](https://www.amazon.com/Serverless-Design-Patterns-Best-Practices/dp/178862064X/)
 There are plenty of good tips and tricks in there for anyone building serverless applications, and
 I'd encourage you to check it out.
 
@@ -26,31 +55,13 @@ cloud providers. Each chapter has a real-world example of an application which e
 particular pattern. All of the code for the example can be found in this Github repository:
 [brianz/serverless-design-patterns](https://github.com/brianz/serverless-design-patterns)
 
-## Background
 
-You can read more about my professional background on my LinkedIn profile to the
-left. In a nutshell, I grew up in Sunnyvale, CA and originally studied [Materials
-Engineering](http://mate.calpoly.edu) at Cal Poly, San Luis Obispo. I ended up back home in the
-middle of the first dot-com boom in 2000 and fell into software. Eventually I got a second degree
-in computer science from [San Francisco State](http://cs.sfsu.edu).
+## AWS 
 
-## Areas of interest
+I currently hold an AWS Certification as a Solutions Architect:
 
-I taught myself Python around 2001 and have been using continually since then and professionally
-since 2005. In addition to Python my current areas of interest are:
-
-- Serverless applications and architecture
-- Amazon web services
-- Microservice design and architecture
-- Docker
-- Elixir and its ecosystem (Phoenix, Erlang)
-- Scaling development teams and platforms
-- Blockchain development
-
-Of course, I have **many** more interests but those are the highlights.
-
-I'm currently employed at [Very](http://verypossible.com) building awesome things for our
-clients.
+![AWS Certified Architect](/images/aws-cert/AWS_Certified_Logo_SAA_588x300_Color.png)
+![AWS Solutions Architect - Associate](/images/aws-cert/AWS_Certified_Tag__SAA_588x300-Color.png)
 
 ## RoastLog
 
