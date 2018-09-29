@@ -1,7 +1,7 @@
 ---
 
 title: "Managing Database Transactions with SQLAlchemy in Serverless"
-date: 2018-08-17T16:02:53-06:00
+date: 2018-09-28T21:38:00-06:00
 draft: false
 tags: [
     "aws",
