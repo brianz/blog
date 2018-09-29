@@ -2,7 +2,7 @@
 
 title: "Managing SQLAlchemy Transactions with Serverless"
 date: 2018-08-17T16:02:53-06:00
-draft: true
+draft: false
 tags: [
     "aws",
     "serverless",
@@ -14,7 +14,7 @@ tags: [
 
 For quite some time, [SQLAlchemy](https://www.sqlalchemy.org) has been my go-to database toolkit and ORM for Python microservices
 and [Serverless](https://serverless.com) projects. SQLAlchemy is very powerful and has given me the ability to do pretty much
-anything I need to do with Postgres, my database of choice nowadays. Of course, the tradeoff of
+anything I need to do with Postgres, my database of choice nowadays. Of course, the trade off of
 great power and flexibility is increased complexity. Since SQLAlchemy is a bit more low-level than
 other ORMs (such as Django, or even Flask's layer on top of SQLAlchemy) you're on the hook for
 dealing with some details that these other ORMs handle automatically.
@@ -45,7 +45,7 @@ which could be something like:
 > [at this link](http://flask.pocoo.org/docs/1.0/reqcontext/#callbacks-and-errors) 
 
 Because web frameworks are designed to deal with the web, they can depend on this request/response 
-cycle and offer hooks to us engineers. As a simple exmple, when a database is brought into the
+cycle and offer hooks to us engineers. As a simple example, when a database is brought into the
 picture, we can connect and disconnect in logical places such as `pre-request` and `post-response`,
 respectively. Any database connection setup would, of course, be started early on in the request
 pipeline, and tasks such as closing a connection or putting a connection back into a pool would be
@@ -71,7 +71,7 @@ functions. Lambda functions are extremely useful outside of a web request (think
 triggers from other microservices, triggers from S3 events, etc.)
 
 **How do you properly use SQLAlchemy
-when you _don't_ have lifecycle hooks to setup and teardown/close your database connections and
+when you _don't_ have lifecycle hooks to setup and tear-down/close your database connections and
 commit/rollback transactions?**
 
 ## Consequences of doing it wrong
@@ -206,15 +206,15 @@ of these is blocking my `ALTER table` statement.
 
 ## The fix
 
-The solution which I landed on is a bit coarse but works very well and honstely I can't think if an
-easier or less instrusive way. If we mimic web frameworks, we need to clean up at the end of our handler
+The solution which I landed on is a bit coarse but works very well and honestly I can't think if an
+easier or less intrusive way. If we mimic web frameworks, we need to clean up at the end of our handler
 function, just before the response is sent back to the client. To accomplish this, I implemented a
 decorator which I use around all of my Lambda handler function. My decorator is called
 `session_committer` and looks like this:
 
 ```python
 def session_committer(func):
-    """Decorator to comming the DB session.
+    """Decorator to commit the DB session.
 
     Use this from high-level functions such as handler so that the session is always committed or
     closed.
@@ -238,7 +238,7 @@ def get_thing_handler(event, context):
     return serialize_to_json(thing)
 ```
 
-With this change, after running `siege` I can see that coneections have gone from `idle in
+With this change, after running `siege` I can see that connections have gone from `idle in
 transaction` to simple `idle`, which means the connection is open but the transaction has be
 closed.
 
@@ -248,10 +248,13 @@ closed.
 
 Managing database transactions manually is tricky whether you're using a serverless architecture or
 not. We often take for granted all of the work which web frameworks provide to us and it can be a
-rude awakening when we have to deal with houskeeping issues like this ourselves. Still, I believe
+rude awakening when we have to deal with housekeeping issues like this ourselves. Still, I believe
 well-rounded engineers need to understand what is going on with the systems that we use. While
 SQLAlchemy may be a bit more "raw" than some of the other ORMs out there, it's extremely powerful
 and provides you the ability to do nearly anything you need to do.
 
 There is another subject buried in here which has to do with connection pooling in serverless
 architectures. I plan on covering that in an upcoming post.
+
+If you'd like to take a look at all of my SQLAlchemy helper code, I've put it up in the following
+gist: https://gist.github.com/brianz/feedc052d64212b6576fa42dd6dcadab
