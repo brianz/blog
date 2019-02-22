@@ -10,7 +10,7 @@ tags = [
 
 +++
 
-In spite of [my intentions to get more involved in Elixir]({{< ref "post/elixir-for-pythonistas-i.md" >}}) 
+In spite of [my intentions to get more involved in Elixir]({{< ref "/post/elixir-for-pythonistas-i.md" >}}) 
 I've been stuck in the Python tractor beam.  
 For all of the issues that may arise in large Python web applications, Python really is a fantastic
 do-it-all language.  As one of my colleagues recently said: 

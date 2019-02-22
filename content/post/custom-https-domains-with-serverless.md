@@ -35,7 +35,7 @@ https://abcxszhmwi.execute-api.us-west-2.amazonaws.com/dev
 
 No. You don't.
 
-In this post I'll use my [Dilbert Slack plugin]({{< ref "post/serverless-1.0.md" >}}) which I built
+In this post I'll use my [Dilbert Slack plugin]({{< ref "/post/serverless-1.0.md" >}}) which I built
 in a prior post (and which I'm still running on a few different Slack channels). What we'll do is
 set up a custom domain with SSL so that `https://dilbert.brianz.bz` works just the same as the
 default API Gateway URL.

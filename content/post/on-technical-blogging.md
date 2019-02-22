@@ -9,7 +9,7 @@ title = "On technical blogging"
 
 +++
 
-As I mentioned in my <a href="{{< relref "post/getting-started-with-hugo.md" >}}">inaugural post</a>, I had been wanting to start a technical blog for some time.
+As I mentioned in my <a href="{{< relref "/post/getting-started-with-hugo.md" >}}">inaugural post</a>, I had been wanting to start a technical blog for some time.
 Mainly a a way of capturing things I learn or discover so that it can benefit others. As an
 engineer I consume a *lot* of content on the web. Let's face it, when we hit some technical hurdle
 or are trying to figure something out that we haven't seen before, our job become that of an

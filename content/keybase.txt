@@ -1,0 +1,73 @@
+==================================================================
+https://keybase.io/bezeee
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://blog.brianz.bz
+  * I am bezeee (https://keybase.io/bezeee) on keybase.
+  * I have a public key with fingerprint F92F 6438 7CCD 3AA0 C5CA  359B BF48 5C7F 3665 AA17
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120a9263a8fbc08f7bcf7a29e61dfc418a5d26bfba1112b43a5642d4fd3a12f8e650a",
+      "fingerprint": "f92f64387ccd3aa0c5ca359bbf485c7f3665aa17",
+      "host": "keybase.io",
+      "key_id": "bf485c7f3665aa17",
+      "kid": "0101bf2f493b7fe587f91582562fcb41f634f65a3056828eb23d4b3241db377752010a",
+      "uid": "91101bffb35647046cb68811596eb019",
+      "username": "bezeee"
+    },
+    "service": {
+      "hostname": "blog.brianz.bz",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1550857256,
+  "expire_in": 157680000,
+  "prev": "cd3438a11d180aa8bd7291ff0ab554fa41b37c9ee22e5fab4dba1c315b604924",
+  "seqno": 10,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+
+owFtUn1QVFUcXWRRQBvQQBGU5E2JTQTvvu9HZgZ+YJPGVDZjiMu97927riy76+6C
+gjCGpQ0CZirIIAxC+REoJVNOA0QTkCkBEgw1hDF+BCgCY6YzZDp1HxP/9f658373
+nHPPOfcefsrX5O/zbdLWvRKuXeTz4x1k2uoSNuxhkFPPZuL3MOl4esF2HXu8lnSb
+zsQzLOBYqHISDxWCNFYhMtKIDDkVS0AnmgAUKOqchAiCAAAOCTwUJYHTBaLzEHBE
+wZLIQiaGITaHFbtdbpvDS2WJyhFJ4BVZ0ygOspqoQV5UESKCImoy4SVJhBDIlLjd
+6TEY1ByCHhxrc9IZ/bFM2/sf/IxvFiDCEUHlkUywqMhEBaLCiRJHNCQAIvECoRye
+FSWFUzDieF1APCcAHfGyLIscVTB8Z07LqWBajyCeppNZQdKQpCgAiKqEEQtUA+jB
+bgfMwIYrnIMxZvJiGDrLsmnYqNXIMbNvd1pjkdsGHTmxKIdyXW6n16k57XRvu9fr
+8sQbXG+2ywDvwsjyn4wF2Rw67ZEysrDbY3M6mHhAkZrXZugCUWQVUaYZYxi822Vz
+Y4vNQIiypLD0M87BWVSSdk67h1sA0IHCQqggXeZUQAgLkSgKBAqAlqCpGHMcFglE
+gk6vV+OBiCRWUDmBMZLtdDipOFX1QisV9disDujNdNPcgQWzeLPJx9+0dGGU+a84
+Xcntij/5fYd4Yubx+c0yXp4pMCB4ZhJwNdj0SfWNob5NSzpDb0WW19S2DjwKKTx+
+9Hk30d9PTWw6O+/3jQVbMkv7Xw7PM69AUx1do6077p1Q+oLMa5qXvx53YFl259Sv
+vgvCJnh53UVtIqy+Z7D9s4pTxR/1Bm68YIG5y8pyI3xHRlw+IR9/+dvpvoTk0eqI
+8yU3kxYsqttx19xxd641Oa3fU+uoujC11goDH3dHHcivKfngVcfKh0GPu6SUt9Qj
+dfVvv2cfv18fd/PAndQ3PKvkw88Gjbet3/fNg1N7ZkdOri97bnZyzazQs32Fr5gP
+ZvUcabn0TGXE5MljSy9uM0XiH67Hhdyed6i0ICVHuXDO5DP4izs/905pe9FCVLJy
+w/jpW+WX5Tlx323cnzy/29LZUpVuSij+MLVi5H6WnJBYcbRtYk64X+oyc/PotRfX
+BPSa/hhzHy+84ld3tSj6hZh1axsrkgdvjwUf3DXG8v7nMv/u8pxpGv5qS1DPF/ll
+OZUZjtzQK2/6FA2v3o+ut6Xoqx8wzS9VB1tO1m4OLw3r/by/5XFjw6FtMceG5u9/
+EnNv34aqnYv5Ed/lryW9281mXC4+k1HRWNmSJ5WjfzIfpRYmRnbP7dv0JHpg7/DX
+fT8vfmhdmn/+aUdrT+VEd8oVu3Ij8M+8gebdBVrr0KcN9hVLooKark3uTS6P22ov
+336w8x2RWVgUnVLZm5Z2aYAEb14lgFXtPzUU/ws=
+=o27I
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/bezeee
+
+==================================================================
