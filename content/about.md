@@ -13,6 +13,13 @@ My name is Brian Zambrano and this is my tiny corner of the internet where I (mo
 software and related technology. I currently reside in Fort Collins, CO with my wife and twin boys.
 In addition to software I really like the outdoors, coffee and cycling.
 
+I'm currently employed at [AWS](https://aws.amazon.com) as a System Development Engineer. 
+
+**All opinions here are my own and does not in any way relate to my employer. Any systems or tooling
+I discuss here are for informational purposes only, and should not be considered endorsements.**
+
+Posts have been a bit slow, but I'm trying to rekindle my blogging mojo.
+
 You can read more about my professional background on my
 [LinkedIn profile](https://www.linkedin.com/in/brianzambrano). In a nutshell, I grew up in
 Sunnyvale, CA and originally studied [Materials Engineering](http://mate.calpoly.edu) at Cal Poly,
@@ -35,9 +42,6 @@ my current areas of interest are:
 - Scaling development teams and platforms
 
 Of course, I have **many** more interests but those are the highlights.
-
-I'm currently employed at [AWS](https://aws.amazon.com) as a System Development Engineer. **All
-opinions here are my own and does not in any way relate to my employer.**
 
 ## Serverless
 
