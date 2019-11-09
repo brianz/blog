@@ -2,7 +2,7 @@
 
 title: "Building a Serverless Slack clone with Python and Websockets"
 date: 2019-10-08T18:27:24-06:00
-draft: true
+draft: false
 tags: [
     "aws",
     "architecture",
