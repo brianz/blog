@@ -2,3 +2,7 @@
 	path = production
 	url = git@github.com:brianz/brianz.github.io.git
 	branch = master
+[submodule "ghostwriter"]
+	path = themes/ghostwriter
+	url = git@github.com:brianz/ghostwriter.git
+	branch = master
