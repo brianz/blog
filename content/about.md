@@ -13,30 +13,35 @@ My name is Brian Zambrano and this is my tiny corner of the internet where I (mo
 software and related technology. I currently reside in Fort Collins, CO with my wife and twin boys.
 In addition to software I really like the outdoors, coffee and cycling.
 
-You can read more about my professional background on my [LinkedIn
-profile](https://www.linkedin.com/in/brianzambrano).
-In a nutshell, I grew up in Sunnyvale, CA and originally studied [Materials
-Engineering](http://mate.calpoly.edu) at Cal Poly, San Luis Obispo. I ended up back home in the
-middle of the first dot-com boom in 2000 and fell into software. Eventually I got a second degree
-in computer science from [San Francisco State University](http://cs.sfsu.edu).
+I'm currently employed at [AWS](https://aws.amazon.com) as a System Development Engineer. 
 
+**All opinions here are my own and does not in any way relate to my employer. Any systems or tooling
+I discuss here are for informational purposes only, and should not be considered endorsements.**
+
+Posts have been a bit slow, but I'm trying to rekindle my blogging mojo.
+
+You can read more about my professional background on my
+[LinkedIn profile](https://www.linkedin.com/in/brianzambrano). In a nutshell, I grew up in
+Sunnyvale, CA and originally studied [Materials Engineering](http://mate.calpoly.edu) at Cal Poly,
+San Luis Obispo. I ended up back home in the middle of the first dot-com boom in 2000 and fell into
+software. Eventually I got a second degree in computer science from
+[San Francisco State University](http://cs.sfsu.edu).
 
 ## Areas of interest
 
-I taught myself Python around 2001 and have been using continually since then.
-In addition to Python my current areas of interest are:
+I taught myself Python around 2001 and have been using continually since then. In addition to Python
+my current areas of interest are:
 
 - Serverless applications and architecture
 - Amazon web services
 - Microservice design and architecture
 - Docker
+- Front-end functional languages (ELM, ReasonML)
+- Getting better at React and it's ecosystem
 - Elixir and its ecosystem (Phoenix, Erlang)
 - Scaling development teams and platforms
 
 Of course, I have **many** more interests but those are the highlights.
-
-I'm currently employed at [Very](http://verypossible.com) building awesome things for our
-clients.
 
 ## Serverless
 
@@ -45,18 +50,17 @@ clients.
         style="float: right; margin: 0 0 0 15px;">
 </a>
 
-I am the author of the Packt Publishing book [Serverless Design Patterns and Best
-Practices](https://www.amazon.com/Serverless-Design-Patterns-Best-Practices/dp/178862064X/)
+I am the author of the Packt Publishing book
+[Serverless Design Patterns and Best Practices](https://www.amazon.com/Serverless-Design-Patterns-Best-Practices/dp/178862064X/)
 There are plenty of good tips and tricks in there for anyone building serverless applications, and
 I'd encourage you to check it out.
 
 My book covers several general patterns for serverless applications which may be applied to most
-cloud providers. Each chapter has a real-world example of an application which explains a
-particular pattern. All of the code for the example can be found in this Github repository:
+cloud providers. Each chapter has a real-world example of an application which explains a particular
+pattern. All of the code for the example can be found in this Github repository:
 [brianz/serverless-design-patterns](https://github.com/brianz/serverless-design-patterns)
 
-
-## AWS 
+## AWS
 
 I currently hold an AWS Certification as a Solutions Architect:
 

@@ -9,6 +9,9 @@ copyright: "&copy; 2016-2017. All rights reserved."
 canonifyurls: true
 paginate: 10
 
+pygmentsCodeFences: true
+pygmentsStyle: friendly
+
 blackfriday:
   hrefTargetBlank: true
 
@@ -16,15 +19,15 @@ indexes:
   tag: tags
   topic: topics
 
-author: 
+author:
   name: Brian Zambrano
 
 params:
   intro: true
   headline: Brian Z
   description: >
-      A SAAS application architecture blog. Current topics include Serverless, AWS, Python microservices, 
-      Docker and smidge of Elixir.
+    A SAAS application architecture blog. Current topics include Serverless, AWS, Python
+    microservices, Docker and smidge of Elixir.
   dateFormat: 02 Jan 2006, 15:04
   highlightJsLocalUrl: js/highlight.pack.js
 
@@ -35,7 +38,6 @@ params:
   hackernews: https://news.ycombinator.com/user?id=bezeee
   github: https://github.com/brianz
   stackoverflow: http://stackoverflow.com/users/87858/brianz
-
 
 # Shown in the side menu.
 menu:
